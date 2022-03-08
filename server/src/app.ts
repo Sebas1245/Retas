@@ -2,18 +2,22 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import express, { json, Request, Response } from 'express';
 import setupMongoDB from './services/dbConfig';
+import UserRoutes from './controllers/User'
 
 const app = express();
-const port = 3000 || process.env.PORT;
+const PORT = 8080 || process.env.PORT;
 
-app.use(json)
+app.use(json())
 
 setupMongoDB();
+
+// User routes 
+app.use('/api', UserRoutes)
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello from app.ts!');
 });
 
-app.listen(port, () => {
-    return console.log(`Express is listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+    return console.log(`Express is listening at http://localhost:${PORT}`);
 });

@@ -1,15 +1,20 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import mongoose, { Schema, Document, models } from "mongoose";
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-interface IUser extends mongoose.Document {
+export interface IUser {
     username: string, 
     email: string, 
     password: string,
     tokens: string[],
 }
 
-const userSchema = new Schema<IUser>({
+export interface IUserDocument extends IUser, Document {
+    comparePassword: (password: string) => boolean;
+    generateToken: () => Promise<string>;
+}
+
+const userSchema: Schema<IUserDocument> = new Schema({
     username: { type: String, required: [true, "Username is missing"] },
     email: { type: String, required: [true, "Email is missing!"] },
     password: { type: String, required: [true, "Password is missing!"] },
@@ -19,7 +24,7 @@ const userSchema = new Schema<IUser>({
 });
 
 // Validate if username is unique - unique option only creates an index
-userSchema.path('username').validate(async (value: IUser) => {
+userSchema.path('username').validate(async (value: IUserDocument) => {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const usernameCount = await models.User.countDocuments({ username: value.username, _id: { $ne: value._id } });
     return !usernameCount;  
@@ -55,12 +60,12 @@ userSchema.methods.generateToken = async function () {
         const token = jwt.sign({ _id: user._id.toString() }, jwtSecret, { expiresIn: '2 days' });
         user.tokens.push(token);
         await user.save();
-        return token;
+        return Promise.resolve(token);
     } else {
-        throw Error('No JWT Secret has been defined'); 
+        throw Promise.reject(Error('No JWT Secret has been defined')); 
     }
 }
 
-const UserModel = model<IUser>('User', userSchema);
+const UserModel = mongoose.model<IUserDocument>('User', userSchema);
 
-module.exports = UserModel;
+export default UserModel;
