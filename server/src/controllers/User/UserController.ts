@@ -6,10 +6,10 @@ import { Request, Response } from 'express';
 class UserController {
     public register() {
         return async (req: Request, res: Response) => {
-            const { username, email, password, confirmPassword } = req.body;
+            const { username, email, password, confirmPassword, name, phoneNumber } = req.body;
             if (!username) return Promise.reject( new Error()); // change to Custom Error 
             if (password != confirmPassword) return Promise.reject(new Error()) // change to Custom Error 
-            const user = new User({username, email, password});
+            const user = new User({username, email, password, name, phoneNumber});
             await user.save();
             const token = await user.generateToken();
             res.status(201).json({

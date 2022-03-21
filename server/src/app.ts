@@ -12,7 +12,7 @@ app.use(json())
 setupMongoDB();
 
 // User routes 
-app.use('/api', UserRoutes)
+app.use('/user', UserRoutes)
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello from app.ts!');
