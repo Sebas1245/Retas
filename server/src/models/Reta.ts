@@ -1,5 +1,4 @@
 import { Document, Model, model, Types, Schema } from "mongoose"
-import UserModel from "./User"
 import { IUser } from "./User"
 
 export interface IReta {
@@ -13,16 +12,17 @@ export interface IReta {
     private: boolean,
     min_participants?: number,
     max_participants?: number,
-    confirmed_users?: IUser[]
+    confirmed_users: IUser[]
 }
 
 interface IRetaDocument extends IReta, Document {
-    confirmed_users?: Types.Array<IUser>;
+    confirmed_users: Types.Array<IUser>;
 }
 // TMethodsAndOverrides
 type RetaDocumentProps = {
     confirmed_users: Types.DocumentArray<IUser>;
-  };
+};
+
 type RetaModelType = Model<IUser, RetaDocumentProps>;
 
 const RetaSchema: Schema<IRetaDocument, RetaModelType> = new Schema<IRetaDocument, RetaModelType>({
@@ -36,7 +36,7 @@ const RetaSchema: Schema<IRetaDocument, RetaModelType> = new Schema<IRetaDocumen
     private: { type: Boolean, default: false },
     min_participants: { type: Number, min: 2 },
     max_participants: { type: Number, min: 2 },
-    confirmed_users: [ UserModel ] // check if this actually works
+    confirmed_users: { type: [{ type: Types.ObjectId , ref: "User" }]} // check if this actually works
 });
 
 const RetaModel = model<IRetaDocument>('Reta', RetaSchema);
