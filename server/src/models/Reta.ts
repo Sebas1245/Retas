@@ -39,7 +39,7 @@ const RetaSchema: Schema<IRetaDocument, RetaModelType> = new Schema<IRetaDocumen
     private: { type: Boolean, default: false },
     min_participants: { type: Number, min: 2 },
     max_participants: { type: Number, min: 2 },
-    confirmed_users: { type: [{ type: Types.ObjectId , ref: "User" }]}, // check if this actually works
+    confirmed_users: { type: [{ type: Types.ObjectId , ref: "User" }]},
     admin: { type: Schema.Types.ObjectId, ref: "User", required: [true, "Need an admin for the event"] },
     active: { type: Boolean, default: true }
 });

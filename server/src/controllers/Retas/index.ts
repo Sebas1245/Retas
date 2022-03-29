@@ -6,6 +6,8 @@ const router = express.Router({mergeParams: true});
 
 router.post('/', asyncHandler(RetaController.create()))
 router.get('/', asyncHandler(RetaController.readOne()))
-router.get('/all', asyncHandler(RetaController.readAll()))
+router.get('/get_all', asyncHandler(RetaController.readAll()))
+router.delete('/', asyncHandler(RetaController.delete()));
+router.put('/', asyncHandler(RetaController.update()));
 
 export default router;
