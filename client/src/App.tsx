@@ -1,12 +1,11 @@
 import React from 'react';
 import './App.css';
+import Home from './views/Home';
 
 function App() {
   return (
     <div className="App">
-      <div className='bg-primary'>Hello there</div>
-      <div className='bg-secondary'>Hello there</div>
-      <div className='bg-dark'><p className='text-light'>Hello there</p></div>
+      <Home />
     </div>
   );
 }
