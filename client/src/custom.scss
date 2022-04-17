@@ -4,7 +4,7 @@ $secondary: #f1ffec;
 $warning: #c4c4c4;
 $info: #e5e5e5;
 $light: #ffffff;
-$dark: #07070707;
+$dark: #070707;
 
 // Override theme colors
 $theme-colors: (
@@ -17,5 +17,16 @@ $theme-colors: (
   "light":      $light,
   "dark":       $dark
 );
+
+.search-bar-icon {
+  border-radius: 50rem 0rem 0rem 50rem !important;
+  border-style: solid none solid solid !important;
+}
+
+.search-bar-input {
+  border-radius: 0rem 50rem 50rem 0rem !important;
+  border-style: solid solid solid none !important;
+}
+
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
