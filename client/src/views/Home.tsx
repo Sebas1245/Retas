@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import HomeLogin from '../components/HomeGuest/HomeLogin';
-import HomeRegister from '../components/HomeGuest/HomeRegister';
+import HomeLogin from './HomeLogin';
+import HomeRegister from './HomeRegister';
 import Navbar from '../components/Navbar';
 
 export default function Home() {

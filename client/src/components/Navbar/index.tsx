@@ -2,7 +2,7 @@ import React from "react";
 import BtnBrand from "./BtnBrand";
 import NavCollapse from "./NavCollapse";
 import SearchBar from "./SearchBar";
-import Button from "./Button";
+import Button from "../Button";
 import NavList from "./NavList";
 
 export default function Navbar() {
