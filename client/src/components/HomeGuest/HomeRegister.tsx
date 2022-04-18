@@ -32,7 +32,8 @@ export default function HomeRegister({linkClick}: {linkClick: () => void}) {
           <Button 
                 className="btn-primary rounded-pill fw-bold"
                 btnType="button"
-                btnText="Registrarme"/>
+                btnText="Registrarme"
+                padding="py-3"/>
         </div>
       </Form>
     </HomeGuest>

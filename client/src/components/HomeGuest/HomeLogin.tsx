@@ -23,7 +23,8 @@ export default function HomeLogin({linkClick}: {linkClick: () => void}) {
           <Button 
                 className="btn-primary rounded-pill fw-bold"
                 btnType="button"
-                btnText="Iniciar sesión"/>
+                btnText="Iniciar sesión"
+                padding="py-3"/>
         </div>
       </Form>
     </HomeGuest>

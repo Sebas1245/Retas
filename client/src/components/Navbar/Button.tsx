@@ -3,12 +3,13 @@ import React from "react"
 type Props = {
   className?: string,
   btnType: "button" | "submit" | "reset",
-  btnText: string
+  btnText: string,
+  padding?: string
 }
 
-export default function Button({ className, btnType, btnText }: Props) {
+export default function Button({ className, btnType, btnText, padding }: Props) {
     return (
-    <button className={`btn ${className}`} type={btnType}>
+    <button className={`btn ${className} ${padding}`} type={btnType}>
       {btnText}
     </button>
     );
