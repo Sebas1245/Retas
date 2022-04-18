@@ -1,8 +1,8 @@
 import React from "react";
-import HomeGuest from ".";
-import Form from "../Form";
-import Input from "../Form/Input";
-import Button from "../Navbar/Button";
+import HomeGuest from "../components/HomeGuestBase";
+import Form from "../components/Form";
+import Input from "../components/Input";
+import Button from "../components/Button";
 
 export default function HomeRegister({linkClick}: {linkClick: () => void}) {
   return (
@@ -32,7 +32,8 @@ export default function HomeRegister({linkClick}: {linkClick: () => void}) {
           <Button 
                 className="btn-primary rounded-pill fw-bold"
                 btnType="button"
-                btnText="Registrarme"/>
+                btnText="Registrarme"
+                padding="py-3"/>
         </div>
       </Form>
     </HomeGuest>
