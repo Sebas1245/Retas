@@ -29,7 +29,7 @@ class RetaController {
         return async (req: Request, res: Response) => {
             const retaId : Types.ObjectId = req.body.retaId;
             console.log(retaId)
-            const reta = await Reta.findOne({_id: retaId, active: true}).populate('admin confirmed_users').exec();
+            const reta = await Reta.findOne({_id: retaId, is_active: true}).populate('admin confirmed_users').exec();
             if (!reta) return Promise.reject( new Error("Reta not found")); // change to custom error
             res.status(200).json({reta});
         }
@@ -37,7 +37,7 @@ class RetaController {
 
     public readAll() {
         return async (req: Request, res: Response) => {
-            const allRetas = await Reta.find({active: true}).populate('admin confirmed_users').sort({createdAt: -1}).exec();
+            const allRetas = await Reta.find({is_active: true}).populate('admin confirmed_users').sort({createdAt: -1}).exec();
             res.status(200).json({allRetas});
         }
     }
@@ -45,7 +45,7 @@ class RetaController {
     public delete() {
         return async (req: Request, res: Response) => {
             const retaId : Types.ObjectId = req.body.retaId
-            const deletedReta = await Reta.findOneAndUpdate({_id: retaId, active: false}).exec();
+            const deletedReta = await Reta.findOneAndUpdate({_id: retaId, is_active: false}).exec();
             res.status(200).json({deletedReta})
         }
     }
@@ -54,7 +54,7 @@ class RetaController {
         return async (req: Request, res: Response) => {
             const updatedRetaReq : IReta = req.body.updatedReta;
             const retaId : Types.ObjectId = req.body.retaId;
-            const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, updatedRetaReq, {new: true}).exec();
+            const updatedReta = await Reta.findOneAndUpdate({_id: retaId, is_active: true}, updatedRetaReq, {new: true}).exec();
             if(!updatedReta) return Promise.reject(new Error("Reta not found"))
             res.status(201).json({updatedReta});
         }
