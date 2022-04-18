@@ -9,12 +9,12 @@ export interface IReta {
     minutes: number;
     duration: number;
     location: string;
-    private: boolean;
-    min_participants?: number;
-    max_participants?: number;
+    is_private: boolean;
+    min_participants: number;
+    max_participants: number;
     confirmed_users: IUser[];
     admin: Types.ObjectId;
-    active: boolean;
+    is_active: boolean;
 }
 
 interface IRetaDocument extends IReta, Document {
@@ -36,12 +36,12 @@ const RetaSchema: Schema<IRetaDocument, RetaModelType> = new Schema<IRetaDocumen
     minutes: { type: Number, required: [true, "No start minutes were provided!"], min: 0, max: 59 },
     duration: { type: Number, required: [true, "No duration was provided!"], min: 1},
     location: { type: String, required: [true, "No location was provided!"] },
-    private: { type: Boolean, default: false },
-    min_participants: { type: Number, min: 2 },
-    max_participants: { type: Number, min: 2 },
+    is_private: { type: Boolean, default: false },
+    min_participants: { type: Number, min: 2, default: 2 },
+    max_participants: { type: Number, min: 2, default: 2 },
     confirmed_users: { type: [{ type: Types.ObjectId , ref: "User" }]},
     admin: { type: Schema.Types.ObjectId, ref: "User", required: [true, "Need an admin for the event"] },
-    active: { type: Boolean, default: true }
+    is_active: { type: Boolean, default: true }
 });
 
 const RetaModel = model<IRetaDocument>('Reta', RetaSchema);
