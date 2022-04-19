@@ -6,5 +6,6 @@ const router = express.Router({mergeParams: true});
 
 router.post('/register', asyncHandler(UserController.register())); 
 router.post('/login', asyncHandler(UserController.login())); 
+router.put('/toggle_attendance', asyncHandler(UserController.toggleAttendance()))
 
 export default router;

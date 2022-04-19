@@ -11,7 +11,7 @@ export interface IUser {
     tokens: string[],
 }
 
-interface IUserDocument extends IUser, Document {
+export interface IUserDocument extends IUser, Document {
     tokens: Types.Array<string>;
     comparePassword: (password: string) => boolean;
     generateToken: () => Promise<string>;

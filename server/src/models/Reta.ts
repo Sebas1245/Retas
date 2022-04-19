@@ -1,5 +1,5 @@
 import { Document, Model, model, Types, Schema } from "mongoose"
-import { IUser } from "./User"
+import { IUserDocument } from "./User"
 
 export interface IReta {
     name: string;
@@ -12,21 +12,21 @@ export interface IReta {
     is_private: boolean;
     min_participants: number;
     max_participants: number;
-    confirmed_users: IUser[];
+    confirmed_users: IUserDocument[];
     admin: Types.ObjectId;
     is_active: boolean;
 }
 
 interface IRetaDocument extends IReta, Document {
-    confirmed_users: Types.Array<IUser>;
+    confirmed_users: Types.Array<IUserDocument>;
     admin: Types.ObjectId;
 }
 // TMethodsAndOverrides
 type RetaDocumentProps = {
-    confirmed_users: Types.DocumentArray<IUser>;
+    confirmed_users: Types.DocumentArray<IUserDocument>;
 };
 
-type RetaModelType = Model<IUser, RetaDocumentProps>;
+type RetaModelType = Model<IUserDocument, RetaDocumentProps>;
 
 const RetaSchema: Schema<IRetaDocument, RetaModelType> = new Schema<IRetaDocument, RetaModelType>({
     name: { type: String, required: [true, "Name is missing!"] },
