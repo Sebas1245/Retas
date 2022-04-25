@@ -60,10 +60,20 @@ class UserController {
                     res.status(201).json(updatedReta);
                 } else {
                     const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).exec()
-                    res.status(201).json(updatedReta);
+                    if (!updatedReta) return Promise.reject(new Error("Error updating reta"));
+                    res.status(201).json({updatedReta, updatedUser: reqUser});
                 }
             }
 
+        }
+    }
+
+    public getAllRetasForUser() {
+        return async (req: Request, res: Response) => {
+            const userId : Types.ObjectId = req.body.userId;
+            const retasForUser = await Reta.find({is_active: true, confirmed_users: userId}).exec();
+            if (!retasForUser) return Promise.reject(new Error("No Retas found for this user!"))
+            res.status(201).json(retasForUser);
         }
     }
 }
