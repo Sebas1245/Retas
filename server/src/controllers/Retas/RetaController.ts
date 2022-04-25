@@ -45,7 +45,7 @@ class RetaController {
     public delete() {
         return async (req: Request, res: Response) => {
             const retaId : Types.ObjectId = req.body.retaId
-            const deletedReta = await Reta.findOneAndUpdate({_id: retaId, is_active: false}).exec();
+            const deletedReta = await Reta.findOneAndUpdate({_id: retaId, is_active: true }, {is_active: false}, {new: true});
             res.status(200).json({deletedReta})
         }
     }
