@@ -1,12 +1,11 @@
 class CustomError extends Error {
-    statusCode: number;
-    constructor (code: number, message: string, callstack: Error["stack"]) {
+    public statusCode: number;
+    constructor (statusCode: number, message: string ) {
         super(message);
-        this.name = 'Server Error';
-        this.statusCode = code;
-        if (callstack) {
-            this.stack = callstack;
-        }
+        Object.setPrototypeOf(this, new.target.prototype);
+        this.name = Error.name;
+        this.statusCode = statusCode;
+        Error.captureStackTrace(this);
     }
 }
 
