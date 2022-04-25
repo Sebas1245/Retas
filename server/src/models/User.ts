@@ -13,7 +13,7 @@ export interface IUser {
 
 export interface IUserDocument extends IUser, Document {
     tokens: Types.Array<string>;
-    comparePassword: (password: string) => boolean;
+    comparePassword: (password: string) => Promise<boolean>;
     generateToken: () => Promise<string>;
 }
 
@@ -59,7 +59,7 @@ UserSchema.pre<IUserDocument>('save', async function (next) {
 UserSchema.methods.comparePassword = async function (password: string) {
     const matches = await bcrypt.compare(password, this.password);
     console.log(matches ? "Pasword matched" : "Password did not match")
-    return matches;
+    return Promise.resolve(matches);
 }
 
 UserSchema.methods.generateToken = async function (this: IUserDocument) {
