@@ -30,8 +30,7 @@ class UserController {
             const user = await User.findOne({username}).select('+password +tokens').exec();
             if (!user) return Promise.reject(new CustomError(401, "Username or password incorrect, please try again.")) // change to Custom Error
             const matches = await user.comparePassword(password);
-            console.log("match: ", matches);
-            if (!matches) return Promise.reject( new CustomError(401, "Username or password incorrect, please try again.")) // change to Custom Error
+            if (!matches) return Promise.reject(new CustomError(401, "Username or password incorrect, please try again.")) // change to Custom Error
             const token = await user.generateToken();
             res.status(201).json({
                 success: true,
@@ -47,8 +46,8 @@ class UserController {
             const { userId, retaId } : { userId : Types.ObjectId, retaId : Types.ObjectId }= req.body; 
             const reta = await Reta.findOne({_id: retaId, active: true}).populate('admin').exec();
             const reqUser = await User.findOne({_id: userId}).exec()
-            if (!reta) return Promise.reject(new Error("Reta not found!"))
-            if (!reqUser) return Promise.reject(new Error("User not found!"))
+            if (!reta) return Promise.reject(new CustomError(404, "Reta not found!"))
+            if (!reqUser) return Promise.reject(new CustomError(404, "User not found!"))
             if (reta.confirmed_users.length > reta.max_participants) {
                 // max participants has been reached
                 // later on, this would be handled by adding on a waitlist
@@ -59,10 +58,11 @@ class UserController {
                 const confirmedUser = await User.findOne({ $and: [{_id: reqUser._id }, { _id: { $in: reta.confirmed_users }}]}).exec()
                 if (confirmedUser) {
                     const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$pull: { confirmed_users: reqUser._id } }, {new: true}).exec()
+                    if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"))
                     res.status(201).json(updatedReta);
                 } else {
                     const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).exec()
-                    if (!updatedReta) return Promise.reject(new Error("Error updating reta"));
+                    if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"));
                     res.status(201).json({updatedReta, updatedUser: reqUser});
                 }
             }
@@ -74,7 +74,7 @@ class UserController {
         return async (req: Request, res: Response) => {
             const userId : Types.ObjectId = req.body.userId;
             const retasForUser = await Reta.find({is_active: true, confirmed_users: userId}).exec();
-            if (!retasForUser) return Promise.reject(new Error("No Retas found for this user!"))
+            if (!retasForUser) return Promise.reject(new CustomError(404, "No Retas found for this user!"))
             res.status(201).json(retasForUser);
         }
     }
