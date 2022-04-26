@@ -11,45 +11,48 @@ type Props = {
 
 export default function Card({imgSource, cardTitle, gameLocation, gameTime, gameDate}: Props) {
     return (            
-    <div className="card">            
+    <div className="card bg-dark text-white">
         <img src= {imgSource} className = "card-img" alt="..."/>
-        {/* <div className="card-img-overlay text-white">
-            <div className="d-flex align-items-end">
-                <h5 className="card_title">{cardTitle}</h5>
+        <div className="card-img-overlay d-flex flex-column justify-content-start align-items-start">
+            <h4 className="card_title">{cardTitle}</h4>
+        </div>
+        <div className="card-footer bg-light text-dark">
+            <div className="row">
+                <div className="col">
+                <div className="row">
+                        <div className="col-xs-12 col-md-2">
+                            <FontAwesomeIcon icon={faLocationDot} />
+                        </div>
+                        <div className="col-xs-12 col-md-10 d-flex justify-content-start">
+                            {' '}
+                            {gameLocation}
+                        </div>
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="row justify-content-center">
+                        <div className="col-xs-12 col-md-2">
+                            <FontAwesomeIcon icon={faClock} />
+                        </div>
+                        <div className="col-xs-12 col-md-10 d-flex justify-content-start">
+                            {' '}
+                            {gameTime}
+                        </div>
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="row justify-content-center">
+                        <div className="col-xs-12 col-md-2">
+                            <FontAwesomeIcon icon={faCalendar} />
+                        </div>
+                        <div className="col-xs-12 col-md-10 d-flex justify-content-start">
+                            {gameDate}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div> */}
-        <div className="card-body">
-            <h5 className="card_title">{cardTitle}</h5>           
-            <div className='row row-cols-1 row-cols-md-3 g-4'> 
-                <div className="col">
-                    <button className="btn" type="button">
-                       <FontAwesomeIcon icon={faLocationDot}/> {gameLocation} 
-                    </button>
-                </div>
-                <div className="col">
-                    <button className="btn" type="button">
-                       <FontAwesomeIcon icon={faClock}/> {gameTime}
-                    </button>  
-                </div>
-                <div className="col">
-                    <button className="btn" type="button">
-                        <FontAwesomeIcon icon={faCalendar}/> {gameDate}
-                    </button>   
-                </div>
-            </div>                       
-        </div>                       
+        </div>
     </div>
     
     );
 }
-
-//card img overlay
-{/* <div className="card text-white">            
-        <img src= {imgSource} className = "card-img" alt="..."/>
-        <div className="card-img-overlay">
-            <h5 className="card_title">{cardTitle}</h5>
-            <button className="btn" type="button">
-                <FontAwesomeIcon icon={faLocationDot}/>                
-            </button>
-        </div>                       
-    </div> */}
