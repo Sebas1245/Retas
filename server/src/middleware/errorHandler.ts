@@ -43,6 +43,8 @@ const errorHandler = () => (
         console.log('=============================')
         if (process.env.NODE_ENV === 'prod') {
             next(new CustomError(500, "SERVER ERROR"));
+        } else if (err) {
+            next(new CustomError(500, err.message));
         }
     }
 }

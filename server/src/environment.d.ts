@@ -6,6 +6,7 @@ declare global {
         MONGODB_URI_TEST: string,
         MONGODB_URI_DEV: string,
         MONGODB_URI_PROD: string,
+        JWT_SECRET: string
       }
     }
   }
