@@ -3,6 +3,7 @@ import Reta from '../../models/Reta';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import CustomError from '../../middleware/customError';
+import { RequestWithAuth } from '../../middleware/checkAuth';
 
 // Class that holds the methods that create individual handler functions for each route
 // Follows the builder pattern
@@ -42,8 +43,9 @@ class UserController {
     }
 
     public toggleAttendance() {
-        return async (req: Request, res: Response) => {
-            const { userId, retaId } : { userId : Types.ObjectId, retaId : Types.ObjectId }= req.body; 
+        return async (req: RequestWithAuth, res: Response) => {
+            const retaId : Types.ObjectId = req.body.retaId; 
+            const userId : Types.ObjectId = req.user?._id;
             const reta = await Reta.findOne({_id: retaId, active: true}).populate('admin').exec();
             const reqUser = await User.findOne({_id: userId}).exec()
             if (!reta) return Promise.reject(new CustomError(404, "Reta not found!"))
@@ -71,8 +73,8 @@ class UserController {
     }
 
     public getAllRetasForUser() {
-        return async (req: Request, res: Response) => {
-            const userId : Types.ObjectId = req.body.userId;
+        return async (req: RequestWithAuth, res: Response) => {
+            const userId : Types.ObjectId = req.user?._id;
             const retasForUser = await Reta.find({is_active: true, confirmed_users: userId}).exec();
             if (!retasForUser) return Promise.reject(new CustomError(404, "No Retas found for this user!"))
             res.status(201).json(retasForUser);
