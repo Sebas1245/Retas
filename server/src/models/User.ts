@@ -8,12 +8,12 @@ export interface IUser {
     password: string,
     name: string,
     phoneNumber: string,
-    tokens: string[],
+    tokens?: string[],
 }
 
 export interface IUserDocument extends IUser, Document {
-    tokens: Types.Array<string>;
-    comparePassword: (password: string) => boolean;
+    tokens?: Types.Array<string>;
+    comparePassword: (password: string) => Promise<boolean>;
     generateToken: () => Promise<string>;
 }
 
@@ -59,14 +59,14 @@ UserSchema.pre<IUserDocument>('save', async function (next) {
 UserSchema.methods.comparePassword = async function (password: string) {
     const matches = await bcrypt.compare(password, this.password);
     console.log(matches ? "Pasword matched" : "Password did not match")
-    return matches;
+    return Promise.resolve(matches);
 }
 
 UserSchema.methods.generateToken = async function (this: IUserDocument) {
     const jwtSecret = process.env.JWT_SECRET;
     if (jwtSecret) {
         const token = jwt.sign({ _id: this._id.toString() }, jwtSecret, { expiresIn: '2 days' });
-        this.tokens.push(token);
+        this.tokens?.push(token);
         await this.save();
         return Promise.resolve(token);
     } else {
