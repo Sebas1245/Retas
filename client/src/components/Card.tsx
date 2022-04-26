@@ -19,36 +19,19 @@ export default function Card({imgSource, cardTitle, gameLocation, gameTime, game
         <div className="card-footer bg-light text-dark">
             <div className="row">
                 <div className="col">
-                <div className="row">
-                        <div className="col-xs-12 col-md-2">
-                            <FontAwesomeIcon icon={faLocationDot} />
-                        </div>
-                        <div className="col-xs-12 col-md-10 d-flex justify-content-start">
-                            {' '}
-                            {gameLocation}
-                        </div>
-                    </div>
+                    <FontAwesomeIcon icon={faLocationDot} />
+                    {' '}
+                    {gameLocation}
                 </div>
                 <div className="col">
-                    <div className="row justify-content-center">
-                        <div className="col-xs-12 col-md-2">
-                            <FontAwesomeIcon icon={faClock} />
-                        </div>
-                        <div className="col-xs-12 col-md-10 d-flex justify-content-start">
-                            {' '}
-                            {gameTime}
-                        </div>
-                    </div>
+                    <FontAwesomeIcon icon={faClock} />
+                    {' '}
+                    {gameTime}
                 </div>
                 <div className="col">
-                    <div className="row justify-content-center">
-                        <div className="col-xs-12 col-md-2">
-                            <FontAwesomeIcon icon={faCalendar} />
-                        </div>
-                        <div className="col-xs-12 col-md-10 d-flex justify-content-start">
-                            {gameDate}
-                        </div>
-                    </div>
+                    <FontAwesomeIcon icon={faCalendar} />
+                    {' '}
+                    {gameDate}
                 </div>
             </div>
         </div>
