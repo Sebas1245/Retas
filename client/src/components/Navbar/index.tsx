@@ -7,7 +7,7 @@ import NavList from "./NavList";
 
 export default function Navbar() {
     return (
-        <nav className="navbar fixed-top navbar-expand-md navbar-light bg-light">
+        <nav className="navbar fixed-top navbar-expand-md navbar-light bg-light border-bottom border-3">
           <div className="container-fluid">
             <BtnBrand className="navbar-brand fw-bold fs-1 lh-base"/>
             <NavCollapse id="navbarContent">
