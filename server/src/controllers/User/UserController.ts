@@ -65,7 +65,7 @@ class UserController {
                 } else {
                     const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).exec()
                     if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"));
-                    res.status(201).json({updatedReta, updatedUser: reqUser});
+                    res.status(201).json(updatedReta);
                 }
             }
 
