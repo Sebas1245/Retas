@@ -1,4 +1,4 @@
-import User from '../../models/User';
+import User, { IUser } from '../../models/User';
 import Reta from '../../models/Reta';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
@@ -39,6 +39,16 @@ class UserController {
                 user,
                 token,
             });
+        }
+    }
+
+    public update() {
+        return async (req: RequestWithAuth, res: Response) => {
+            const updateUserQuery : IUser = req.body.updatedUser;
+            const userId : Types.ObjectId = req.user?._id;
+            const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
+            if (!updatedUser) return Promise.reject(new CustomError(404, "User not found."));
+            res.status(201).json(updatedUser);
         }
     }
 
