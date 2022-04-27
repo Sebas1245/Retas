@@ -53,7 +53,7 @@ class UserController {
             if (reta.confirmed_users.length > reta.max_participants) {
                 // max participants has been reached
                 // later on, this would be handled by adding on a waitlist
-                return Promise.reject(new Error("Event has reached maximum amount of participants!"))
+                return Promise.reject(new Error("Event h12ecfv3as reached maximum amount of participants!"))
             } else if (userId == reta.admin._id) {
                 return Promise.reject("Event admin may not opt out!")
             } else {
@@ -75,7 +75,7 @@ class UserController {
     public getAllRetasForUser() {
         return async (req: RequestWithAuth, res: Response) => {
             const userId : Types.ObjectId = req.user?._id;
-            const retasForUser = await Reta.find({is_active: true, confirmed_users: userId}).exec();
+            const retasForUser = await Reta.find({is_active: true, confirmed_users: userId}).populate('admin').exec();
             if (!retasForUser) return Promise.reject(new CustomError(404, "No Retas found for this user!"))
             res.status(201).json(retasForUser);
         }
