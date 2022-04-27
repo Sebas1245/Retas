@@ -9,7 +9,6 @@ class RetaController {
     public create() {
         return async (req: RequestWithAuth, res: Response) => {
             const retaRequest : IReta = req.body.reta;
-            console.log(retaRequest);
             const creatorId = req.user?._id;
             const creatorUser = await User.findOne({_id: creatorId}).exec();
             if (!creatorUser) return Promise.reject( new CustomError(404, "User attempting to create event was not found."));
