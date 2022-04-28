@@ -24,7 +24,7 @@ type RetaDetailProps = {
 }
 
 export default function RetaDetail(props: RetaDetailProps) {
-    const formatTime : (hour : number, minutes: number) => string = (hour, minutes) => `${hour-12}:${minutes} ${hour > 12 ? 'PM' : 'AM'}` 
+    const formatTime : (hour : number, minutes: number) => string = (hour, minutes) => `${hour-12}:${minutes < 10 ? `${minutes}0` : minutes} ${hour > 12 ? 'PM' : 'AM'}` 
     return (
         <div className="container-fluid full-page-with-nav">
             <div className="row h-100 pt-5">
@@ -83,6 +83,13 @@ export default function RetaDetail(props: RetaDetailProps) {
                                         className="btn-dark rounded-pill fw-bold"
                                         btnType="button"
                                         btnText={"Confirmar asistencia"}/> {/* Dependent on whether user is admin or not */}
+                                </div>
+                                <div>
+                                    {/* TODO: Write function to determine if the user viewing the event is admin or not to change text to "Invitar amigos" */}
+                                    <Button 
+                                        className="btn-danger rounded-pill fw-bold"
+                                        btnType="button"
+                                        btnText={"Eliminar reta"}/> {/* Dependent on whether user is admin or not */}
                                 </div>
                             </div>
                         </li>
