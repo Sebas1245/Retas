@@ -9,7 +9,6 @@ class RetaController {
     public create() {
         return async (req: RequestWithAuth, res: Response) => {
             const retaRequest : IReta = req.body.reta;
-            console.log(retaRequest);
             const creatorId = req.user?._id;
             const creatorUser = await User.findOne({_id: creatorId}).exec();
             if (!creatorUser) return Promise.reject( new CustomError(404, "User attempting to create event was not found."));
@@ -29,17 +28,16 @@ class RetaController {
 
     public readOne() {
         return async (req: Request, res: Response) => {
-            const retaId : Types.ObjectId = req.body.retaId;
-            console.log(retaId)
+            const retaId : string = req.params.retaId;
             const reta = await Reta.findOne({_id: retaId, is_active: true}).populate('admin confirmed_users').exec();
-            if (!reta) return Promise.reject( new CustomError(404, "Reta not found")); // change to custom error
+            if (!reta) return Promise.reject( new CustomError(404, "Reta not found"));
             res.status(200).json({reta});
         }
     }
 
     public readAll() {
         return async (req: Request, res: Response) => {
-            const allRetas = await Reta.find({is_active: true}).populate('admin confirmed_users').sort({createdAt: -1}).exec();
+            const allRetas = await Reta.find({is_active: true, is_private: false}).populate('admin confirmed_users').sort({createdAt: -1}).exec();
             res.status(200).json({allRetas});
         }
     }
@@ -66,6 +64,14 @@ class RetaController {
         }
     }
 
+    public getRetasByCategory() {
+        return async (req: Request, res: Response) => {
+            const category : string = req.params.category;
+            const retasWithCategory = await Reta.find({category}).populate('admin').exec();
+            if (!retasWithCategory) return Promise.reject(new CustomError(404, 'There are no retas with this category.'));
+            res.status(200).json(retasWithCategory);
+        }
+    }
 
 }
 

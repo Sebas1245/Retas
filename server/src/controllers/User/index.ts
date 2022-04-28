@@ -9,5 +9,6 @@ router.post('/register', asyncHandler(UserController.register()));
 router.post('/login', asyncHandler(UserController.login())); 
 router.put('/toggle_attendance', asyncHandler(isLoggedIn), asyncHandler(UserController.toggleAttendance()));
 router.get('/all_retas', asyncHandler(isLoggedIn), asyncHandler(UserController.getAllRetasForUser()))
+router.put('/', asyncHandler(isLoggedIn), asyncHandler(UserController.update()));
 
 export default router;

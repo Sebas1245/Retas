@@ -12,6 +12,7 @@ export interface IReta {
     is_private: boolean;
     min_participants: number;
     max_participants: number;
+    category: string;
     confirmed_users: IUserDocument[];
     admin: Types.ObjectId;
     is_active: boolean;
@@ -39,6 +40,7 @@ const RetaSchema: Schema<IRetaDocument, RetaModelType> = new Schema<IRetaDocumen
     is_private: { type: Boolean, default: false },
     min_participants: { type: Number, min: 2, default: 2 },
     max_participants: { type: Number, min: 2, default: 2 },
+    category: { type: String },
     confirmed_users: { type: [{ type: Types.ObjectId , ref: "User" }]},
     admin: { type: Schema.Types.ObjectId, ref: "User", required: [true, "Need an admin for the event"] },
     is_active: { type: Boolean, default: true }
