@@ -36,6 +36,11 @@ declare global {
         user: User,
         token: string
     }
+
+    type ErrorResponse = {
+        code: number,
+        msg: string
+    }
 }
 
 export {}
