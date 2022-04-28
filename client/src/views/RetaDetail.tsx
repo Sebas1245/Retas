@@ -5,8 +5,7 @@ import { getWeekday, getMonth } from '../utils/dateTransforms';
 import Button from '../components/Button';
 
 // add contact info like phone and email later on
-type AdminUser = {
-    name: string,
+interface AdminUser extends User {
     avatarImgSrc: string
 }
 
