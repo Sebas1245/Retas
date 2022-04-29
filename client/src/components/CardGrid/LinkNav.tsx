@@ -13,25 +13,23 @@ type Props = {
 export default function LinkNav() {
     return (            
         <Container>
-            <div className="me-auto d-flex col-12 navbar-nav">
-                <ul className="nav justify-content-start" >
-                    <li className="nav-item">
-                        <a href="#link" data-rr-ui-event-key="#link" className="pt-2 nav-link active">
-                            <h5>Todas</h5>
-                        </a>
-                    </li>                    
-                    <li className="nav-item">
-                        <a href="#link" data-rr-ui-event-key="#link" className="pt-2 nav-link active">
-                            <h5>Cerca de ti</h5>
-                        </a>
-                    </li>                    
-                    <li className="nav-item">
-                        <a href="#link" data-rr-ui-event-key="#link" className="pt-2 nav-link active">
-                            <h5>Populares</h5>
-                        </a>
-                    </li>
-                </ul>            
-            </div>
+            <ul className="nav justify-content-start" >
+                <li className="nav-item">
+                    <a href="#link" data-rr-ui-event-key="#link" className="pt-2 nav-link active">
+                        <h5>Todas</h5>
+                    </a>
+                </li>                    
+                <li className="nav-item">
+                    <a href="#link" data-rr-ui-event-key="#link" className="pt-2 nav-link active">
+                        <h5>Cerca de ti</h5>
+                    </a>
+                </li>                    
+                <li className="nav-item">
+                    <a href="#link" data-rr-ui-event-key="#link" className="pt-2 nav-link active">
+                        <h5>Populares</h5>
+                    </a>
+                </li>
+            </ul>
         </Container>
     
     );
