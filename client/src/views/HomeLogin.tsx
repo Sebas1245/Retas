@@ -4,14 +4,15 @@ import Form from "../components/Form";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
-export default function HomeLogin({linkClick}: {linkClick: () => void}) {
+export default function HomeLogin() {
   return (
     <HomeGuest 
         imgSrc="./portero_retas.jpg" 
         title="La comunidad de retas más fregona de México."
         question="¿No tienes cuenta aún?"
         linkMsg="Crear cuenta"
-        linkClick={linkClick}>
+        navigateTo="/register"
+        >
       <Form className="row mt-5 pt-4">
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="usuario" placeholder="Usuario" labelClass="form-label ps-4" 
