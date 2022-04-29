@@ -20,5 +20,13 @@ $theme-colors: (
   "dark":       $dark
 );
 
+$accordion-bg:  transparent;
+$input-height-lg: 75px;
+$input-font-size-lg: 22px;
+
+/* .custom{
+  $form-floating-label-transform: scale(.99) translateY(-.5rem) translateX(.15rem);
+} */
+
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
