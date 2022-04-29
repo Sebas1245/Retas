@@ -1,11 +1,7 @@
 import React from "react"
 import Card from "./Card"
 import LinkNav from "./LinkNav"
-type Props = {
 
-}
-
-// export default function CardGrid({ imgSource, cardTitle, cardDescription }: Props) {
 export default function CardGrid() {
     return (            
         <div className="row h-100 p-5">
