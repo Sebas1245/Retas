@@ -14,7 +14,7 @@ export default function Card({imgSource, cardTitle, gameLocation, gameTime, game
     <div className="card bg-dark text-white">
         <img src= {imgSource} className = "card-img" alt="..."/>
         <div className="card-img-overlay d-flex flex-column justify-content-start align-items-start">
-            <h4 className="card_title">{cardTitle}</h4>
+            <h5 className="card_title">{cardTitle}</h5>
         </div>
         <div className="card-footer bg-light text-dark">
             <div className="row">
