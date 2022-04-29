@@ -1,12 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import CardGrid from '../components/CardGrid/CardGrid';
+import CarouselSimple from '../components/Carousel';
 
-export default function Home() {
-  return (
-    <div className='pt-5 mt-5'>
-      Hello from home. The reta grid will be here
-      {' '}
-      <Link to={'/register'}>Go to register</Link>
-    </div>
-  )
+export default function HomeSearch() {
+    return (
+        <div className='full-page-with-nav mt-5'>      
+            <Container fluid>
+                <CarouselSimple deviceType='desktop'/>
+            </Container>
+            <Container fluid>
+                <CardGrid/>
+            </Container>
+                
+        </div>
+    );
 }
