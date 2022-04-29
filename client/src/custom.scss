@@ -5,6 +5,8 @@ $warning: #c4c4c4;
 $info: #e5e5e5;
 $light: #ffffff;
 $dark: #070707;
+$danger: #D22B2B;
+$success: #008000;
 
 // Override theme colors
 $theme-colors: (
@@ -12,8 +14,8 @@ $theme-colors: (
   "secondary":  $secondary,
   "warning":    $warning,
   "info":       $info,
-//   "success":    $success,
-//   "danger":     $danger,
+  "success":    $success,
+  "danger":     $danger,
   "light":      $light,
   "dark":       $dark
 );

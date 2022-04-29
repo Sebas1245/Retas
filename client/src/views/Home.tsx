@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
-import HomeLogin from './HomeLogin';
-import HomeRegister from './HomeRegister';
-import Navbar from '../components/Navbar';
+import Container from 'react-bootstrap/Container';
+import CardGrid from '../components/CardGrid/CardGrid';
+import CarouselSimple from '../components/Carousel';
 
-export default function Home() {
-    const [isRegister, setIsRegister] = useState(true);
-    const handleLinkClick = () => {
-      setIsRegister(!isRegister);
-    }
-
+export default function HomeSearch() {
     return (
-      <div>
-        <Navbar />
-        {isRegister 
-            ? <HomeRegister linkClick={handleLinkClick} /> 
-            : <HomeLogin linkClick={handleLinkClick} /> } 
-      </div>
-    )
+        <div className='full-page-with-nav mt-5'>      
+            <Container fluid>
+                <CarouselSimple deviceType='desktop'/>
+            </Container>
+            <Container fluid>
+                <CardGrid/>
+            </Container>
+                
+        </div>
+    );
 }

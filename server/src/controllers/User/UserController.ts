@@ -1,4 +1,4 @@
-import User from '../../models/User';
+import User, { IUser } from '../../models/User';
 import Reta from '../../models/Reta';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
@@ -42,6 +42,16 @@ class UserController {
         }
     }
 
+    public update() {
+        return async (req: RequestWithAuth, res: Response) => {
+            const updateUserQuery : IUser = req.body.updatedUser;
+            const userId : Types.ObjectId = req.user?._id;
+            const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
+            if (!updatedUser) return Promise.reject(new CustomError(404, "User not found."));
+            res.status(201).json(updatedUser);
+        }
+    }
+
     public toggleAttendance() {
         return async (req: RequestWithAuth, res: Response) => {
             const retaId : Types.ObjectId = req.body.retaId; 
@@ -53,7 +63,7 @@ class UserController {
             if (reta.confirmed_users.length > reta.max_participants) {
                 // max participants has been reached
                 // later on, this would be handled by adding on a waitlist
-                return Promise.reject(new Error("Event has reached maximum amount of participants!"))
+                return Promise.reject(new Error("Event h12ecfv3as reached maximum amount of participants!"))
             } else if (userId == reta.admin._id) {
                 return Promise.reject("Event admin may not opt out!")
             } else {
@@ -65,7 +75,7 @@ class UserController {
                 } else {
                     const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).exec()
                     if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"));
-                    res.status(201).json({updatedReta, updatedUser: reqUser});
+                    res.status(201).json(updatedReta);
                 }
             }
 
@@ -75,7 +85,7 @@ class UserController {
     public getAllRetasForUser() {
         return async (req: RequestWithAuth, res: Response) => {
             const userId : Types.ObjectId = req.user?._id;
-            const retasForUser = await Reta.find({is_active: true, confirmed_users: userId}).exec();
+            const retasForUser = await Reta.find({is_active: true, confirmed_users: userId}).populate('admin').exec();
             if (!retasForUser) return Promise.reject(new CustomError(404, "No Retas found for this user!"))
             res.status(201).json(retasForUser);
         }
