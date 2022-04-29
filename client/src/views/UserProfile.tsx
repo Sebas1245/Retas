@@ -1,15 +1,12 @@
 import React from "react";
 import Navbar from '../components/Navbar';
-import Button from "../components/Button";
-import Form from "../components/Form";
-import Input from "../components/Input";
-import RetaForm from "../components/RetaForm";
 import Sidebar from "../components/Sidebar";
 import Flush from "../components/Flush";
+import CardGrid from "../components/CardGrid/CardGrid";
 
 export default function UserProfile() {
     return (
-        <div>
+        <div className="full-page-with-nav">
             <Navbar />
             <div className="row full-page-with-nav">
                 <div className="d-none d-md-block col-12 col-lg-3">
@@ -25,7 +22,7 @@ export default function UserProfile() {
                     </Sidebar>
                 </div>
                 <div className="col-12 col-lg-9">
-                    
+                    <CardGrid/>
                 </div>
             </div>
       </div>

@@ -12,6 +12,7 @@ import HomeLogin from './views/HomeLogin';
 import HomeRegister from './views/HomeRegister';
 import Home from './views/Home';
 import NewReta from './views/NewReta';
+import UserProfile from './views/UserProfile';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path='/login' element={<HomeLogin />} />
       <Route path='/register' element={<HomeRegister />} />
       <Route path='/create_reta' element={<NewReta />} />
+      <Route path='/user_profile' element={<UserProfile />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
