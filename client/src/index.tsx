@@ -1,16 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import './App.css';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import './custom.scss';
+import Navbar from './components/Navbar';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomeLogin from './views/HomeLogin';
+import HomeRegister from './views/HomeRegister';
+import Home from './views/Home';
+import NewReta from './views/NewReta';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Navbar />
+    <Routes>
+      <Route path='/' element={<Home/>} />
+      <Route path='/login' element={<HomeLogin />} />
+      <Route path='/register' element={<HomeRegister />} />
+      <Route path='/create_reta' element={<NewReta />} />
+    </Routes>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
