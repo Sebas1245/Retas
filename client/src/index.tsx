@@ -19,8 +19,8 @@ ReactDOM.render(
   <BrowserRouter>
     <Navbar />
     <Routes>
+      <Route path='/' element={<Home/>} />
       <Route element={<ProtectedRoute/>}>
-        <Route path='/' element={<Home/>} />
         <Route path='/create_reta' element={<NewReta />} />
       </Route>
       <Route element={<GuestRoute/>}>
