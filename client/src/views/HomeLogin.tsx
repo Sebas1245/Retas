@@ -3,12 +3,13 @@ import HomeGuest from "../components/HomeGuestBase";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { login } from "../services/userCalls";
 
 export default function HomeLogin() {
 
   const navigate = useNavigate()
+  const location = useLocation()
   const [usernameFeedback, setUsernameFeedback] = useState("")
   const [passwordFeedback, setPasswordFeedback] = useState("")
 
@@ -40,7 +41,17 @@ export default function HomeLogin() {
     }
 
     try {
-      await login(target.usuario.value, target.password.value)
+      await login(target.usuario.value, target.password.value);
+
+      const loc = location as typeof location & {
+        state: {from: string}
+      }
+
+      if (loc.state && loc.state.from) {
+        navigate(loc.state.from);
+        return;
+      }
+      
       navigate("/")
     } catch (error) {
       const err = error as typeof error & ErrorResponse;
@@ -55,6 +66,7 @@ export default function HomeLogin() {
         question="¿No tienes cuenta aún?"
         linkMsg="Crear cuenta"
         navigateTo="/register"
+        navigateState={location.state}
         >
       <Form className="row mt-5 pt-4" onSubmit={onSubmit} noValidate={true}>
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"

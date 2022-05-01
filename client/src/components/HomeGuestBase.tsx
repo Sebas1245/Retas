@@ -6,11 +6,12 @@ type Props = {
   title: string, 
   question: string,
   linkMsg: string,
-  navigateTo: string;
+  navigateTo: string,
+  navigateState?: unknown,
   children: React.ReactNode
 }
 
-export default function HomeGuest({imgSrc, title, question, linkMsg, navigateTo, children}: Props)  {
+export default function HomeGuest({imgSrc, title, question, linkMsg, navigateTo, navigateState, children}: Props)  {
     return (
       <div className="container-fluid full-page-with-nav">
         <div className="row h-100">
@@ -21,7 +22,7 @@ export default function HomeGuest({imgSrc, title, question, linkMsg, navigateTo,
             <h1 className="text-primary fw-bold pt-5 text-start">{title}</h1>
             {children}
             <div>
-              <p className="text-start text-light fw-bold">{question} <Link to={navigateTo} className="text-primary">{linkMsg}</Link> 
+              <p className="text-start text-light fw-bold">{question} <Link to={navigateTo} state={navigateState} className="text-primary">{linkMsg}</Link> 
               </p>
             </div>
           </div>

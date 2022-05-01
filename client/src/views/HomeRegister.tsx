@@ -5,11 +5,12 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { useState } from "react";
 import { signup } from "../services/userCalls";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function HomeRegister() {
 
   const navigate = useNavigate()
+  const location = useLocation();
   const [nameFeedback, setNameFeedback] = useState("")
   const [usernameFeedback, setUsernameFeedback] = useState("")
   const [emailFeedback, setEmailFeedback] = useState("")
@@ -84,6 +85,16 @@ export default function HomeRegister() {
 
     try {
       await signup(target.usuario.value, target.email.value, target.password.value, target.passwordCheck.value, target.nombre.value, target.phoneNumber.value)
+      
+      const loc = location as typeof location & {
+        state: {from: string}
+      }
+
+      if (loc.state && loc.state.from) {
+        navigate(loc.state.from);
+        return;
+      }
+      
       navigate("/")
     } catch (error) {
       const err = error as typeof error & ErrorResponse;
@@ -98,7 +109,9 @@ export default function HomeRegister() {
         title="Únete a la comunidad de retas más grande del mundo."
         question="¿Ya tienes cuenta?"
         linkMsg="Inicia sesión"
-        navigateTo="/login">
+        navigateTo="/login"
+        navigateState={location.state}
+        >
       <Form className={"row mt-5 pt-4"} onSubmit={onSubmit} noValidate={true}>
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="nombre" placeholder="Nombre" labelClass="form-label ps-4"

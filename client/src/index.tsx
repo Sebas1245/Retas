@@ -13,17 +13,20 @@ import HomeRegister from './views/HomeRegister';
 import Home from './views/Home';
 import NewReta from './views/NewReta';
 import GuestRoute from './utils/GuestRoute';
+import ProtectedRoute from './utils/ProtectedRoute';
 
 ReactDOM.render(
   <BrowserRouter>
     <Navbar />
     <Routes>
-      <Route path='/' element={<Home/>} />
+      <Route element={<ProtectedRoute/>}>
+        <Route path='/' element={<Home/>} />
+        <Route path='/create_reta' element={<NewReta />} />
+      </Route>
       <Route element={<GuestRoute/>}>
         <Route path='/login' element={<HomeLogin />} />
         <Route path='/register' element={<HomeRegister />} />
       </Route>
-      <Route path='/create_reta' element={<NewReta />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
