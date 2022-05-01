@@ -1,7 +1,7 @@
 import axios from "axios";
 import generateError from "./generateError";
 import { getToken } from "./tokenUtilities";
-const BASE_URL = process.env.SERVER_URL + '/user';
+const BASE_URL = process.env.REACT_APP_SERVER_URL + '/user';
 
 export async function login (username: string, password: string) {
     try {
