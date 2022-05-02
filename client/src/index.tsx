@@ -12,6 +12,8 @@ import HomeLogin from './views/HomeLogin';
 import HomeRegister from './views/HomeRegister';
 import Home from './views/Home';
 import NewReta from './views/NewReta';
+import GuestRoute from './utils/GuestRoute';
+import ProtectedRoute from './utils/ProtectedRoute';
 import UserProfile from './views/UserProfile';
 
 ReactDOM.render(
@@ -19,10 +21,14 @@ ReactDOM.render(
     <Navbar />
     <Routes>
       <Route path='/' element={<Home/>} />
-      <Route path='/login' element={<HomeLogin />} />
-      <Route path='/register' element={<HomeRegister />} />
-      <Route path='/create_reta' element={<NewReta />} />
-      <Route path='/user_profile' element={<UserProfile />} />
+      <Route element={<ProtectedRoute/>}>
+        <Route path='/create_reta' element={<NewReta />} />
+        <Route path='/user_profile' element={<UserProfile />} />
+      </Route>
+      <Route element={<GuestRoute/>}>
+        <Route path='/login' element={<HomeLogin />} />
+        <Route path='/register' element={<HomeRegister />} />
+      </Route>
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
