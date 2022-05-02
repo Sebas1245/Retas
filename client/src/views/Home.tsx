@@ -13,10 +13,9 @@ export default function HomeSearch() {
         const fetchRetas = async () => {
         try {
             const allRetas = category ? await getAllRetasByCategory(category) : await getAllRetas();
-            console.log(allRetas);
             setRetas(allRetas);
         } catch (error) {
-            alert(JSON.stringify(error));
+            console.log(error);
         }
         }
         fetchRetas();

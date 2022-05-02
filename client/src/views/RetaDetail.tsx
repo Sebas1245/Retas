@@ -54,8 +54,10 @@ export default function RetaDetail() {
       try {
         const isUserInReta = await fetchIsUserInReta(id);
         setIsCurrentUserConfirmed(!isUserInReta);
-      } catch (error) {
-        alert(JSON.stringify(error));
+      } catch (error : any) {
+        if (error.code !== 404) {
+          alert(JSON.stringify(error));
+        }
       }
     }
     if (retaId !== undefined) {
