@@ -10,7 +10,7 @@ export default function HomeSearch() {
                 <CarouselSimple deviceType='desktop' />
             </Container>
             <Container className="row h-100 p-5" fluid>
-                <LinkNav />
+                {/* <LinkNav /> */}
                 <CardGrid category='' />
             </Container>
 

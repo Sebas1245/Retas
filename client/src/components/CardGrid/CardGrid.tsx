@@ -24,7 +24,6 @@ export default function CardGrid({ category }: { category: string | undefined })
 
   return (
     <div className="row h-100 p-5">
-      <LinkNav />
       <div className='row row-cols-1 row-cols-md-3 g-4'>
         {
           retas?.map(reta => (
