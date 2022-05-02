@@ -18,13 +18,13 @@ export default function UserProfile() {
                         <Flush
                             id="One"
                             title="Mi información"
-                            text="Correo electrónico" />                        
+                            text="Correo electrónico" />
                     </Sidebar>
                 </div>
                 <div className="col-12 col-lg-9">
-                    <CardGrid/>
+                    <CardGrid category="" />
                 </div>
             </div>
-      </div>
+        </div>
     )
 }
