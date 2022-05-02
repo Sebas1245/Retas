@@ -9,11 +9,10 @@ export default function HomeSearch() {
             <Container fluid>
                 <CarouselSimple deviceType='desktop' />
             </Container>
-            <Container className="row h-100 p-5" fluid>
-                {/* <LinkNav /> */}
+            <Container className="row h-100 p-5 pt-0" fluid>
+                <LinkNav />
                 <CardGrid category='' />
             </Container>
-
         </div>
     );
 }
