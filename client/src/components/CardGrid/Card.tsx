@@ -14,8 +14,8 @@ type Props = {
 export default function Card({ retaId, imgSource, cardTitle, gameLocation, gameTime, gameDate }: Props) {
     const navigate = useNavigate();
     return (
-        <div className="card bg-dark text-white" onClick={() => navigate(`/reta/${retaId}`)} style={{ cursor: 'pointer' }}>
-            <img src={imgSource} className="card-img" alt="..." />
+        <div className="card bg-dark text-white" onClick={() => navigate(`reta/${retaId}`)} style={{ cursor: 'pointer' }}>
+            <img src={imgSource} className="card-img fluid" alt="..." style={{ maxHeight: 270, minHeight: 180, objectFit: "cover" }} />
             <div className="card-img-overlay d-flex flex-column justify-content-start align-items-start">
                 <h5 className="card_title">{cardTitle}</h5>
             </div>
