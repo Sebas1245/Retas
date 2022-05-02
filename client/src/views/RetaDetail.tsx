@@ -48,7 +48,7 @@ export default function RetaDetail() {
         alert(JSON.stringify(error))
       }
     }
-    
+
     const isUserIn = async (id: string) => {
       if (!retaId) return;
       try {
@@ -70,7 +70,7 @@ export default function RetaDetail() {
 
   const toggleAttendanceToThisReta = async () => {
     try {
-      if (!reta) return;
+      if (!reta || !reta._id) return;
       const response = await toggleAttendance(reta._id)
       setReta(response.reta);
       setIsCurrentUserConfirmed(!response.pushed);
@@ -80,7 +80,7 @@ export default function RetaDetail() {
   }
   const deleteThisReta = async () => {
     try {
-      if (!reta) return
+      if (!reta || !reta._id) return
       const response = await deleteReta(reta?._id)
       if (response) {
         alert("Successfully deleted this reta!");
@@ -148,14 +148,14 @@ export default function RetaDetail() {
                 <div>
                   {/* TODO: Write function to determine if the user viewing the event is admin or not to change text to "Invitar amigos" */}
                   {
-                    isCurrentUserAdmin ? ( 
-                    <Button
-                      className="btn-danger rounded-pill fw-bold"
-                      btnType="button"
-                      btnText={"Eliminar reta"}
-                      onClick={deleteThisReta} /> ) : 
+                    isCurrentUserAdmin ? (
+                      <Button
+                        className="btn-danger rounded-pill fw-bold"
+                        btnType="button"
+                        btnText={"Eliminar reta"}
+                        onClick={deleteThisReta} />) :
                       (
-                          <Button
+                        <Button
                           className="btn-dark rounded-pill fw-bold"
                           btnType="button"
                           onClick={toggleAttendanceToThisReta}
