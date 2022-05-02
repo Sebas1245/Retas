@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faClock, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 type Props = {
-    retaId: string,
-    imgSource: string,
-    cardTitle: string,
-    gameLocation: string,
-    gameTime: string,
-    gameDate: string
+  retaId: string,
+  imgSource: string,
+  cardTitle: string,
+  gameLocation: string,
+  gameTime: string,
+  gameDate: string
 }
 
 export default function Card({retaId, imgSource, cardTitle, gameLocation, gameTime, gameDate}: Props) {
@@ -38,7 +38,8 @@ export default function Card({retaId, imgSource, cardTitle, gameLocation, gameTi
                 </div>
             </div>
         </div>
+      </div>
     </div>
-    
-    );
+
+  );
 }

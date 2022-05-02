@@ -29,7 +29,7 @@ export default function CardGrid({ category }: { category: string | undefined })
           retas?.map(reta => (
             <div className="col-md-4 col-sm-6">
               <Card
-                retaId={reta._id}
+                retaId={reta._id ? reta._id : ""}
                 imgSource={getImageByCategory(reta.category)}
                 cardTitle={reta.name}
                 gameDate={`${getWeekday(reta.date)} ${getMonth(reta.date)} ${reta.date.getDate()}`}
