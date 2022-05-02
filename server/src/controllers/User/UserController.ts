@@ -69,13 +69,13 @@ class UserController {
             } else {
                 const confirmedUser = await User.findOne({ $and: [{_id: reqUser._id }, { _id: { $in: reta.confirmed_users }}]}).exec()
                 if (confirmedUser) {
-                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$pull: { confirmed_users: reqUser._id } }, {new: true}).exec()
+                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$pull: { confirmed_users: reqUser._id } }, {new: true}).populate('admin').exec()
                     if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"))
-                    res.status(201).json(updatedReta);
+                    res.status(201).json({updatedReta, pushed: false});
                 } else {
-                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).exec()
+                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).populate('admin').exec()
                     if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"));
-                    res.status(201).json(updatedReta);
+                    res.status(201).json({updatedReta, pushed: true});
                 }
             }
 
@@ -88,6 +88,23 @@ class UserController {
             const retasForUser = await Reta.find({is_active: true, confirmed_users: userId}).populate('admin').exec();
             if (!retasForUser) return Promise.reject(new CustomError(404, "No Retas found for this user!"))
             res.status(201).json(retasForUser);
+        }
+    }
+
+    public isUserInReta() {
+        return async (req: RequestWithAuth, res: Response) => {
+            const retaId : string = req.params.retaId; 
+            const userId : Types.ObjectId = req.user?._id;
+            const reta = await Reta.findOne({_id: retaId, active: true}).populate('admin').exec();
+            const reqUser = await User.findOne({_id: userId}).exec()
+            if (!reta) return Promise.reject(new CustomError(404, "Reta not found!"))
+            if (!reqUser) return Promise.reject(new CustomError(404, "User not found!"))
+            const confirmedUser = await User.findOne({ $and: [{_id: reqUser._id }, { _id: { $in: reta.confirmed_users }}]}).exec();
+            if (userId == reta.admin._id || confirmedUser) {
+                res.status(200).json({inReta: true});
+            } else {
+                res.status(200).json({inReta: false});
+            }
         }
     }
 }
