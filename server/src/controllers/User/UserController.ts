@@ -69,13 +69,13 @@ class UserController {
             } else {
                 const confirmedUser = await User.findOne({ $and: [{_id: reqUser._id }, { _id: { $in: reta.confirmed_users }}]}).exec()
                 if (confirmedUser) {
-                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$pull: { confirmed_users: reqUser._id } }, {new: true}).exec()
+                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$pull: { confirmed_users: reqUser._id } }, {new: true}).populate('admin').exec()
                     if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"))
-                    res.status(201).json(updatedReta);
+                    res.status(201).json({updatedReta, pushed: false});
                 } else {
-                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).exec()
+                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).populate('admin').exec()
                     if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"));
-                    res.status(201).json(updatedReta);
+                    res.status(201).json({updatedReta, pushed: true});
                 }
             }
 

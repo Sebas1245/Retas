@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getWeekday, getMonth, formatTime } from '../utils/dateTransforms';
 import Button from '../components/Button';
 import { useParams } from 'react-router-dom';
-import { getReta } from '../services/retaCalls';
+import { deleteReta, getReta } from '../services/retaCalls';
 import { getImageByCategory } from '../utils/imageCategory';
+import { toggleAttendance } from '../services/userCalls';
 
 // add contact info like phone and email later on
 // interface AdminUser extends User {
@@ -28,7 +29,8 @@ import { getImageByCategory } from '../utils/imageCategory';
 export default function RetaDetail() {
   let { retaId } = useParams();
   const [reta, setReta] = useState<Reta>()
-
+  const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState<boolean>();
+  const [isCurrentUserConfirmed, setIsCurrentUserConfirmed] = useState<boolean>();
   useEffect(() => {
     const getRetaById = async (id: string) => {
       if (retaId === undefined) {
@@ -39,6 +41,7 @@ export default function RetaDetail() {
         let reta = await getReta(id);
         reta.date = new Date(reta.date)
         setReta(reta)
+        setIsCurrentUserAdmin(reta.admin._id === sessionStorage.getItem('userId'));
       } catch (error) {
         alert(JSON.stringify(error))
       }
@@ -49,6 +52,33 @@ export default function RetaDetail() {
     }
   }, [retaId])
 
+  const copyCurrentLinkToClipboard = () => {
+    const currentPath = window.location.href;
+    navigator.clipboard.writeText(currentPath).then(function() {
+      alert('Have fun!');
+    }, function(err) {
+      console.error('Oops, there was an unexpected error!');
+    });
+  }
+  const toggleAttendanceToThisReta = async () => {
+    try {
+      if (!reta) return;
+      const response = await toggleAttendance(reta._id)
+      setReta(response.reta);
+      setIsCurrentUserConfirmed(!response.pushed);
+    } catch (error) {
+      alert(error);
+    }
+  }
+  const deleteThisReta = async () => {
+    try {
+      if (!reta) return
+      const response = await deleteReta(reta?._id)
+      alert(JSON.stringify(response));
+    } catch (error) {
+      alert(error);
+    }
+  }
   return (
     <div className="container-fluid full-page-with-nav">
       <div className="row pt-5">
@@ -102,21 +132,25 @@ export default function RetaDetail() {
                                 <div>Costo: <strong>{reta.price}</strong></div>
                             </div> */}
                 <div className='mt-2'>
-                  {/* <div>Cupo: <strong>{reta && reta.confirmed_users}/{reta && reta.max_participants}</strong></div> add a function to display this data */}
+                  <div>Cupo: <strong>{reta && reta.confirmed_users.length}/{reta && reta.max_participants}</strong></div>
                 </div>
                 <div>
                   {/* TODO: Write function to determine if the user viewing the event is admin or not to change text to "Invitar amigos" */}
-                  <Button
-                    className="btn-dark rounded-pill fw-bold"
-                    btnType="button"
-                    btnText={"Confirmar asistencia"} /> {/* Dependent on whether user is admin or not */}
-                </div>
-                <div>
-                  {/* TODO: Write function to determine if the user viewing the event is admin or not to change text to "Invitar amigos" */}
-                  <Button
-                    className="btn-danger rounded-pill fw-bold"
-                    btnType="button"
-                    btnText={"Eliminar reta"} /> {/* Dependent on whether user is admin or not */}
+                  {
+                    isCurrentUserAdmin ? ( 
+                    <Button
+                      className="btn-danger rounded-pill fw-bold"
+                      btnType="button"
+                      btnText={"Eliminar reta"}
+                      onClick={deleteThisReta} /> ) : 
+                      (
+                          <Button
+                          className="btn-dark rounded-pill fw-bold"
+                          btnType="button"
+                          onClick={toggleAttendanceToThisReta}
+                          btnText={isCurrentUserConfirmed ? "Confirmar asistencia" : "Cancelar asistencia"} />
+                      )
+                  }
                 </div>
               </div>
             </li>

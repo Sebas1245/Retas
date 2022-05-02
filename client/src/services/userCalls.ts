@@ -54,12 +54,13 @@ export async function updateUser (updatedUserReq: any) {
 
 export async function toggleAttendance (retaId : string) {
     try {
-        const { updatedReta } : { updatedReta : Reta } = await axios.put('/toggle_attendance', {retaId}, {
+        const { data: {updatedReta, pushed} } : {data: {updatedReta : Reta, pushed : boolean}} = await axios.put(BASE_URL + '/toggle_attendance', {retaId}, {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        return Promise.resolve({success: true, updatedReta});
+        console.log(updatedReta, pushed);
+        return Promise.resolve({success: true, reta: formattedDateReta(updatedReta), pushed});
     } catch (error : any) {
         if (error.response.data.code === 401) {
             return Promise.reject({code: error.response.data.code, msg: error.response.data.message})
@@ -71,7 +72,7 @@ export async function toggleAttendance (retaId : string) {
 
 export async function getAllRetasForUser() {
     try {
-        const { allRetas } : { allRetas : Reta[] } = await axios.get('/all_retas', {
+        const { allRetas } : { allRetas : Reta[] } = await axios.get(BASE_URL + '/all_retas', {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }
@@ -81,3 +82,8 @@ export async function getAllRetasForUser() {
         return Promise.reject(generateError(error));
     }
 }
+
+const formattedDateReta = (reta : Reta) => {
+    reta.date = new Date(reta.date)
+    return reta;
+};
