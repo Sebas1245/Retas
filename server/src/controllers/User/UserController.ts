@@ -90,6 +90,23 @@ class UserController {
             res.status(201).json(retasForUser);
         }
     }
+
+    public isUserInReta() {
+        return async (req: RequestWithAuth, res: Response) => {
+            const retaId : string = req.params.retaId; 
+            const userId : Types.ObjectId = req.user?._id;
+            const reta = await Reta.findOne({_id: retaId, active: true}).populate('admin').exec();
+            const reqUser = await User.findOne({_id: userId}).exec()
+            if (!reta) return Promise.reject(new CustomError(404, "Reta not found!"))
+            if (!reqUser) return Promise.reject(new CustomError(404, "User not found!"))
+            const confirmedUser = await User.findOne({ $and: [{_id: reqUser._id }, { _id: { $in: reta.confirmed_users }}]}).exec();
+            if (userId == reta.admin._id || confirmedUser) {
+                res.status(200).json({inReta: true});
+            } else {
+                res.status(200).json({inReta: false});
+            }
+        }
+    }
 }
 
 // Singleton instance is exported for external use

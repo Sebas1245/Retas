@@ -83,6 +83,22 @@ export async function getAllRetasForUser() {
     }
 }
 
+export async function isUserInReta(retaId:string) {
+    try {
+        const { data : {inReta}} : { data: {inReta: boolean}} = await axios.get(BASE_URL + '/is_user_in_reta/' + retaId, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`
+            }
+        });
+        console.log(inReta);
+        return Promise.resolve(inReta);
+    } catch (error) {
+        return Promise.reject(generateError(error));
+    }
+    
+
+}
+
 const formattedDateReta = (reta : Reta) => {
     reta.date = new Date(reta.date)
     return reta;

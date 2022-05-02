@@ -3,10 +3,10 @@ import { faCalendar, faClock, faLocationDot, faShare } from '@fortawesome/free-s
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getWeekday, getMonth, formatTime } from '../utils/dateTransforms';
 import Button from '../components/Button';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deleteReta, getReta } from '../services/retaCalls';
 import { getImageByCategory } from '../utils/imageCategory';
-import { toggleAttendance } from '../services/userCalls';
+import { isUserInReta as fetchIsUserInReta, toggleAttendance } from '../services/userCalls';
 
 // add contact info like phone and email later on
 // interface AdminUser extends User {
@@ -27,6 +27,8 @@ import { toggleAttendance } from '../services/userCalls';
 // }
 
 export default function RetaDetail() {
+  const location = useLocation();
+  const navigate = useNavigate();
   let { retaId } = useParams();
   const [reta, setReta] = useState<Reta>()
   const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState<boolean>();
@@ -46,20 +48,26 @@ export default function RetaDetail() {
         alert(JSON.stringify(error))
       }
     }
-
+    
+    const isUserIn = async (id: string) => {
+      if (!retaId) return;
+      try {
+        const isUserInReta = await fetchIsUserInReta(id);
+        setIsCurrentUserConfirmed(!isUserInReta);
+      } catch (error) {
+        alert(JSON.stringify(error));
+      }
+    }
     if (retaId !== undefined) {
+      isUserIn(retaId);
       getRetaById(retaId);
     }
-  }, [retaId])
+  }, [retaId]);
 
-  const copyCurrentLinkToClipboard = () => {
-    const currentPath = window.location.href;
-    navigator.clipboard.writeText(currentPath).then(function() {
-      alert('Have fun!');
-    }, function(err) {
-      console.error('Oops, there was an unexpected error!');
-    });
+  const copyToClipboard: () => void = () => {
+    navigator.clipboard.writeText(process.env.REACT_APP_PUBLIC_URL + location.pathname)
   }
+
   const toggleAttendanceToThisReta = async () => {
     try {
       if (!reta) return;
@@ -74,7 +82,10 @@ export default function RetaDetail() {
     try {
       if (!reta) return
       const response = await deleteReta(reta?._id)
-      alert(JSON.stringify(response));
+      if (response) {
+        alert("Successfully deleted this reta!");
+        navigate('/');
+      }
     } catch (error) {
       alert(error);
     }
@@ -89,7 +100,7 @@ export default function RetaDetail() {
         <div className="d-md-block col-12 col-lg-6 mt-3">
           <div style={{ borderBottom: '0.1rem solid' }} className="d-flex justify-content-between">
             <h2>{reta && reta.name}</h2>
-            <button style={{ borderRadius: 200 }} className="btn btn-info mb-1" type="button">
+            <button onClick={copyToClipboard} style={{ borderRadius: 200 }} className="btn btn-info mb-1" type="button">
               <FontAwesomeIcon icon={faShare} size={'lg'} /> {/* ADD ONCLICK EVENT TO COPY EVENT LINK TO CLIPBOARD */}
             </button>
           </div>
