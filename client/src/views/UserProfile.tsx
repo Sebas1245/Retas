@@ -21,7 +21,7 @@ export default function UserProfile() {
   }, []);
   return (
     <div className="full-page-with-nav">
-      <div className="row" style={{ height: '100vh' }}>
+      <div className="row" style={{ height: '100%' }}>
         <div className="d-none d-md-block col-12 col-lg-3">
           <Sidebar
             title="Mi Perfil"
