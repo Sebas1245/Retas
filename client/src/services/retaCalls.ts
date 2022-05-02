@@ -27,7 +27,11 @@ export async function getReta (retaId : string) {
 
 export async function getAllRetas () {
     try {
-        const { allRetas } : { allRetas : Reta[] } = await axios.get(BASE_URL + '/get_all');
+        let { data : {allRetas} } : { data : {allRetas : Reta[]} } = await axios.get(BASE_URL + '/get_all');
+        allRetas = allRetas.map(reta => {
+            reta.date = new Date(reta.date)
+            return reta;
+        });
         return Promise.resolve(allRetas);
     } catch (error : any) {
         return Promise.reject(generateError(error));

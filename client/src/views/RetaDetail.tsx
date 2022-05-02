@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { faCalendar, faClock, faLocationDot, faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getWeekday, getMonth } from '../utils/dateTransforms';
+import { getWeekday, getMonth, formatTime } from '../utils/dateTransforms';
 import Button from '../components/Button';
 import { useParams } from 'react-router-dom';
 import { getReta } from '../services/retaCalls';
@@ -46,9 +46,8 @@ export default function RetaDetail() {
     if (retaId !== undefined) {
       getRetaById(retaId);
     }
-  }, [])
+  }, [retaId])
 
-  const formatTime : (hour : number, minutes: number) => string = (hour, minutes) => `${hour-12}:${minutes < 10 ? `${minutes}0` : minutes} ${hour > 12 ? 'PM' : 'AM'}` 
   return (
     <div className="container-fluid full-page-with-nav">
         <div className="row h-100 pt-5">

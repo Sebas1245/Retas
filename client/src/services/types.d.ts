@@ -14,6 +14,7 @@ declare global {
     }
     
     type Reta = {
+        _id: string,
         name: string,
         description: string;
         date: Date;

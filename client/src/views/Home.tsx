@@ -9,7 +9,7 @@ export default function HomeSearch() {
                 <CarouselSimple deviceType='desktop'/>
             </Container>
             <Container fluid>
-                <CardGrid/>
+                <CardGrid category=''/>
             </Container>
                 
         </div>
