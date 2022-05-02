@@ -14,6 +14,7 @@ import Home from './views/Home';
 import NewReta from './views/NewReta';
 import GuestRoute from './utils/GuestRoute';
 import ProtectedRoute from './utils/ProtectedRoute';
+import UserProfile from './views/UserProfile';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -22,6 +23,7 @@ ReactDOM.render(
       <Route path='/' element={<Home/>} />
       <Route element={<ProtectedRoute/>}>
         <Route path='/create_reta' element={<NewReta />} />
+        <Route path='/user_profile' element={<UserProfile />} />
       </Route>
       <Route element={<GuestRoute/>}>
         <Route path='/login' element={<HomeLogin />} />

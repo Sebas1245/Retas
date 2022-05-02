@@ -1,5 +1,6 @@
 import Container from 'react-bootstrap/Container';
 import CardGrid from '../components/CardGrid/CardGrid';
+import LinkNav from '../components/CardGrid/LinkNav';
 import CarouselSimple from '../components/Carousel';
 
 export default function HomeSearch() {
@@ -8,7 +9,8 @@ export default function HomeSearch() {
             <Container fluid>
                 <CarouselSimple deviceType='desktop'/>
             </Container>
-            <Container fluid>
+            <Container className="row h-100 p-5" fluid>
+                <LinkNav/>
                 <CardGrid/>
             </Container>
                 
