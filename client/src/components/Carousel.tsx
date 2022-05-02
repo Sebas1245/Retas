@@ -30,7 +30,7 @@ const responsive = {
 export default function CarouselSimple({ deviceType, setCategory }: Props) {
   const categories = [
     { name: 'Futbol', imgSrc: './futbol_cat.jpg' },
-    { name: 'Basquetbol', imgSrc: './basket_cat.jpg' },
+    { name: 'Baloncesto', imgSrc: './basket_cat.jpg' },
     { name: 'Voleibol', imgSrc: './voley_cat.jpg' },
     { name: 'Golf', imgSrc: './golf_cat.jpg' },
     { name: 'Raquetbol', imgSrc: './raquet_cat.jpg' },
