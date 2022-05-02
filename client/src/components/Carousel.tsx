@@ -28,13 +28,14 @@ const responsive = {
 
 export default function CarouselSimple({ deviceType }: Props) {
   const categories = [
-    {name: 'Fútbol', imgSrc: './portero_retas.jpg'},
-    {name: 'Ajedrez', imgSrc: './portero_retas.jpg'},
-    {name: 'Voleibol', imgSrc: './basket_retas.jpg'},
-    {name: 'Basquetbol', imgSrc: './portero_retas.jpg'},
-    {name: 'eSports y Videojuegos', imgSrc: './basket_retas.jpg'},
-    {name: 'Tenis', imgSrc: './portero_retas.jpg'},
-    {name: 'Golf', imgSrc: './portero_retas.jpg'}
+    { name: 'Fútbol', imgSrc: './futbol_cat.jpg' },
+    { name: 'Basquetbol', imgSrc: './basket_cat.jpg' },
+    { name: 'Voleibol', imgSrc: './voley_cat.jpg' },
+    { name: 'Golf', imgSrc: './golf_cat.jpg' },
+    { name: 'Raquetbol', imgSrc: './raquet_cat.jpg' },
+    { name: 'eSports', imgSrc: './esport_cat.jpg' },
+    { name: 'Ajedrez', imgSrc: './chess_cat.jpg' },
+    { name: 'Otras', imgSrc: './other_cat.jpg' }
   ];
   return (
     <Carousel
@@ -47,15 +48,15 @@ export default function CarouselSimple({ deviceType }: Props) {
     >
       {categories.map(category => {
         return (
-          <Card style={{height: '100%', width: '90%'}}>
-            <Card.Img style={{height: '100%'}} src={category.imgSrc} alt="Category img" />
+          <Card style={{ height: '100%', width: '90%' }}>
+            <Card.Img style={{ height: '100%' }} src={category.imgSrc} alt="Category img" />
             <Card.ImgOverlay>
-              <div style={{height: '100%'}} className="d-flex flex-column align-items-center justify-content-center">
+              <div style={{ height: '100%' }} className="d-flex flex-column align-items-center justify-content-center">
                 <Button
-                  className="btn-outline-secondary rounded-pill fw-bold py-auto"
+                  className="btn-dark rounded-pill fw-bold py-auto"
                   btnType="button"
                   btnText={category.name}
-                  padding="pl-4 pr-4"
+                  padding="px-4 py-2"
                   onClick={() => alert('Clicked on ' + category.name)}
                 />
               </div>

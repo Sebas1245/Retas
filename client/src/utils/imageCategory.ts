@@ -1,4 +1,4 @@
-export const getImageByCategory : (category?: string) => string = (category) => {
+export const getImageByCategory: (category?: string) => string = (category) => {
   switch (category?.toLowerCase()) {
     case 'futbol':
       return "futbol_cat.jpg";
