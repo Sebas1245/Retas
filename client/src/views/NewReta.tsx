@@ -77,7 +77,7 @@ export default function NewReta() {
                                     inputId="max_participants" placeholder="Máximo de jugadores" labelClass="form-label ps-4" 
                                 />
                             </div>
-                            <div className="row mb-5">
+                            {/* <div className="row mb-5">
                                 <h6 style={{color:"#e5e5e5", fontWeight:"bold",textAlign:"left", paddingBottom:5}}>Adicionales</h6>
                                 <Input type="time" divClass="form-floating col-lg-4" inputClass="form-control rounded-pill ps-3 border-dark border-2"
                                     inputId="time" placeholder="Hora límite de confirmación" labelClass="form-label ps-4" 
@@ -85,15 +85,15 @@ export default function NewReta() {
                                 <Input type="number" divClass="form-floating col-lg-4" inputClass="form-control ps-3 rounded-pill border-dark border-2"
                                     inputId="cost" placeholder="Costo por admisión" labelClass="form-label ps-4" 
                                 />
-                            </div>
+                            </div> */}
                             <div className="row mb-5 pt-2 pb-3">
-                                <div className="d-grid col-lg-4">
+                                {/* <div className="d-grid col-lg-4">
                                     <Button 
                                         className="btn-dark rounded-pill fw-bold"
                                         btnType="button"
                                         btnText="Invitar amigos"
                                         padding="py-3"/>
-                                </div>
+                                </div> */}
                                 <div className="d-grid col-lg-4">
                                     <Button 
                                         className="btn-primary rounded-pill fw-bold"

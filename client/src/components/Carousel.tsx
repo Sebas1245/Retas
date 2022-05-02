@@ -5,6 +5,7 @@ import Button from "./Button";
 
 type Props = {
   deviceType: string,
+  setCategory: Function
 }
 
 const responsive = {
@@ -26,9 +27,9 @@ const responsive = {
 };
 
 
-export default function CarouselSimple({ deviceType }: Props) {
+export default function CarouselSimple({ deviceType, setCategory }: Props) {
   const categories = [
-    { name: 'Fútbol', imgSrc: './futbol_cat.jpg' },
+    { name: 'Futbol', imgSrc: './futbol_cat.jpg' },
     { name: 'Basquetbol', imgSrc: './basket_cat.jpg' },
     { name: 'Voleibol', imgSrc: './voley_cat.jpg' },
     { name: 'Golf', imgSrc: './golf_cat.jpg' },
@@ -57,7 +58,7 @@ export default function CarouselSimple({ deviceType }: Props) {
                   btnType="button"
                   btnText={category.name}
                   padding="px-4 py-2"
-                  onClick={() => alert('Clicked on ' + category.name)}
+                  onClick={() => setCategory(category.name)}
                 />
               </div>
             </Card.ImgOverlay>

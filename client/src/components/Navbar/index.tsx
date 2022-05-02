@@ -33,6 +33,13 @@ export default function Navbar() {
                   padding="px-lg-5 px-3"
                   btnType="button"
                   btnText="Registrarse"/>}
+                {token && <Button 
+                  onClick={() =>  navigate('/user_profile')}
+                  className="btn-info rounded-pill fw-bold"
+                  padding="px-lg-5 px-3"
+                  btnType="button"
+                  btnText="Mi perfil"/>}
+                
               </div>
               {/* TODO: Show until we have a view for the user's profile */}
               {/* {token && <NavList />} */}

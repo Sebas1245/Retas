@@ -28,10 +28,7 @@ export async function getReta (retaId : string) {
 export async function getAllRetas () {
     try {
         let { data : {allRetas} } : { data : {allRetas : Reta[]} } = await axios.get(BASE_URL + '/get_all');
-        allRetas = allRetas.map(reta => {
-            reta.date = new Date(reta.date)
-            return reta;
-        });
+        allRetas = formattedDateRetas(allRetas);
         return Promise.resolve(allRetas);
     } catch (error : any) {
         return Promise.reject(generateError(error));
@@ -69,9 +66,15 @@ export async function updateReta(updatedRetaReq: any) {
 
 export async function getAllRetasByCategory (category : string) {
     try {
-        const { retasWithCategory } : { retasWithCategory : Reta[] } = await axios.get(BASE_URL + `/${category}`);
-        return Promise.resolve(retasWithCategory);
+        const { data } = await axios.get(BASE_URL + `/get_all_by_category/${category}`);
+        console.log(data);
+        return Promise.resolve(formattedDateRetas(data));
     } catch (error : any) {
         return Promise.reject(generateError(error));
     }
 }
+
+const formattedDateRetas = (retas : Reta[]) => retas.map(reta => {
+    reta.date = new Date(reta.date)
+    return reta;
+});
