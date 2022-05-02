@@ -1,5 +1,6 @@
 import axios from "axios";
 import generateError from "./generateError";
+import { formattedDateRetas } from "./retaCalls";
 import { getToken } from "./tokenUtilities";
 const BASE_URL = process.env.REACT_APP_SERVER_URL + '/user';
 
@@ -72,12 +73,13 @@ export async function toggleAttendance (retaId : string) {
 
 export async function getAllRetasForUser() {
     try {
-        const { allRetas } : { allRetas : Reta[] } = await axios.get(BASE_URL + '/all_retas', {
+        const {data} = await axios.get(BASE_URL + '/all_retas', {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        return Promise.resolve(allRetas);
+        console.log(data)
+        return Promise.resolve({retas: formattedDateRetas(data)});
     } catch (error : any) {
         return Promise.reject(generateError(error));
     }

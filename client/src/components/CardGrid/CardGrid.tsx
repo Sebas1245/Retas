@@ -5,21 +5,7 @@ import { getImageByCategory } from "../../utils/imageCategory";
 import Card from "./Card"
 import LinkNav from "./LinkNav"
 
-export default function CardGrid({ category }: { category: string | undefined }) {
-  const [retas, setRetas] = useState<Array<Reta>>();
-
-  useEffect(() => {
-    const fetchRetas = async () => {
-      try {
-        const allRetas = category ? await getAllRetasByCategory(category) : await getAllRetas();
-        console.log(allRetas);
-        setRetas(allRetas);
-      } catch (error) {
-        alert(JSON.stringify(error));
-      }
-    }
-    fetchRetas();
-  }, [category]);
+export default function CardGrid({ retas }: { retas: Array<Reta> | undefined }) {
 
 
   return (

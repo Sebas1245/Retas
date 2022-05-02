@@ -74,7 +74,7 @@ export async function getAllRetasByCategory(category: string) {
     }
 }
 
-const formattedDateRetas = (retas: Reta[]) => retas.map(reta => {
+export const formattedDateRetas = (retas: Reta[]) => retas.map(reta => {
     reta.date = new Date(reta.date)
     return reta;
 });
