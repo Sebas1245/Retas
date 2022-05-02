@@ -1,7 +1,7 @@
 import axios from "axios";
 import generateError from "./generateError";
 import { getToken } from "./tokenUtilities";
-const BASE_URL = process.env.SERVER_URL + '/retas';
+const BASE_URL = process.env.REACT_APP_SERVER_URL + '/retas';
 
 export async function createReta (newReta : Reta) {
     try {
@@ -18,7 +18,7 @@ export async function createReta (newReta : Reta) {
 
 export async function getReta (retaId : string) {
     try {
-        const { reta } : { reta: Reta } = await axios.get(BASE_URL + `/${retaId}`);
+        const { data: {reta}}  : {data: { reta: Reta } }  = await axios.get(BASE_URL + `/${retaId}`);
         return Promise.resolve(reta);
     } catch (error : any) {
         return Promise.reject(generateError(error));
