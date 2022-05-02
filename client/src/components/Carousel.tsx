@@ -29,6 +29,7 @@ const responsive = {
 
 export default function CarouselSimple({ deviceType, setCategory }: Props) {
   const categories = [
+    { name: 'Todas', imgSrc: 'portero_retas.jpg'},
     { name: 'Futbol', imgSrc: './futbol_cat.jpg' },
     { name: 'Baloncesto', imgSrc: './basket_cat.jpg' },
     { name: 'Voleibol', imgSrc: './voley_cat.jpg' },
@@ -58,7 +59,7 @@ export default function CarouselSimple({ deviceType, setCategory }: Props) {
                   btnType="button"
                   btnText={category.name}
                   padding="px-4 py-2"
-                  onClick={() => setCategory(category.name)}
+                  onClick={() => category.name !== 'Todas' ? setCategory(category.name) : setCategory(undefined)}
                 />
               </div>
             </Card.ImgOverlay>

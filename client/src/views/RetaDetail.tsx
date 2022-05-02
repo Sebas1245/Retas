@@ -92,7 +92,7 @@ export default function RetaDetail() {
       alert(error);
     }
   }
-  return (
+  return reta ? (
     <div className="container-fluid full-page-with-nav">
       <div className="row pt-5">
         <div className="d-none d-md-block col-md-12 col-lg-6 mt-3">
@@ -170,6 +170,11 @@ export default function RetaDetail() {
           </ul>
         </div>
       </div>
+    </div>
+  ) : 
+  (
+    <div className="spinner-border" role="status">
+      <span className="sr-only">Loading...</span>
     </div>
   )
 }
