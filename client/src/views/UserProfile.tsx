@@ -6,7 +6,7 @@ import CardGrid from "../components/CardGrid/CardGrid";
 
 export default function UserProfile() {
     return (
-        <div className="full-page-with-nav">
+        <div>
             <Navbar />
             <div className="row full-page-with-nav">
                 <div className="d-none d-md-block col-12 col-lg-3">
@@ -14,7 +14,7 @@ export default function UserProfile() {
                         title="Mi Perfil"
                         imgSrc="./avatar.jpg"
                         name="Juan José Beltrán"
-                        role="Administrador" >
+                        edit="Editar foto" >
                         <Flush
                             id="One"
                             title="Mi información"

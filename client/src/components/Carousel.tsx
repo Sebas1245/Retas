@@ -49,7 +49,7 @@ export default function CarouselSimple({ deviceType, setCategory }: Props) {
     >
       {categories.map(category => {
         return (
-          <Card style={{ height: '100%', width: '90%' }}>
+          <Card style={{ height: '85%', width: '90%' }}>
             <Card.Img style={{ height: '100%' }} src={category.imgSrc} alt="Category img" />
             <Card.ImgOverlay>
               <div style={{ height: '100%' }} className="d-flex flex-column align-items-center justify-content-center">

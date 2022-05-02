@@ -4,11 +4,12 @@ type Props = {
   imgSrc?: string,
   title: string,
   name: string,
-  role: string,
+  role?: string,
+  edit?: string,
   children?: React.ReactNode
 }
 
-export default function Sidebar({imgSrc, title, name, role, children}: Props)  {
+export default function Sidebar({imgSrc, title, name, role, edit, children}: Props)  {
     return (
         <div className="container-fluid h-100 bg-secondary">
             <div className="row pt-5">
@@ -21,6 +22,7 @@ export default function Sidebar({imgSrc, title, name, role, children}: Props)  {
                 <div className="col-8">
                     <h6 style={{textAlign:"left", fontWeight:"700",}}>{name}</h6>
                     <p style={{textAlign:"left", fontWeight:"200", marginTop:"-7.5px"}}>{role}</p>
+                    <button style={{textAlign:"left", fontStyle: "italic", fontWeight:"200", backgroundColor:"transparent", border:0}}>{edit}</button>
                 </div>
             </div>
             <div className="row pt-4">
