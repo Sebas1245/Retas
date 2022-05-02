@@ -15,20 +15,22 @@ import NewReta from './views/NewReta';
 import GuestRoute from './utils/GuestRoute';
 import ProtectedRoute from './utils/ProtectedRoute';
 import RetaDetail from './views/RetaDetail';
+import UserProfile from './views/UserProfile';
 
 ReactDOM.render(
   <BrowserRouter>
     <Navbar />
     <Routes>
-      <Route path='/' element={<Home/>} />
-      <Route element={<ProtectedRoute/>}>
+      <Route path='/' element={<Home />} />
+      <Route element={<ProtectedRoute />}>
         <Route path='/create_reta' element={<NewReta />} />
+        <Route path='/user_profile' element={<UserProfile />} />
       </Route>
-      <Route element={<GuestRoute/>}>
+      <Route element={<GuestRoute />}>
         <Route path='/login' element={<HomeLogin />} />
         <Route path='/register' element={<HomeRegister />} />
       </Route>
-      <Route path='/reta/:retaId' element={<RetaDetail/>} />
+      <Route path='/reta/:retaId' element={<RetaDetail />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
