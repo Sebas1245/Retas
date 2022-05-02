@@ -37,40 +37,53 @@ export default function NewReta() {
                                 <label htmlFor="title" className="form-label-lg ps-4 mb-5 h4"></label>
                             </div> */}
                             <Input type="text" divClass="form-floating mb-5" inputClass="form-control shadow-none form-control-lg rounded-0 border-0 border-bottom border-2 border-dark"
-                                inputId="title" placeholder="Nombre de la Reta" labelClass="form-label ps-4 mb-5 h4"
+                                inputId="name" placeholder="Nombre de la Reta" labelClass="form-label ps-4 mb-5 h4"
                             />
                             <div className="row mb-5">
                                 <h6 style={{color:"#e5e5e5", fontWeight:"bold",textAlign:"left", paddingBottom:5}}>Datos generales</h6>
                                 <Input type="url" divClass="form-floating col-lg-4" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                                    inputId="loc" placeholder="Seleccionar ubicación" labelClass="form-label ps-4" 
+                                    inputId="location" placeholder="Seleccionar ubicación" labelClass="form-label ps-4" 
                                 />
                                 <Input type="date" divClass="form-floating col-lg-4" inputClass="form-control ps-3 rounded-pill border-dark border-2"
                                     inputId="date" placeholder="Seleccionar fecha" labelClass="form-label ps-4" 
                                 />
+                                <div className="form-floating col-lg-4">
+                                    <select className="form-control rounded-pill ps-3 pt-2 border-dark border-2" id="category">
+                                        <option selected hidden>Elegir categoria</option>
+                                        <option value="1">Futbol</option>
+                                        <option value="2">Golf</option>
+                                        <option value="3">Voleibol</option>
+                                        <option value="4">Baloncesto</option>
+                                        <option value="5">Ajedrez</option>
+                                        <option value="6">Raquetbol</option>
+                                        <option value="7">eSports</option>
+                                        <option value="8">Otro</option>
+                                    </select>
+                                </div>
                             </div>
                             <div className="row mb-5">
                                 <h6 style={{color:"#e5e5e5", fontWeight:"bold",textAlign:"left", paddingBottom:5}}>Jugadores</h6>
                                 <div className="form-floating col-lg-4">
-                                    <select className="form-control rounded-pill ps-3 pt-2 border-dark border-2">
+                                    <select className="form-control rounded-pill ps-3 pt-2 border-dark border-2" id="is_private">
                                         <option selected hidden>Elegir privacidad</option>
                                         <option value="1">Privado</option>
                                         <option value="2">Público</option>
                                     </select>
                                 </div>
                                 <Input type="number" divClass="form-floating col-lg-4" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                                    inputId="minimo" placeholder="Mínimo de jugadores" labelClass="form-label ps-4" 
+                                    inputId="min_participants" placeholder="Mínimo de jugadores" labelClass="form-label ps-4" 
                                 />
                                 <Input type="number" divClass="form-floating col-lg-4" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                                    inputId="maximo" placeholder="Máximo de jugadores" labelClass="form-label ps-4" 
+                                    inputId="max_participants" placeholder="Máximo de jugadores" labelClass="form-label ps-4" 
                                 />
                             </div>
                             <div className="row mb-5">
                                 <h6 style={{color:"#e5e5e5", fontWeight:"bold",textAlign:"left", paddingBottom:5}}>Adicionales</h6>
                                 <Input type="time" divClass="form-floating col-lg-4" inputClass="form-control rounded-pill ps-3 border-dark border-2"
-                                    inputId="conf" placeholder="Hora límite de confirmación" labelClass="form-label ps-4" 
+                                    inputId="time" placeholder="Hora límite de confirmación" labelClass="form-label ps-4" 
                                 />
                                 <Input type="number" divClass="form-floating col-lg-4" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                                    inputId="costo" placeholder="Costo por admisión" labelClass="form-label ps-4" 
+                                    inputId="cost" placeholder="Costo por admisión" labelClass="form-label ps-4" 
                                 />
                             </div>
                             <div className="row mb-5 pt-2 pb-3">
