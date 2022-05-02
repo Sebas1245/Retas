@@ -39,7 +39,5 @@ export default function Card({retaId, imgSource, cardTitle, gameLocation, gameTi
             </div>
         </div>
       </div>
-    </div>
-
   );
 }
