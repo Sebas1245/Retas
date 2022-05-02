@@ -24,6 +24,10 @@ $accordion-bg:  transparent;
 $input-height-lg: 75px;
 $input-font-size-lg: 22px;
 
+a:hover {
+  color: $primary !important;
+}
+
 /* .custom{
   $form-floating-label-transform: scale(.99) translateY(-.5rem) translateX(.15rem);
 } */

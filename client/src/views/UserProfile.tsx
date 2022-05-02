@@ -14,7 +14,7 @@ export default function UserProfile() {
                         title="Mi Perfil"
                         imgSrc="./avatar.jpg"
                         name="Juan José Beltrán"
-                        role="Administrador" >
+                        edit="Editar foto" >
                         <Flush
                             id="One"
                             title="Mi información"

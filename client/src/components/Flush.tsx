@@ -15,7 +15,7 @@ export default function Flush({id, title, text}: Props)  {
             </button>
             </h2>
             <div id={`flush-collapse${id}`} className="accordion-collapse collapse" aria-labelledby={`#flush-heading${id}`} data-bs-parent="#accordionFlush">
-            <div className="accordion-body" style={{color:"#070707"}}> <a href="">{text}</a> </div>
+            <div className="accordion-body" style={{color:"#070707"}}> <a href="" style={{color:"#070707"}}>{text}</a> </div>
             </div>
         </div>
     );
