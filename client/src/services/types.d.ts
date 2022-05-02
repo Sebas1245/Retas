@@ -10,11 +10,11 @@ declare global {
         confirmedRetas: string[],
         createdAt: string,
         updatedAt: string,
-        __v: number 
+        __v: number
     }
-    
+
     type Reta = {
-        _id: string,
+        _id?: string,
         name: string,
         description: string;
         date: Date;
@@ -28,12 +28,12 @@ declare global {
         category: string;
         confirmed_users: User[] | string[];
         admin: User;
-        is_active: boolean; 
+        is_active: boolean;
     }
-    
+
     type LoginResponse = {
         success: boolean,
-        message: string, 
+        message: string,
         user: User,
         token: string
     }
@@ -44,4 +44,4 @@ declare global {
     }
 }
 
-export {}
+export { }
