@@ -132,7 +132,7 @@ export default function RetaDetail() {
                             <div>
                                 <img className="img-fluid align-content-right rounded-circle" alt='Admin Avatar' src={reta.admin.avatarImgSrc} style={{height: '5vh'}}/>
                             </div> */}
-                <div style={{ marginLeft: '2%' }}>
+                <div>
                   <h6 style={{ textAlign: "left", fontWeight: "700", }}>{reta && reta.admin.name}</h6>
                   <p style={{ textAlign: "left", fontWeight: "200", marginTop: "-7.5px" }}>{'Administrador'}</p>
                 </div>
