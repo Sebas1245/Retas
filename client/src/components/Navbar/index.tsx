@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar";
 import Button from "../Button";
 import NavList from "./NavList";
 import { useNavigate } from "react-router-dom";
-import { getToken } from "../../services/tokenUtilities";
+import { deleteToken, getToken } from "../../services/tokenUtilities";
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -35,10 +35,19 @@ export default function Navbar() {
                   btnText="Registrarse"/>}
                 {token && <Button 
                   onClick={() =>  navigate('/user_profile')}
-                  className="btn-info rounded-pill fw-bold"
+                  className="btn-dark rounded-pill fw-bold"
                   padding="px-lg-5 px-3"
                   btnType="button"
                   btnText="Mi perfil"/>}
+                {token && <Button 
+                  onClick={() => {
+                    deleteToken();
+                    navigate('/');
+                  }}
+                  className="btn-warning rounded-pill fw-bold ms-lg-2"
+                  padding="px-lg-5 px-3"
+                  btnType="button"
+                  btnText="Cerrar sesión"/>}
                 
               </div>
               {/* TODO: Show until we have a view for the user's profile */}
