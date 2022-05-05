@@ -74,13 +74,12 @@ export async function toggleAttendance (retaId : string) {
 
 export async function getAllRetasForUser() {
     try {
-        const {data} = await axios.get(BASE_URL + '/all_retas', {
+        const {data : {retasAsAdmin, retasAsParticipant}} = await axios.get(BASE_URL + '/all_retas', {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        console.log(data)
-        return Promise.resolve({retas: formattedDateRetas(data)});
+        return Promise.resolve({retasAsAdmin: formattedDateRetas(retasAsAdmin), retasAsParticipant: formattedDateRetas(retasAsParticipant)});
     } catch (error : any) {
         return Promise.reject(generateError(error));
     }
