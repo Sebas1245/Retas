@@ -85,8 +85,8 @@ class UserController {
     public getAllRetasForUser() {
         return async (req: RequestWithAuth, res: Response) => {
             const userId : Types.ObjectId = req.user?._id;
-            const retasAsAdmin = await Reta.find({is_active: true, admin: userId}).populate('admin').exec();
-            const retasAsParticipant = await Reta.find({is_active: true, confirmed_users: userId, admin: { $ne: userId}}).populate('admin').exec();
+            const retasAsAdmin = await Reta.find({is_active: true, admin: userId}).populate('admin').sort({date: -1}).exec();
+            const retasAsParticipant = await Reta.find({is_active: true, confirmed_users: userId, admin: { $ne: userId}}).sort({date: 1}).populate('admin').exec();
             if (!retasAsParticipant) return Promise.reject(new CustomError(404, "No Retas found for this user!"))
             res.status(201).json({retasAsAdmin, retasAsParticipant});
         }
