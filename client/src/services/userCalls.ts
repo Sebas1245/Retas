@@ -9,6 +9,7 @@ export async function login (username: string, password: string) {
         const { data } : { data : LoginResponse } = await axios.post(BASE_URL + '/login', {username, password});
         sessionStorage.setItem('token', data.token);
         sessionStorage.setItem('userId', data.user._id);
+        sessionStorage.setItem('userName', data.user.name);
         return Promise.resolve(data.success);
     } catch (error : any) {
         return Promise.reject(generateError(error));

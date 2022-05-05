@@ -7,6 +7,7 @@ import { getAllRetasForUser } from "../services/userCalls";
 
 export default function UserProfile() {
   const [retas, setRetas] = useState<Array<Reta>>();
+  const username : string = sessionStorage.getItem('userName')!;
 
   useEffect(() => {
     const fetchRetas = async () => {
@@ -26,8 +27,8 @@ export default function UserProfile() {
           <Sidebar
             title="Mi Perfil"
             imgSrc="./avatar.jpg"
-            name="Juan José Beltrán"
-            edit="Editar foto" >
+            name={username}
+            edit="Editar foto">
             <Flush
               id="One"
               title="Mi información"
