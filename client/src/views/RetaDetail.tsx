@@ -30,6 +30,7 @@ export default function RetaDetail() {
   const location = useLocation();
   const navigate = useNavigate();
   let { retaId } = useParams();
+  const isUserLoggedIn = sessionStorage.getItem('token');
   const [reta, setReta] = useState<Reta>()
   const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState<boolean>();
   const [isCurrentUserConfirmed, setIsCurrentUserConfirmed] = useState<boolean>();
@@ -46,11 +47,10 @@ export default function RetaDetail() {
         setIsCurrentUserAdmin(reta.admin._id === sessionStorage.getItem('userId'));
       } catch (error) {
         alert(JSON.stringify(error))
-      }
+      }  
     }
 
     const isUserIn = async (id: string) => {
-      if (!retaId) return;
       try {
         const isUserInReta = await fetchIsUserInReta(id);
         setIsCurrentUserConfirmed(!isUserInReta);
@@ -60,11 +60,15 @@ export default function RetaDetail() {
         }
       }
     }
+    
     if (retaId !== undefined) {
-      isUserIn(retaId);
       getRetaById(retaId);
+      if (isUserLoggedIn) {
+        isUserIn(retaId);
+      }
     }
-  }, [retaId]);
+    
+  }, [isUserLoggedIn, retaId]);
 
   const copyToClipboard: () => void = () => {
     navigator.clipboard.writeText(process.env.REACT_APP_PUBLIC_URL + location.pathname)
@@ -150,19 +154,30 @@ export default function RetaDetail() {
                 <div>
                   {/* TODO: Write function to determine if the user viewing the event is admin or not to change text to "Invitar amigos" */}
                   {
-                    isCurrentUserAdmin ? (
+                    isUserLoggedIn ? (
+                      isCurrentUserAdmin ? 
+                        (
+                          <Button
+                            className="btn-danger rounded-pill fw-bold"
+                            btnType="button"
+                            btnText={"Eliminar reta"}
+                            onClick={deleteThisReta} />
+                        ) :
+                        (
+                          <Button
+                            className="btn-dark rounded-pill fw-bold"
+                            btnType="button"
+                            onClick={toggleAttendanceToThisReta}
+                            btnText={isCurrentUserConfirmed ? "Confirmar asistencia" : "Cancelar asistencia"} />
+                        )
+                    ) : 
+                    (
                       <Button
-                        className="btn-danger rounded-pill fw-bold"
-                        btnType="button"
-                        btnText={"Eliminar reta"}
-                        onClick={deleteThisReta} />) :
-                      (
-                        <Button
-                          className="btn-dark rounded-pill fw-bold"
-                          btnType="button"
-                          onClick={toggleAttendanceToThisReta}
-                          btnText={isCurrentUserConfirmed ? "Confirmar asistencia" : "Cancelar asistencia"} />
-                      )
+                      className="btn-primary rounded-pill fw-bold"
+                      btnType="button"
+                      btnText={"Ir a inicio de sesión para unirme"}
+                      onClick={() => navigate('/login', {state: {from: location}})} />
+                    )
                   }
                 </div>
               </div>

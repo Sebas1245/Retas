@@ -9,6 +9,6 @@ export function getToken() {
 }
 
 export function deleteToken() {
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token");
+    localStorage.clear();
+    sessionStorage.clear();
 }
