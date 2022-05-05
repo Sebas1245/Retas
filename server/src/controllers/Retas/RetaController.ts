@@ -37,7 +37,7 @@ class RetaController {
 
     public readAll() {
         return async (req: Request, res: Response) => {
-            const allRetas = await Reta.find({is_active: true, is_private: false}).populate('admin confirmed_users').sort({createdAt: -1}).exec();
+            const allRetas = await Reta.find({is_active: true, is_private: false}).populate('admin confirmed_users').sort({date: 1}).exec();
             res.status(200).json({allRetas});
         }
     }
@@ -67,7 +67,7 @@ class RetaController {
     public getRetasByCategory() {
         return async (req: Request, res: Response) => {
             const category : string = req.params.category;
-            const retasWithCategory = await Reta.find({category}).populate('admin').exec();
+            const retasWithCategory = await Reta.find({category}).populate('admin').sort({date: 1}).exec();
             if (!retasWithCategory) return Promise.reject(new CustomError(404, 'There are no retas with this category.'));
             res.status(200).json(retasWithCategory);
         }

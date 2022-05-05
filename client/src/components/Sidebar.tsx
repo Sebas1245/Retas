@@ -3,7 +3,7 @@ import React from "react";
 type Props = {
   imgSrc?: string,
   title: string,
-  name: string,
+  name?: string,
   role?: string,
   edit?: string,
   children?: React.ReactNode

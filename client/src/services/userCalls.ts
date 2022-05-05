@@ -9,6 +9,7 @@ export async function login (username: string, password: string) {
         const { data } : { data : LoginResponse } = await axios.post(BASE_URL + '/login', {username, password});
         sessionStorage.setItem('token', data.token);
         sessionStorage.setItem('userId', data.user._id);
+        sessionStorage.setItem('userName', data.user.name);
         return Promise.resolve(data.success);
     } catch (error : any) {
         return Promise.reject(generateError(error));
@@ -73,13 +74,12 @@ export async function toggleAttendance (retaId : string) {
 
 export async function getAllRetasForUser() {
     try {
-        const {data} = await axios.get(BASE_URL + '/all_retas', {
+        const {data : {retasAsAdmin, retasAsParticipant}} = await axios.get(BASE_URL + '/all_retas', {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        console.log(data)
-        return Promise.resolve({retas: formattedDateRetas(data)});
+        return Promise.resolve({retasAsAdmin: formattedDateRetas(retasAsAdmin), retasAsParticipant: formattedDateRetas(retasAsParticipant)});
     } catch (error : any) {
         return Promise.reject(generateError(error));
     }
