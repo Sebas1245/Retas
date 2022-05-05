@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from '../components/Navbar';
 import Button from "../components/Button";
 import Form from "../components/Form";
@@ -9,9 +9,12 @@ import Flush from "../components/Flush";
 import { useNavigate } from "react-router-dom";
 import { createReta } from "../services/retaCalls";
 import { getToken } from "../services/tokenUtilities";
+import { getImageByCategory } from "../utils/imageCategory";
 
 export default function NewReta() {
   const navigate = useNavigate();
+  const [retaImage, setRetaImage] = useState('/other_cat.jpg');
+  const username: string = sessionStorage.getItem('userName')!;
 
   const onSubmit: (e: React.FormEvent) => void = async (e) => {
     e.preventDefault();
@@ -61,6 +64,10 @@ export default function NewReta() {
     }
   }
 
+  const changeRetaImage: (e: React.ChangeEvent<HTMLSelectElement>) => void = async (e) => {
+    setRetaImage(getImageByCategory(e.target.value))
+  }
+
   return (
     <div>
       <Navbar />
@@ -69,7 +76,7 @@ export default function NewReta() {
           <Sidebar
             title="Crear Reta"
             imgSrc="./avatar.jpg"
-            name="Juan José Beltrán"
+            name={username}
             role="Administrador" >
             <Flush
               id="One"
@@ -83,12 +90,8 @@ export default function NewReta() {
         </div>
         <div className="col-12 col-lg-9">
           <RetaForm
-            imgSrc="./new_reta.jpg">
+            imgSrc={retaImage}>
             <Form className="row mt-5" onSubmit={onSubmit}>
-              {/* <div className="form-floating mb-5 h3">
-                                <input type="text" className="form-control shadow-none form-control-lg rounded-0 border-0 border-bottom border-2 border-dark" id="title" placeholder="Nombre de la Reta"></input>
-                                <label htmlFor="title" className="form-label-lg ps-4 mb-5 h4"></label>
-                            </div> */}
               <Input type="text" divClass="form-floating mb-5" inputClass="form-control shadow-none form-control-lg rounded-0 border-0 border-bottom border-2 border-dark"
                 inputId="name" placeholder="Nombre de la Reta" labelClass="form-label ps-4 mb-5 h4"
               />
@@ -101,7 +104,7 @@ export default function NewReta() {
                   inputId="date" placeholder="Seleccionar fecha" labelClass="form-label ps-4"
                 />
                 <div className="form-floating col-lg-4">
-                  <select className="form-control rounded-pill ps-3 pt-2 border-dark border-2" id="category">
+                  <select className="form-control rounded-pill ps-3 pt-2 border-dark border-2" id="category" onChange={changeRetaImage}>
                     <option selected hidden>Elegir categoria</option>
                     <option value="Futbol">Futbol</option>
                     <option value="Golf">Golf</option>
@@ -135,9 +138,6 @@ export default function NewReta() {
                 <Input type="time" divClass="form-floating col-lg-4" inputClass="form-control rounded-pill ps-3 border-dark border-2"
                   inputId="time" placeholder="Hora límite de confirmación" labelClass="form-label ps-4"
                 />
-                {/* <Input type="number" divClass="form-floating col-lg-4" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                  inputId="cost" placeholder="Costo por admisión" labelClass="form-label ps-4"
-                /> */}
               </div>
               <div className="row mb-5 pt-2 pb-3">
                 <div className="d-grid col-lg-4">

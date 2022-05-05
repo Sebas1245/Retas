@@ -8,7 +8,7 @@ import { getAllRetasForUser } from "../services/userCalls";
 export default function UserProfile() {
   const [retasAsAdmin, setRetasAsAdmin] = useState<Array<Reta>>();
   const [retasAsParticipant, setRetasAsParticipant] = useState<Array<Reta>>();
-  const username : string = sessionStorage.getItem('userName')!;
+  const username: string = sessionStorage.getItem('userName')!;
 
   useEffect(() => {
     const fetchRetas = async () => {
@@ -40,7 +40,7 @@ export default function UserProfile() {
         <div className="col-12 col-lg-9">
           <div className="row mt-5">
             <h2>Retas que administras</h2>
-            {retasAsAdmin && retasAsAdmin?.length > 0 ? 
+            {retasAsAdmin && retasAsAdmin?.length > 0 ?
               (
                 <CardGrid retas={retasAsAdmin} />
               ) :
@@ -51,7 +51,7 @@ export default function UserProfile() {
           </div>
           <div className="row mt-5">
             <h2>Retas en las que participas</h2>
-            {retasAsParticipant && retasAsParticipant?.length > 0 ? 
+            {retasAsParticipant && retasAsParticipant?.length > 0 ?
               (
                 <CardGrid retas={retasAsParticipant} />
               ) :
