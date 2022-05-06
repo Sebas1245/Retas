@@ -4,11 +4,15 @@ import Sidebar from "../components/Sidebar";
 import Flush from "../components/Flush";
 import CardGrid from "../components/CardGrid/CardGrid";
 import { getAllRetasForUser } from "../services/userCalls";
+import Button from "../components/Button";
+import { deleteToken } from "../services/tokenUtilities";
+import { useNavigate } from "react-router-dom";
 
 export default function UserProfile() {
   const [retasAsAdmin, setRetasAsAdmin] = useState<Array<Reta>>();
   const [retasAsParticipant, setRetasAsParticipant] = useState<Array<Reta>>();
   const username : string = sessionStorage.getItem('userName')!;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRetas = async () => {
@@ -31,10 +35,22 @@ export default function UserProfile() {
             imgSrc="./avatar.jpg"
             name={username}
             edit="Editar foto">
-            <Flush
-              id="One"
-              title="Mi información"
-              text="Correo electrónico" />
+              <Flush
+                id="One"
+                title="Mi información"
+                text="Correo electrónico" />
+              <div className="row my-5 px-3">
+
+                <Button 
+                    onClick={() => {
+                      deleteToken();
+                      navigate('/');
+                    }}
+                    className="btn-outline-dark btn-sm rounded-pill fw-bold ms-lg-2"
+                    padding={''}
+                    btnType="button"
+                    btnText="Cerrar sesión"/>
+              </div>
           </Sidebar>
         </div>
         <div className="col-12 col-lg-9">
