@@ -5,7 +5,7 @@ $warning: #c4c4c4;
 $info: #e5e5e5;
 $light: #ffffff;
 $dark: #070707;
-$danger: #D22B2B;
+$danger: #E87878;
 $success: #008000;
 
 // Override theme colors
@@ -26,6 +26,10 @@ $input-font-size-lg: 22px;
 
 a:hover {
   color: $primary !important;
+}
+
+.req {
+  color: $danger !important;
 }
 
 /* .custom{

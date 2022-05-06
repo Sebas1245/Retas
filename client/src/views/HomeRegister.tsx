@@ -30,14 +30,15 @@ export default function HomeRegister() {
     };
 
     let errorFound = false;
-    if (!target.nombre.value) {
+    const validateNames : RegExp = /^[a-zA-Z0-9.!#@$%&'*+/=?^_`{|}~-]{1}[a-zA-Z0-9.!#@$%&'*+/=?^_`{|}~-\s]*$/;
+    if (!target.nombre.value || !validateNames.test(target.nombre.value)) {
       setNameFeedback("Escribe tu nombre.")
       errorFound = true
     } else {
       setNameFeedback("")
     }
 
-    if (!target.usuario.value) {
+    if (!target.usuario.value || !validateNames.test(target.usuario.value)) {
       setUsernameFeedback("Escribe un nombre de usuario.")
       errorFound = true
     } else {
@@ -114,11 +115,11 @@ export default function HomeRegister() {
         >
       <Form className={"row mt-5 pt-4"} onSubmit={onSubmit} noValidate={true}>
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="nombre" placeholder="Nombre" labelClass="form-label ps-4"
+            inputId="nombre" placeholder="Nombre" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={nameFeedback}
         />
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="usuario" placeholder="Usuario" labelClass="form-label ps-4"
+            inputId="usuario" placeholder="Usuario" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={usernameFeedback}
         />
         <Input type="email" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
@@ -126,15 +127,15 @@ export default function HomeRegister() {
             feedbackClass="px-3 pt-2 text-danger" feedbackText={emailFeedback}
         />
         <Input type="tel" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="phoneNumber" placeholder="Número de teléfono" labelClass="form-label ps-4"
+            inputId="phoneNumber" placeholder="Número de teléfono" labelClass="form-label ps-4" maxLength={10}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={phoneFeedback}
         />
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="password" placeholder="Contraseña" labelClass="form-label ps-4"
+            inputId="password" placeholder="Contraseña" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback}
         />
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="passwordCheck" placeholder="Contraseña de nuevo" labelClass="form-label ps-4"
+            inputId="passwordCheck" placeholder="Contraseña de nuevo" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={confirmPasswordFeedback}
         />
 
