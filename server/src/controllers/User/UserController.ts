@@ -47,7 +47,7 @@ class UserController {
             const updateUserQuery : IUser = req.body.updatedUser;
             const userId : Types.ObjectId = req.user?._id;
             const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
-            if (!updatedUser) return Promise.reject(new CustomError(404, "User not found."));
+            if (!updatedUser) return Promise.reject(new CustomError(404, "¡Este usuario no existe!"));
             res.status(201).json(updatedUser);
         }
     }
@@ -58,23 +58,23 @@ class UserController {
             const userId : Types.ObjectId = req.user?._id;
             const reta = await Reta.findOne({_id: retaId, active: true}).populate('admin').exec();
             const reqUser = await User.findOne({_id: userId}).exec()
-            if (!reta) return Promise.reject(new CustomError(404, "Reta not found!"))
-            if (!reqUser) return Promise.reject(new CustomError(404, "User not found!"))
+            if (!reta) return Promise.reject(new CustomError(404, "¡Esta reta no existe!"))
+            if (!reqUser) return Promise.reject(new CustomError(404, "¡Este usuario no existe!"))
             if (reta.confirmed_users.length > reta.max_participants) {
                 // max participants has been reached
                 // later on, this would be handled by adding on a waitlist
-                return Promise.reject(new Error("Event h12ecfv3as reached maximum amount of participants!"))
+                return Promise.reject(new Error("¡El evento ya alcanzó su cupo máximo!"))
             } else if (userId == reta.admin._id) {
                 return Promise.reject("Event admin may not opt out!")
             } else {
                 const confirmedUser = await User.findOne({ $and: [{_id: reqUser._id }, { _id: { $in: reta.confirmed_users }}]}).exec()
                 if (confirmedUser) {
                     const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$pull: { confirmed_users: reqUser._id } }, {new: true}).populate('admin').exec()
-                    if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"))
+                    if (!updatedReta) return Promise.reject(new CustomError(406, "Ocurrió un error inesperado al actualizar esta reta."))
                     res.status(201).json({updatedReta, pushed: false});
                 } else {
                     const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).populate('admin').exec()
-                    if (!updatedReta) return Promise.reject(new CustomError(406, "Error updating reta"));
+                    if (!updatedReta) return Promise.reject(new CustomError(406, "Ocurrió un error inesperado al actualizar esta reta."));
                     res.status(201).json({updatedReta, pushed: true});
                 }
             }
@@ -85,9 +85,9 @@ class UserController {
     public getAllRetasForUser() {
         return async (req: RequestWithAuth, res: Response) => {
             const userId : Types.ObjectId = req.user?._id;
-            const retasAsAdmin = await Reta.find({is_active: true, admin: userId}).populate('admin').sort({date: -1}).exec();
+            const retasAsAdmin = await Reta.find({is_active: true, admin: userId}).populate('admin').sort({date: 1}).exec();
             const retasAsParticipant = await Reta.find({is_active: true, confirmed_users: userId, admin: { $ne: userId}}).sort({date: 1}).populate('admin').exec();
-            if (!retasAsParticipant) return Promise.reject(new CustomError(404, "No Retas found for this user!"))
+            if (!retasAsParticipant || !retasAsAdmin) return Promise.reject(new CustomError(404, "No hay retas para este usuario"))
             res.status(201).json({retasAsAdmin, retasAsParticipant});
         }
     }

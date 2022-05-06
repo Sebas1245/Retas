@@ -45,7 +45,7 @@ export default function UserProfile() {
                 <CardGrid retas={retasAsAdmin} />
               ) :
               (
-                <p>No has creado retas aún!</p>
+                <p>¡No has creado retas aún!</p>
               )
             }
           </div>
@@ -56,7 +56,7 @@ export default function UserProfile() {
                 <CardGrid retas={retasAsParticipant} />
               ) :
               (
-                <p>No has confirmado asistencia a alguna reta!</p>
+                <p>¡No has confirmado asistencia a alguna reta!</p>
               )
             }
           </div>
