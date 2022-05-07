@@ -73,6 +73,27 @@ class RetaController {
         }
     }
 
+    // this controller queries by getting anything that is like the text input by the user 
+    // on all string values in the model
+    // a more appropriate way to implement this controller could be to use text indices
+    public getRetasBySearchBarQuery() {
+        return async (req: Request, res: Response) => {
+            const textQuery : string = req.query.textQuery as string;
+            const retasLikeQuery = await Reta.find({
+                $or: [
+                    {name: {$regex: textQuery, $options: 'i'}},
+                    {description: {$regex: textQuery, $options: 'i'}},
+                    {location: {$regex: textQuery, $options: 'i'}},
+                    {category: {$regex: textQuery, $options: 'i'}},
+                ],
+                is_active: true
+            }).exec();
+            if (!retasLikeQuery) return Promise.reject(new CustomError(500, "Ocurrió un error inesperado al intentar procesar la búsqueda."));
+            res.status(200).json(retasLikeQuery);
+
+        }
+    }
+
 }
 
 // export singleton instance of controller

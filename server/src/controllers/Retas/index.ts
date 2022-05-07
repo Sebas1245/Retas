@@ -10,6 +10,7 @@ router.get('/get_all', asyncHandler(RetaController.readAll()))
 router.delete('/', asyncHandler(isLoggedIn), asyncHandler(RetaController.delete()));
 router.put('/', asyncHandler(isLoggedIn), asyncHandler(RetaController.update()));
 router.get('/get_all_by_category/:category', asyncHandler(RetaController.getRetasByCategory()));
+router.get('/get_by_query', asyncHandler(RetaController.getRetasBySearchBarQuery()))
 router.get('/:retaId', asyncHandler(RetaController.readOne()))
 
 export default router;

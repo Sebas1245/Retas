@@ -50,7 +50,7 @@ export default function RetaDetail() {
         setReta(reta)
         setIsCurrentUserAdmin(reta.admin._id === sessionStorage.getItem('userId'));
       } catch (error) {
-        alert(JSON.stringify(error))
+        console.log(error)
       }  
     }
 
@@ -60,7 +60,7 @@ export default function RetaDetail() {
         setIsCurrentUserConfirmed(!isUserInReta);
       } catch (error : any) {
         if (error.code !== 404) {
-          alert(JSON.stringify(error));
+          console.log(error);
         }
       }
     }

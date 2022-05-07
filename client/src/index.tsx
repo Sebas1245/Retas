@@ -16,6 +16,7 @@ import GuestRoute from './utils/GuestRoute';
 import ProtectedRoute from './utils/ProtectedRoute';
 import RetaDetail from './views/RetaDetail';
 import UserProfile from './views/UserProfile';
+import SearchBarQuery from './views/SearchBarQuery';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -31,6 +32,7 @@ ReactDOM.render(
         <Route path='/register' element={<HomeRegister />} />
       </Route>
       <Route path='/reta/:retaId' element={<RetaDetail />} />
+      <Route path='/retas_by_query' element={<SearchBarQuery/>} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
