@@ -112,12 +112,14 @@ export default function RetaDetail() {
           </div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
-              <div className="d-flex justify-content-between py-2">
+              <div className="row">
                 <div>
                   <FontAwesomeIcon icon={faLocationDot} />
                   {' '}
                   {reta && reta.location}
                 </div>
+              </div>
+              <div className="d-flex justify-content-between py-2">
                 <div>
                   <FontAwesomeIcon icon={faClock} />
                   {' '}
@@ -126,7 +128,7 @@ export default function RetaDetail() {
                 <div>
                   <FontAwesomeIcon icon={faCalendar} />
                   {' '}
-                  {reta && `${getWeekday(reta.date)} ${getMonth(reta.date)} ${reta.date.getDate()}`}
+                  {reta && `${getWeekday(reta.date)} ${reta.date.getDate()} ${getMonth(reta.date)}`}
                 </div>
               </div>
             </li>

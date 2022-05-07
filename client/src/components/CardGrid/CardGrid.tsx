@@ -18,7 +18,7 @@ export default function CardGrid({ retas }: { retas: Array<Reta> | undefined }) 
                 retaId={reta._id ? reta._id : ""}
                 imgSource={getImageByCategory(reta.category)}
                 cardTitle={reta.name}
-                gameDate={`${getWeekday(reta.date)} ${getMonth(reta.date)} ${reta.date.getDate()}`}
+                gameDate={`${getWeekday(reta.date)} ${reta.date.getDate()} ${getMonth(reta.date)} `}
                 gameLocation={reta.location}
                 gameTime={formatTime(reta.hours, reta.minutes)} />
             </div>
