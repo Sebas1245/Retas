@@ -30,14 +30,15 @@ export default function HomeRegister() {
     };
 
     let errorFound = false;
-    if (!target.nombre.value) {
+    const validateNames : RegExp = /^[a-zA-Z0-9.!#@$%&'*+/=?^_`{|}~-]{1}[a-zA-Z0-9.!#@$%&'*+/=?^_`{|}~-\s]*$/;
+    if (!target.nombre.value || !validateNames.test(target.nombre.value)) {
       setNameFeedback("Escribe tu nombre.")
       errorFound = true
     } else {
       setNameFeedback("")
     }
 
-    if (!target.usuario.value) {
+    if (!target.usuario.value || !validateNames.test(target.usuario.value)) {
       setUsernameFeedback("Escribe un nombre de usuario.")
       errorFound = true
     } else {
@@ -63,7 +64,7 @@ export default function HomeRegister() {
 
     const passwordPattern : RegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     if (!target.password.value || !passwordPattern.test(target.password.value)) {
-      setPasswordFeedback("Debe contener 8 o más caracteres. Al menos 1 mayúscula, al menos 1 minúscula y al menos 1 número.")
+      setPasswordFeedback("Esta contraseña no es válida.")
       errorFound = true
     } else {
       setPasswordFeedback("")
@@ -112,13 +113,14 @@ export default function HomeRegister() {
         navigateTo="/login"
         navigateState={location.state}
         >
-      <Form className={"row mt-5 pt-4"} onSubmit={onSubmit} noValidate={true}>
+      <Form className={"row mt-5 pt-2"} onSubmit={onSubmit} noValidate={true}>
+        <div className="text-hint mb-1 small"><p><span className="text-danger">*</span> = requerido</p></div>
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="nombre" placeholder="Nombre" labelClass="form-label ps-4"
+            inputId="nombre" placeholder="Nombre" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={nameFeedback}
         />
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="usuario" placeholder="Usuario" labelClass="form-label ps-4"
+            inputId="usuario" placeholder="Usuario" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={usernameFeedback}
         />
         <Input type="email" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
@@ -126,15 +128,15 @@ export default function HomeRegister() {
             feedbackClass="px-3 pt-2 text-danger" feedbackText={emailFeedback}
         />
         <Input type="tel" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="phoneNumber" placeholder="Número de teléfono" labelClass="form-label ps-4"
+            inputId="phoneNumber" placeholder="Número de teléfono a 10 dígitos" labelClass="form-label ps-4" maxLength={10}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={phoneFeedback}
         />
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="password" placeholder="Contraseña" labelClass="form-label ps-4"
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback}
+            inputId="password" placeholder="Contraseña" labelClass="form-label ps-4" maxLength={40}
+            feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback} extras="Al menos 8 caracteres con: 1 mayúscula, 1 minúscula y 1 número."
         />
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="passwordCheck" placeholder="Contraseña de nuevo" labelClass="form-label ps-4"
+            inputId="passwordCheck" placeholder="Contraseña de nuevo" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={confirmPasswordFeedback}
         />
 

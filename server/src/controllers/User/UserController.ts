@@ -29,9 +29,9 @@ class UserController {
         return async (req: Request, res: Response) => {
             const { username, password } = req.body;
             const user = await User.findOne({username}).select('+password +tokens').exec();
-            if (!user) return Promise.reject(new CustomError(401, "Username or password incorrect, please try again.")) // change to Custom Error
+            if (!user) return Promise.reject(new CustomError(401, "El nombre de usuario y/o contraseña es incorrecto, por favor intente nuevamente.")) // change to Custom Error
             const matches = await user.comparePassword(password);
-            if (!matches) return Promise.reject(new CustomError(401, "Username or password incorrect, please try again.")) // change to Custom Error
+            if (!matches) return Promise.reject(new CustomError(401, "El nombre de usuario y/o contraseña es incorrecto, por favor intente nuevamente.")) // change to Custom Error
             const token = await user.generateToken();
             res.status(201).json({
                 success: true,

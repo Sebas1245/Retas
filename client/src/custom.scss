@@ -5,8 +5,9 @@ $warning: #c4c4c4;
 $info: #e5e5e5;
 $light: #ffffff;
 $dark: #070707;
-$danger: #D22B2B;
+$danger: #E87878;
 $success: #008000;
+$hint: #979EA5;
 
 // Override theme colors
 $theme-colors: (
@@ -17,7 +18,8 @@ $theme-colors: (
   "success":    $success,
   "danger":     $danger,
   "light":      $light,
-  "dark":       $dark
+  "dark":       $dark,
+  "hint":       $hint
 );
 
 $accordion-bg:  transparent;
@@ -26,6 +28,14 @@ $input-font-size-lg: 22px;
 
 a:hover {
   color: $primary !important;
+}
+
+.req {
+  color: #A92323 !important;
+}
+
+.small {
+  font-size: 14px !important;
 }
 
 /* .custom{
