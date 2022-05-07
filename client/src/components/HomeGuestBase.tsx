@@ -21,7 +21,7 @@ export default function HomeGuest({imgSrc, title, question, linkMsg, navigateTo,
           <div className="col-12 col-md-8 col-lg-6 bg-dark px-5">
             <h1 className="text-primary fw-bold pt-5 text-start">{title}</h1>
             {children}
-            <div>
+            <div className="pb-3">
               <p className="text-start text-light fw-bold">{question} <Link to={navigateTo} state={navigateState} className="text-primary">{linkMsg}</Link> 
               </p>
             </div>

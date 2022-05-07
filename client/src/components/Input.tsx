@@ -8,15 +8,18 @@ type Props = {
   placeholder: string,
   labelClass: string
   feedbackClass?: string,
-  feedbackText?: string
+  feedbackText?: string,
+  maxLength?: number,
+  extras?: string
 }
 
 export default function Input(
-  {type, divClass, inputClass, inputId, placeholder, labelClass, feedbackClass, feedbackText}: Props) {
+  {type, divClass, inputClass, inputId, placeholder, labelClass, feedbackClass, feedbackText, maxLength, extras}: Props) {
     return (
     <div className={divClass}>
-      <input type={type} className={inputClass} id={inputId} name={inputId} placeholder={placeholder}/>
-      <label htmlFor={inputId} className={labelClass}>{placeholder}</label>
+      <input type={type} className={inputClass} id={inputId} name={inputId} placeholder={placeholder} maxLength={maxLength} required/>
+      <div className="text-hint px-3 small">{extras}</div>
+      <label htmlFor={inputId} className={labelClass}>{placeholder}<span className="req">*</span></label>
       {feedbackText 
           ? 
           <div className={feedbackClass}>
