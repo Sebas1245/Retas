@@ -20,12 +20,14 @@ export default function Card({ retaId, imgSource, cardTitle, gameLocation, gameT
         <h5 className="card_title">{cardTitle}</h5>
       </div>
       <div className="card-footer bg-light text-dark">
-        <div className="row">
+        <div className="row my-2">
           <div className="col">
             <FontAwesomeIcon icon={faLocationDot} />
             {' '}
             {gameLocation}
           </div>
+        </div>
+        <div className="row my-2">
           <div className="col">
             <FontAwesomeIcon icon={faClock} />
             {' '}
