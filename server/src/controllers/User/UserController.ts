@@ -82,13 +82,21 @@ class UserController {
         }
     }
 
-    public getAllRetasForUser() {
+    public getAllRetasForUserAsAdmin() {
         return async (req: RequestWithAuth, res: Response) => {
             const userId : Types.ObjectId = req.user?._id;
             const retasAsAdmin = await Reta.find({is_active: true, admin: userId}).populate('admin').sort({date: 1}).exec();
+            if (!retasAsAdmin) return Promise.reject(new CustomError(404, "No hay retas para este usuario"))
+            res.status(201).json(retasAsAdmin);
+        }
+    }
+
+    public getAllRetasForUserAsParticipant() {
+        return async (req: RequestWithAuth, res: Response) => {
+            const userId : Types.ObjectId = req.user?._id;
             const retasAsParticipant = await Reta.find({is_active: true, confirmed_users: userId, admin: { $ne: userId}}).sort({date: 1}).populate('admin').exec();
-            if (!retasAsParticipant || !retasAsAdmin) return Promise.reject(new CustomError(404, "No hay retas para este usuario"))
-            res.status(201).json({retasAsAdmin, retasAsParticipant});
+            if (!retasAsParticipant) return Promise.reject(new CustomError(404, "No hay retas para este usuario"))
+            res.status(201).json(retasAsParticipant);
         }
     }
 

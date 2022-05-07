@@ -72,14 +72,29 @@ export async function toggleAttendance (retaId : string) {
     }
 }
 
-export async function getAllRetasForUser() {
+export async function getAllRetasForUserAsAdmin() {
     try {
-        const {data : {retasAsAdmin, retasAsParticipant}} = await axios.get(BASE_URL + '/all_retas', {
+        const {data} = await axios.get(BASE_URL + '/all_retas_as_admin', {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        return Promise.resolve({retasAsAdmin: formattedDateRetas(retasAsAdmin), retasAsParticipant: formattedDateRetas(retasAsParticipant)});
+        console.log(data)
+        return Promise.resolve({retasAsAdmin: formattedDateRetas(data)});
+    } catch (error : any) {
+        return Promise.reject(generateError(error));
+    }
+}
+
+export async function getAllRetasForUserAsParticipant() {
+    try {
+        const {data } = await axios.get(BASE_URL + '/all_retas_as_participant', {
+            headers: {
+                Authorization: `Bearer ${getToken()}`
+            }
+        });
+        console.log(data);
+        return Promise.resolve({retasAsParticipant: formattedDateRetas(data)});
     } catch (error : any) {
         return Promise.reject(generateError(error));
     }

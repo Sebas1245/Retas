@@ -68,7 +68,6 @@ export default function NewReta() {
         <div className="d-none d-md-block col-12 col-lg-3">
           <Sidebar
             title="Crear Reta"
-            imgSrc="./avatar.jpg"
             name="Juan José Beltrán"
             role="Administrador" >
             <Flush
