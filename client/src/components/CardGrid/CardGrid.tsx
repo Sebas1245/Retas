@@ -9,8 +9,8 @@ export default function CardGrid({ retas }: { retas: Array<Reta> | undefined }) 
 
 
   return (
-    <div className="row h-100 pt-2">
-      <div className='row row-cols-1 row-cols-md-3 g-4'>
+    <div className="row h-100 ">
+      <div className='row row-cols-1 row-cols-md-3 g-3'>
         {
           retas?.map(reta => (
             <div className="col-md-4 col-sm-6">
