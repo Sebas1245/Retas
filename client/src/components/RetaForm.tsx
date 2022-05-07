@@ -7,16 +7,14 @@ type Props = {
 
 export default function RetaForm({ imgSrc, children }: Props) {
   return (
-    <div className="container-fluid">
+    <>
       <div className="row" style={{ position: "relative" }}>
-        <img className="img-fluid rounded mt-2 pt-4" src={imgSrc} style={{
+        <img className="img-fluid rounded mt-4" src={imgSrc} style={{
           objectFit: "cover", objectPosition: "center 66%",
           height: 280
         }} />
       </div>
-      <div className="row">
-        {children}
-      </div>
-    </div>
+      {children}
+    </>
   );
 }
