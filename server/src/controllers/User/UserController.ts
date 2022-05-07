@@ -1,4 +1,4 @@
-import User, { IUser } from '../../models/User';
+import User, { IUser, IUserDocument } from '../../models/User';
 import Reta from '../../models/Reta';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
@@ -45,10 +45,16 @@ class UserController {
     public update() {
         return async (req: RequestWithAuth, res: Response) => {
             const updateUserQuery : IUser = req.body.updatedUser;
-            const userId : Types.ObjectId = req.user?._id;
-            const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
-            if (!updatedUser) return Promise.reject(new CustomError(404, "¡Este usuario no existe!"));
-            res.status(201).json(updatedUser);
+            const userId = req.user?._id;
+            if (updateUserQuery.password) {
+                await User.changePassword(userId, updateUserQuery.password)
+                delete updateUserQuery.password;
+                const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
+                res.status(200).json(updatedUser)
+            } else {
+                const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
+                res.status(200).json(updatedUser)
+            }
         }
     }
 
