@@ -6,17 +6,17 @@ import { getAllRetasForUserAsAdmin, getAllRetasForUserAsParticipant } from "../s
 import Button from "../components/Button";
 import { deleteToken } from "../services/tokenUtilities";
 import { useNavigate } from "react-router-dom";
-import ButtonNav, {NavItem} from "../components/ButtonNav";
+import ButtonNav, { NavItem } from "../components/ButtonNav";
 
 export default function UserProfile() {
   const [retas, setRetas] = useState<Array<Reta>>();
   const [isSearchingForAdminRetas, setIsSearchingForAdminRetas] = useState<boolean>(true);
   const [activeNavItem, setActiveNavItem] = useState<number>(0)
-  const username : string = sessionStorage.getItem('userName')!;
+  const username: string = sessionStorage.getItem('userName')!;
   const navigate = useNavigate();
-  let navItems : Array<NavItem> = [
-    {title: 'Retas que administras', action: () => fetchAdminRetas()},
-    {title: 'Retas en las que participas', action: () => fetchParticipantRetas()},  
+  let navItems: Array<NavItem> = [
+    { title: 'Retas que administras', action: () => fetchAdminRetas() },
+    { title: 'Retas en las que participas', action: () => fetchParticipantRetas() },
   ]
   const fetchAdminRetas = async () => {
     try {
@@ -60,22 +60,22 @@ export default function UserProfile() {
             title="Mi Perfil"
             name={username}
             edit="Editar foto">
-              <Flush
-                id="One"
-                title="Mi información"
-                text="Correo electrónico" />
-              <div className="row my-5 px-3">
+            <Flush
+              id="One"
+              title="Mi información"
+              text="Correo electrónico" />
+            <div className="row my-5 px-3">
 
-                <Button 
-                    onClick={() => {
-                      deleteToken();
-                      navigate('/');
-                    }}
-                    className="btn-outline-dark btn-sm rounded-pill fw-bold ms-lg-2"
-                    padding={''}
-                    btnType="button"
-                    btnText="Cerrar sesión"/>
-              </div>
+              <Button
+                onClick={() => {
+                  deleteToken();
+                  navigate('/');
+                }}
+                className="btn-outline-dark btn-sm rounded-pill fw-bold ms-lg-2"
+                padding={''}
+                btnType="button"
+                btnText="Cerrar sesión" />
+            </div>
           </Sidebar>
         </div>
         <div className="col-12 col-lg-9 py-5">
@@ -83,17 +83,17 @@ export default function UserProfile() {
             <ButtonNav navItems={navItems} activeNavItem={activeNavItem} />
           </div>
           <div className="row">
-              {retas && retas?.length > 0 ? 
-                (
-                  <CardGrid retas={retas} />
-                ) :
-                isSearchingForAdminRetas ? 
+            {retas && retas?.length > 0 ?
+              (
+                <CardGrid retas={retas} />
+              ) :
+              isSearchingForAdminRetas ?
                 (
                   <p>¡No has creado retas aún!</p>
                 ) : (
                   <p>¡No has confirmado asistencia ninguna reta!</p>
                 )
-              }
+            }
           </div>
         </div>
       </div>
