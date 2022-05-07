@@ -1,4 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   imgSrc?: string,
@@ -17,7 +19,11 @@ export default function Sidebar({imgSrc, title, name, role, edit, children}: Pro
             </div>
             <div className="row pt-4">
                 <div className="col-4">
-                    <img className="img-fluid align-content-right rounded-circle " src={imgSrc} style={{objectFit: "cover"}}/>
+                    {
+                        imgSrc ? (<img className="img-fluid align-content-right rounded-circle " alt="User profile" src={imgSrc} style={{objectFit: "cover"}}/>)
+                        : <FontAwesomeIcon color="gray" icon={faUserCircle} size={'4x'}/>
+                    }
+                    
                 </div>
                 <div className="col-8">
                     <h6 style={{textAlign:"left", fontWeight:"700",}}>{name}</h6>

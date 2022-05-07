@@ -1,63 +1,98 @@
 import React, { useEffect, useState } from "react";
-import Navbar from '../components/Navbar';
 import Sidebar from "../components/Sidebar";
 import Flush from "../components/Flush";
 import CardGrid from "../components/CardGrid/CardGrid";
-import { getAllRetasForUser } from "../services/userCalls";
+import { getAllRetasForUserAsAdmin, getAllRetasForUserAsParticipant } from "../services/userCalls";
+import Button from "../components/Button";
+import { deleteToken } from "../services/tokenUtilities";
+import { useNavigate } from "react-router-dom";
+import ButtonNav, { NavItem } from "../components/ButtonNav";
 
 export default function UserProfile() {
-  const [retasAsAdmin, setRetasAsAdmin] = useState<Array<Reta>>();
-  const [retasAsParticipant, setRetasAsParticipant] = useState<Array<Reta>>();
+  const [retas, setRetas] = useState<Array<Reta>>();
+  const [isSearchingForAdminRetas, setIsSearchingForAdminRetas] = useState<boolean>(true);
+  const [activeNavItem, setActiveNavItem] = useState<number>(0)
   const username: string = sessionStorage.getItem('userName')!;
+  const navigate = useNavigate();
+  let navItems: Array<NavItem> = [
+    { title: 'Retas que administras', action: () => fetchAdminRetas() },
+    { title: 'Retas en las que participas', action: () => fetchParticipantRetas() },
+  ]
+  const fetchAdminRetas = async () => {
+    try {
+      const { retasAsAdmin } = await getAllRetasForUserAsAdmin();
+      setActiveNavItem(0);
+      setIsSearchingForAdminRetas(true);
+      setRetas(retasAsAdmin);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const fetchParticipantRetas = async () => {
+    try {
+      const { retasAsParticipant } = await getAllRetasForUserAsParticipant();
+      setActiveNavItem(1);
+      setIsSearchingForAdminRetas(false);
+      setRetas(retasAsParticipant);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    const fetchRetas = async () => {
+    const fetchInitialRetas = async () => {
       try {
-        const { retasAsAdmin, retasAsParticipant } = await getAllRetasForUser();
-        setRetasAsAdmin(retasAsAdmin);
-        setRetasAsParticipant(retasAsParticipant)
+        const { retasAsAdmin } = await getAllRetasForUserAsAdmin();
+        setIsSearchingForAdminRetas(true);
+        setRetas(retasAsAdmin);
       } catch (error) {
-        alert(JSON.stringify(error));
+        console.log(error);
       }
     }
-    fetchRetas();
+    fetchInitialRetas();
   }, []);
+
   return (
     <div className="full-page-with-nav">
       <div className="row" style={{ height: '100%' }}>
         <div className="d-none d-md-block col-12 col-lg-3">
           <Sidebar
             title="Mi Perfil"
-            imgSrc="./avatar.jpg"
             name={username}
             edit="Editar foto">
             <Flush
               id="One"
               title="Mi información"
               text="Correo electrónico" />
+            <div className="row my-5 px-3">
+
+              <Button
+                onClick={() => {
+                  deleteToken();
+                  navigate('/');
+                }}
+                className="btn-outline-dark btn-sm rounded-pill fw-bold ms-lg-2"
+                padding={''}
+                btnType="button"
+                btnText="Cerrar sesión" />
+            </div>
           </Sidebar>
         </div>
-        <div className="col-12 col-lg-9">
-          <div className="row mt-5">
-            <h2>Retas que administras</h2>
-            {retasAsAdmin && retasAsAdmin?.length > 0 ?
-              (
-                <CardGrid retas={retasAsAdmin} />
-              ) :
-              (
-                <p>No has creado retas aún!</p>
-              )
-            }
+        <div className="col-12 col-lg-9 py-5">
+          <div className="row me-md-2">
+            <ButtonNav navItems={navItems} activeNavItem={activeNavItem} />
           </div>
-          <div className="row mt-5">
-            <h2>Retas en las que participas</h2>
-            {retasAsParticipant && retasAsParticipant?.length > 0 ?
+          <div className="row">
+            {retas && retas?.length > 0 ?
               (
-                <CardGrid retas={retasAsParticipant} />
+                <CardGrid retas={retas} />
               ) :
-              (
-                <p>No has confirmado asistencia a alguna reta!</p>
-              )
+              isSearchingForAdminRetas ?
+                (
+                  <p>¡No has creado retas aún!</p>
+                ) : (
+                  <p>¡No has confirmado asistencia ninguna reta!</p>
+                )
             }
           </div>
         </div>
