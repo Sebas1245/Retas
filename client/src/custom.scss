@@ -7,6 +7,7 @@ $light: #ffffff;
 $dark: #070707;
 $danger: #E87878;
 $success: #008000;
+$hint: #979EA5;
 
 // Override theme colors
 $theme-colors: (
@@ -17,7 +18,8 @@ $theme-colors: (
   "success":    $success,
   "danger":     $danger,
   "light":      $light,
-  "dark":       $dark
+  "dark":       $dark,
+  "hint":       $hint
 );
 
 $accordion-bg:  transparent;
@@ -29,7 +31,11 @@ a:hover {
 }
 
 .req {
-  color: $danger !important;
+  color: #A92323 !important;
+}
+
+.small {
+  font-size: 14px !important;
 }
 
 /* .custom{

@@ -64,7 +64,7 @@ export default function HomeRegister() {
 
     const passwordPattern : RegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     if (!target.password.value || !passwordPattern.test(target.password.value)) {
-      setPasswordFeedback("Debe contener 8 o más caracteres. Al menos 1 mayúscula, al menos 1 minúscula y al menos 1 número.")
+      setPasswordFeedback("Esta contraseña no es válida.")
       errorFound = true
     } else {
       setPasswordFeedback("")
@@ -113,7 +113,8 @@ export default function HomeRegister() {
         navigateTo="/login"
         navigateState={location.state}
         >
-      <Form className={"row mt-5 pt-4"} onSubmit={onSubmit} noValidate={true}>
+      <Form className={"row mt-5 pt-2"} onSubmit={onSubmit} noValidate={true}>
+        <div className="text-hint mb-1 small"><p><span className="text-danger">*</span> = requerido</p></div>
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="nombre" placeholder="Nombre" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={nameFeedback}
@@ -127,12 +128,12 @@ export default function HomeRegister() {
             feedbackClass="px-3 pt-2 text-danger" feedbackText={emailFeedback}
         />
         <Input type="tel" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
-            inputId="phoneNumber" placeholder="Número de teléfono" labelClass="form-label ps-4" maxLength={10}
+            inputId="phoneNumber" placeholder="Número de teléfono a 10 dígitos" labelClass="form-label ps-4" maxLength={10}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={phoneFeedback}
         />
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="password" placeholder="Contraseña" labelClass="form-label ps-4" maxLength={40}
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback}
+            feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback} extras="Al menos 8 caracteres con: 1 mayúscula, 1 minúscula y 1 número."
         />
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="passwordCheck" placeholder="Contraseña de nuevo" labelClass="form-label ps-4" maxLength={40}
