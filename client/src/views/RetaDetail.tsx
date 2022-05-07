@@ -7,6 +7,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deleteReta, getReta } from '../services/retaCalls';
 import { getImageByCategory } from '../utils/imageCategory';
 import { isUserInReta as fetchIsUserInReta, toggleAttendance } from '../services/userCalls';
+import ActionModal from '../components/ActionModal';
+import InfoModal from '../components/InfoModal';
 
 // add contact info like phone and email later on
 // interface AdminUser extends User {
@@ -34,6 +36,8 @@ export default function RetaDetail() {
   const [reta, setReta] = useState<Reta>()
   const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState<boolean>();
   const [isCurrentUserConfirmed, setIsCurrentUserConfirmed] = useState<boolean>();
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
   useEffect(() => {
     const getRetaById = async (id: string) => {
       if (retaId === undefined) {
@@ -72,6 +76,7 @@ export default function RetaDetail() {
 
   const copyToClipboard: () => void = () => {
     navigator.clipboard.writeText(process.env.REACT_APP_PUBLIC_URL + location.pathname)
+    setShowInfoModal(true);
   }
 
   const toggleAttendanceToThisReta = async () => {
@@ -163,7 +168,7 @@ export default function RetaDetail() {
                             className="btn-danger rounded-pill fw-bold"
                             btnType="button"
                             btnText={"Eliminar reta"}
-                            onClick={deleteThisReta} />
+                            onClick={() => setShowDeleteModal(true)} />
                         ) :
                         (
                           <Button
@@ -187,6 +192,19 @@ export default function RetaDetail() {
           </ul>
         </div>
       </div>
+      <ActionModal 
+      show={showDeleteModal}
+      modalTitle={'¡Atención!'} 
+      modalBody={'Esta acción es irreversible y no será posible recuperar esta reta.'} 
+      dismissButtonText={'Cancelar'} 
+      dismissButtonAction={() => setShowDeleteModal(false)}
+      saveChangesButtonText={'Eliminar'} 
+      saveChangesColorClass={'danger'} 
+      saveChangesAction={deleteThisReta}      
+      />
+      <InfoModal show={showInfoModal} modalTitle={'¡Que se diviertan!'} 
+      modalBody={'La liga a esta reta se ha copiado a tu portapapeles. ¡Comparte esta liga con tus amigos para que puedan unirse a esta reta!'} 
+      dismissButtonAction={() => setShowInfoModal(false)} />
     </div>
   ) : 
   (
