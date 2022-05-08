@@ -76,7 +76,9 @@ export default function EditUserProfile() {
     
         let errorFound = false;
         const validateNames : RegExp = /^[a-zA-Z0-9.!#@$%&'*+/=?^_`{|}~-]{1}[a-zA-Z0-9.!#@$%&'*+/=?^_`{|}~-\s]*$/;
-        if (!target.nombre.value || !validateNames.test(target.nombre.value)) {
+        const validateMexicanNames : RegExp = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+        if (!target.nombre.value || 
+            (!validateNames.test(target.nombre.value) && !validateMexicanNames.test(target.nombre.value))) {
         setNameFeedback("Escribe tu nombre.")
         errorFound = true
         } else {

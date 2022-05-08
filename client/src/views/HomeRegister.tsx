@@ -17,6 +17,8 @@ export default function HomeRegister() {
   const [phoneFeedback, setPhoneFeedback] = useState("")
   const [passwordFeedback, setPasswordFeedback] = useState("")
   const [confirmPasswordFeedback, setConfirmPasswordFeedback] = useState("")
+  const [password1TextShow, setPassword1TextShow] = useState<boolean>(true)
+  const [password2TextShow, setPassword2TextShow] = useState<boolean>(true)
 
   const onSubmit: (e: React.FormEvent) => void = async (e) => {
     e.preventDefault();
@@ -31,7 +33,9 @@ export default function HomeRegister() {
 
     let errorFound = false;
     const validateNames : RegExp = /^[a-zA-Z0-9.!#@$%&'*+/=?^_`{|}~-]{1}[a-zA-Z0-9.!#@$%&'*+/=?^_`{|}~-\s]*$/;
-    if (!target.nombre.value || !validateNames.test(target.nombre.value)) {
+    const validateMexicanNames : RegExp = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+    if (!target.nombre.value || 
+      (!validateNames.test(target.nombre.value) && !validateMexicanNames.test(target.nombre.value))) {
       setNameFeedback("Escribe tu nombre.")
       errorFound = true
     } else {
@@ -104,6 +108,20 @@ export default function HomeRegister() {
     }
   }
 
+  const toggleShowPassword = (targetId: string) => { 
+    const x : HTMLInputElement = document.getElementById(targetId) as HTMLInputElement;
+    if (targetId === 'password') {
+        setPassword1TextShow(!password1TextShow)
+    } else {
+        setPassword2TextShow(!password2TextShow)
+    }
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+  } 
+
   return (
     <HomeGuest 
         imgSrc="./basket_retas.jpg" 
@@ -135,11 +153,22 @@ export default function HomeRegister() {
             inputId="password" placeholder="Contraseña" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback} extras="Al menos 8 caracteres con: 1 mayúscula, 1 minúscula y 1 número."
         />
+        <div className="col-lg-7 mb-4">
+          <input onClick={() =>toggleShowPassword('password')} type="checkbox" className="btn-check me-2" id="customCheck1" />
+          <label className="btn btn-outline-light rounded-pill" htmlFor="customCheck1">
+              {password1TextShow ? 'Mostrar contraseña' : 'Ocultar contraseña'}
+          </label>
+        </div>
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="passwordCheck" placeholder="Contraseña de nuevo" labelClass="form-label ps-4" maxLength={40}
             feedbackClass="px-3 pt-2 text-danger" feedbackText={confirmPasswordFeedback}
         />
-
+        <div className="col-md-6 mb-4">
+            <input onClick={() => toggleShowPassword('passwordCheck')} type="checkbox" className="btn-check me-2" id="customCheck2" />
+            <label className="btn btn-outline-light rounded-pill" htmlFor="customCheck2">
+                {password2TextShow ? 'Mostrar confirmación de contraseña' : 'Ocultar confirmación de contraseña'}
+            </label>
+        </div>
         <div className="d-grid col-lg-7 mb-4">
           <Button 
                 className="btn-primary rounded-pill fw-bold"

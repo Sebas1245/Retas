@@ -16,8 +16,8 @@ export default function UserProfile() {
   const username : string = sessionStorage.getItem('userName')!;
   const navigate = useNavigate();
   let navItems : Array<NavItem> = [
-    {title: 'Retas que administras', action: () => fetchAdminRetas()},
-    {title: 'Retas en las que participas', action: () => fetchParticipantRetas()},  
+    {title: 'Retas administradas', action: () => fetchAdminRetas()},
+    {title: 'Retas como participante', action: () => fetchParticipantRetas()},  
   ]
   const fetchAdminRetas = async () => {
     try {
@@ -92,16 +92,16 @@ export default function UserProfile() {
           <div className="row me-md-2">
             <ButtonNav navItems={navItems} activeNavItem={activeNavItem} />
           </div>
-          <div className="row">
+          <div className="row ">
               {retas && retas?.length > 0 ? 
                 (
                   <CardGrid retas={retas} />
                 ) :
                 isSearchingForAdminRetas ? 
                 (
-                  <p>¡No has creado retas aún!</p>
+                  <p className="mt-3">¡No has creado retas aún!</p>
                 ) : (
-                  <p>¡No has confirmado asistencia ninguna reta!</p>
+                  <p className="mt-3">¡No has confirmado asistencia ninguna reta!</p>
                 )
               }
           </div>
