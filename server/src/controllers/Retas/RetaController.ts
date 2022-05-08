@@ -70,7 +70,7 @@ class RetaController {
     public getRetasByCategory() {
         return async (req: Request, res: Response) => {
             const category : string = req.params.category;
-            const retasWithCategory = await Reta.find({category}).populate('admin').sort({date: 1}).exec();
+            const retasWithCategory = await Reta.find({category, is_active: true, is_private: false}).populate('admin').sort({date: 1}).exec();
             if (!retasWithCategory) return Promise.reject(new CustomError(404, '¡No hay retas con esta categoría!'));
             res.status(200).json(retasWithCategory);
         }
