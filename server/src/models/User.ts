@@ -1,11 +1,11 @@
-import { Document, model, Types, Schema } from "mongoose"
+import { Document, model, Types, Schema, Model } from "mongoose"
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 export interface IUser {
     username: string, 
     email: string, 
-    password: string,
+    password?: string,
     name: string,
     phoneNumber: string,
     tokens?: string[],
@@ -15,6 +15,10 @@ export interface IUserDocument extends IUser, Document {
     tokens?: Types.Array<string>;
     comparePassword: (password: string) => Promise<boolean>;
     generateToken: () => Promise<string>;
+}
+
+export interface IUserModel extends Model<IUserDocument> {
+    changePassword: (userId: string, password: string) => Promise<IUserDocument>
 }
 
 const UserSchema: Schema<IUserDocument> = new Schema({
@@ -41,7 +45,7 @@ UserSchema.path('email').validate(async function (this: IUserDocument ) {
 }, 'There already is an account with this email!');
 
 UserSchema.pre<IUserDocument>('save', async function (next) {
-    if (this.isModified('password')) {
+    if (this.isModified('password') && this.password) {
         try {
             const hashedPassword = await bcrypt.hash(this.password, 10);
             this.password = hashedPassword;
@@ -74,6 +78,12 @@ UserSchema.methods.generateToken = async function (this: IUserDocument) {
     }
 }
 
-const UserModel = model<IUserDocument>('User', UserSchema);
+UserSchema.statics.changePassword = async function (userId: string, password: string) {
+    const user : IUserDocument = await this.findById(userId).exec();
+    user.password = password; 
+    return await user.save();
+}
+
+const UserModel = model<IUserDocument, IUserModel>('User', UserSchema);
 
 export default UserModel;

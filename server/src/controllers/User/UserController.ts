@@ -1,4 +1,4 @@
-import User, { IUser } from '../../models/User';
+import User, { IUser, IUserDocument } from '../../models/User';
 import Reta from '../../models/Reta';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
@@ -11,8 +11,8 @@ class UserController {
     public register() {
         return async (req: Request, res: Response) => {
             const { username, email, password, confirmPassword, name, phoneNumber } = req.body;
-            if (!username) return Promise.reject( new CustomError(400, "You need a username to signup!"));
-            if (password != confirmPassword) return Promise.reject(new CustomError(400, "Password does not match confirm password"))
+            if (!username) return Promise.reject( new CustomError(400, "¡Es necesario contar con un usuario!"));
+            if (password != confirmPassword) return Promise.reject(new CustomError(400, "Las contraseñas no son iguales"))
             const user = new User({username, email, password, name, phoneNumber});
             await user.save();
             const token = await user.generateToken();
@@ -45,10 +45,25 @@ class UserController {
     public update() {
         return async (req: RequestWithAuth, res: Response) => {
             const updateUserQuery : IUser = req.body.updatedUser;
-            const userId : Types.ObjectId = req.user?._id;
-            const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
-            if (!updatedUser) return Promise.reject(new CustomError(404, "¡Este usuario no existe!"));
-            res.status(201).json(updatedUser);
+            const userId = req.user?._id;
+            if (updateUserQuery.password) {
+                await User.changePassword(userId, updateUserQuery.password)
+                delete updateUserQuery.password;
+                const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
+                res.status(200).json(updatedUser)
+            } else {
+                const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
+                res.status(200).json(updatedUser)
+            }
+        }
+    }
+    
+    public getUser() {
+        return async (req: RequestWithAuth, res: Response) => {
+            const userId = req.user?._id;
+            const loggedInUser = await User.findById(userId);
+            if (!loggedInUser) return Promise.reject(new CustomError(404, "¡Este usuario no existe!"));
+            res.status(200).json(loggedInUser);
         }
     }
 
