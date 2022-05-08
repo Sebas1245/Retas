@@ -227,7 +227,7 @@ export default function NewReta() {
       hours: Number(inputValues.time.split(":")[0]),
       minutes: Number(inputValues.time.split(":")[1]),
       duration: Number(inputValues.duration),
-      is_private: Boolean(inputValues.is_private),
+      is_private: inputValues.is_private === "true",
       confirmed_users: getToken(),
       admin: getToken(),
       is_active: true,

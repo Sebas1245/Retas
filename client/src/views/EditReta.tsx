@@ -7,9 +7,8 @@ import Sidebar from "../components/Sidebar";
 import Flush from "../components/Flush";
 import { useNavigate, useParams } from "react-router-dom";
 import { updateReta, getReta } from "../services/retaCalls";
-import { getToken } from "../services/tokenUtilities";
 import { getImageByCategory } from "../utils/imageCategory";
-import { formatTime, formatTimeForInput } from "../utils/dateTransforms";
+import { formatTimeForInput } from "../utils/dateTransforms";
 
 type InputState = {
   name: string,
@@ -38,26 +37,26 @@ export default function NewReta() {
     is_private: ""
   });
   const [inputFeedback, setInputFeedback] = useState<InputState>({
-    name: "Vacío. Escribe un nombre",
-    location: "Vacío. Escribe la ubicación",
-    category: "Elige una categoría",
+    name: "¡Buen nombre!",
+    location: "¡Lugar listo!",
+    category: "¡Categoría lista!",
     min_participants: "2 o más jugadores",
     max_participants: "Mayor o igual al mínimo",
-    date: "Elige una fecha",
-    time: "Elige la hora de inicio",
+    date: "¡Fecha lista!",
+    time: "¡Hora lista!",
     duration: "0.5 o más horas",
-    is_private: "Elige la privacidad"
+    is_private: "¡Privacidad lista!"
   });
   const [inputFeedbackClass, setInputFeedbackClass] = useState<InputState>({
-    name: "px-3 pt-2 text-danger",
-    location: "px-3 pt-2 text-danger",
-    category: "px-3 pt-2 text-danger",
+    name: "px-3 pt-2 text-success",
+    location: "px-3 pt-2 text-success",
+    category: "px-3 pt-2 text-success",
     min_participants: "px-3 pt-2 text-success",
     max_participants: "px-3 pt-2 text-success",
-    date: "px-3 pt-2 text-danger",
-    time: "px-3 pt-2 text-danger",
+    date: "px-3 pt-2 text-success",
+    time: "px-3 pt-2 text-success",
     duration: "px-3 pt-2 text-success",
-    is_private: "px-3 pt-2 text-danger"
+    is_private: "px-3 pt-2 text-success"
   });
   const [serverError, setServerError] = useState("");
   const [retaImage, setRetaImage] = useState('/other_cat.jpg');
@@ -262,7 +261,7 @@ export default function NewReta() {
       hours: Number(inputValues.time.split(":")[0]),
       minutes: Number(inputValues.time.split(":")[1]),
       duration: Number(inputValues.duration),
-      is_private: Boolean(inputValues.is_private),
+      is_private: inputValues.is_private === "true",
     }
 
     try {
@@ -364,6 +363,14 @@ export default function NewReta() {
                 feedbackClass={inputFeedbackClass.max_participants} feedbackText={inputFeedback.max_participants}
               />
               <div className="w-100"></div>
+              <div className="d-grid col-lg-4 mb-3">
+                <Button
+                  className="btn-warning rounded-pill fw-bold"
+                  btnType="button"
+                  btnText="Cancelar"
+                  onClick={() => navigate("/reta/" + retaId)}
+                  padding="py-3" />
+              </div>
               <div className="d-grid col-lg-4 mb-3">
                 <Button
                   className="btn-primary rounded-pill fw-bold"
