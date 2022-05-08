@@ -51,13 +51,14 @@ export async function deleteReta(retaId: string) {
     }
 }
 
-export async function updateReta(updatedRetaReq: any) {
+export async function updateReta(updatedRetaReq: any, retaId: string) {
     try {
-        const { updatedReta }: { updatedReta: Reta } = await axios.put(BASE_URL, { updatedReta: updatedRetaReq }, {
+        const {data : {updatedReta}} : { data: { updatedReta : Reta}} = await axios.put(BASE_URL, {retaId, updatedRetaReq }, {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }
         });
+        console.log(updatedReta);
         return Promise.resolve(updatedReta);
     } catch (error: any) {
         return Promise.reject(generateError(error));
@@ -85,5 +86,6 @@ export async function getRetasBySearchBarQuery(textQuery:string) {
 
 export const formattedDateRetas = (retas: Reta[]) => retas.map(reta => {
     reta.date = new Date(reta.date)
+    reta.date.setDate(reta.date.getDate()+1);
     return reta;
 });

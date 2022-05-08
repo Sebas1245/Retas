@@ -47,6 +47,7 @@ export default function RetaDetail() {
       try {
         let reta = await getReta(id);
         reta.date = new Date(reta.date)
+        reta.date.setDate(reta.date.getDate()+1);
         setReta(reta)
         setIsCurrentUserAdmin(reta.admin._id === sessionStorage.getItem('userId'));
       } catch (error) {

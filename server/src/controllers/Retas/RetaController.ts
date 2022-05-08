@@ -53,13 +53,16 @@ class RetaController {
 
     public update() {
         return async (req: RequestWithAuth, res: Response) => {
-            const updatedRetaReq : IReta = req.body.updatedReta;
+            console.log(req.body);
+            const updatedRetaReq : IReta = req.body.updatedRetaReq;
             const retaId : Types.ObjectId = req.body.retaId;
             const userId : Types.ObjectId = req.user?._id;
             const isUserAdmin = await Reta.findOne({_id: retaId, admin: userId, is_active: true}).exec();
+            console.log(updatedRetaReq);
             if (!isUserAdmin) return Promise.reject(new CustomError(401, "!Alguien que no es el administrador no puede editar la reta!"));
             const updatedReta = await Reta.findOneAndUpdate({_id: retaId, is_active: true}, updatedRetaReq, {new: true}).exec();
             if(!updatedReta) return Promise.reject(new CustomError(404, "¡Esta reta no existe!"))
+            console.log('updatedReta ', updatedReta);
             res.status(201).json({updatedReta});
         }
     }

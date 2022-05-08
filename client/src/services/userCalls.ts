@@ -127,5 +127,6 @@ export async function getLoggedInUser() {
 
 const formattedDateReta = (reta : Reta) => {
     reta.date = new Date(reta.date)
+    reta.date.setDate(reta.date.getDate()+1);
     return reta;
 };

@@ -6,3 +6,5 @@ export const getWeekday : (date : Date) => string = (date : Date) => days[date.g
 export const getMonth : (date : Date) => string = (date : Date) => months[date.getMonth()];
 
 export const formatTime : (hour : number, minutes: number) => string = (hour, minutes) => `${hour > 12 ? hour-12 : hour}:${minutes < 10 ? `${minutes}0` : minutes} ${hour > 12 ? 'PM' : 'AM'}` 
+
+export const formatTimeForInput : (hour : number, minutes: number) => string = (hour, minutes) => `${hour > 12 ? hour: '0'+hour}:${minutes < 10 ? `${minutes}0` : minutes}` 

@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { updateReta, getReta } from "../services/retaCalls";
 import { getToken } from "../services/tokenUtilities";
 import { getImageByCategory } from "../utils/imageCategory";
+import { formatTime, formatTimeForInput } from "../utils/dateTransforms";
 
 type InputState = {
   name: string,
@@ -73,6 +74,7 @@ export default function NewReta() {
       try {
         let reta = await getReta(id);
         reta.date = new Date(reta.date)
+        reta.date.setDate(reta.date.getDate()+1);
         setRetaImage('/'+getImageByCategory(reta.category));
         setInputValues({
           name: reta.name,
@@ -81,9 +83,9 @@ export default function NewReta() {
           min_participants: reta.min_participants as unknown as string,
           max_participants: reta.max_participants as unknown as string,
           date: getDateAsYYYY_MM_DD(reta.date),
-          time: `${reta.hours}:${reta.minutes}`,
+          time: formatTimeForInput(reta.hours, reta.minutes),
           duration: reta.duration as unknown as string,
-          is_private: reta.is_private ? "Privado" : "Público"
+          is_private: reta.is_private ? "true" : "false"
         });
       } catch (error) {
         console.log(error)
@@ -238,7 +240,7 @@ export default function NewReta() {
 
   const onSubmit: (e: React.FormEvent<HTMLFormElement>) => void = async (e) => {
     e.preventDefault();
-    console.log(inputValues)
+    if (retaId === undefined) return
 
     let isGood = true;
     for (const key in inputValues) {
@@ -249,7 +251,7 @@ export default function NewReta() {
       return;
     }
 
-    const newReta: Reta = {
+    const updatedReta = {
       name: inputValues.name,
       description: "Soy una reta",
       location: inputValues.location,
@@ -261,14 +263,12 @@ export default function NewReta() {
       minutes: Number(inputValues.time.split(":")[1]),
       duration: Number(inputValues.duration),
       is_private: Boolean(inputValues.is_private),
-      confirmed_users: getToken(),
-      admin: getToken(),
-      is_active: true,
     }
 
     try {
-      const updatedReta = await updateReta(newReta);
-      navigate("/reta/" + updatedReta._id)
+      const newReta = await updateReta(updatedReta, retaId);
+      console.log(newReta);
+      navigate("/reta/" + newReta._id)
     } catch (error) {
       const err = error as typeof error & ErrorResponse;
       console.error(err.msg)
