@@ -29,7 +29,9 @@ export default function SearchBarQuery() {
                             <h3>Esto es lo que encontramos para ti</h3>
                         </Container>
                         <Container fluid>
-                            <CardGrid retas={searchResultRetas} />
+                            <div className='row px-3 px-lg-5 pt-2'>
+                                <CardGrid retas={searchResultRetas} />
+                            </div>
                         </Container>
                     </div>
                 ) : searchResultRetas ? (

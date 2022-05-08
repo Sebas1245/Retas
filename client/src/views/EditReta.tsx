@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import RetaForm from "../components/RetaForm";
 import Sidebar from "../components/Sidebar";
 import Flush from "../components/Flush";
-import { useNavigate } from "react-router-dom";
-import { createReta } from "../services/retaCalls";
-import { getToken } from "../services/tokenUtilities";
+import { useNavigate, useParams } from "react-router-dom";
+import { updateReta, getReta } from "../services/retaCalls";
 import { getImageByCategory } from "../utils/imageCategory";
+import { formatTimeForInput } from "../utils/dateTransforms";
 
 type InputState = {
   name: string,
@@ -24,6 +24,7 @@ type InputState = {
 
 export default function NewReta() {
   const navigate = useNavigate();
+  let { retaId } = useParams();
   const [inputValues, setInputValues] = useState<InputState>({
     name: "",
     location: "",
@@ -36,31 +37,64 @@ export default function NewReta() {
     is_private: ""
   });
   const [inputFeedback, setInputFeedback] = useState<InputState>({
-    name: "Vacío. Escribe un nombre",
-    location: "Vacío. Escribe la ubicación",
-    category: "Elige una categoría",
+    name: "¡Buen nombre!",
+    location: "¡Lugar listo!",
+    category: "¡Categoría lista!",
     min_participants: "2 o más jugadores",
     max_participants: "Mayor o igual al mínimo",
-    date: "Elige una fecha",
-    time: "Elige la hora de inicio",
+    date: "¡Fecha lista!",
+    time: "¡Hora lista!",
     duration: "0.5 o más horas",
-    is_private: "Elige la privacidad"
+    is_private: "¡Privacidad lista!"
   });
   const [inputFeedbackClass, setInputFeedbackClass] = useState<InputState>({
-    name: "px-3 pt-2 text-danger",
-    location: "px-3 pt-2 text-danger",
-    category: "px-3 pt-2 text-danger",
+    name: "px-3 pt-2 text-success",
+    location: "px-3 pt-2 text-success",
+    category: "px-3 pt-2 text-success",
     min_participants: "px-3 pt-2 text-success",
     max_participants: "px-3 pt-2 text-success",
-    date: "px-3 pt-2 text-danger",
-    time: "px-3 pt-2 text-danger",
+    date: "px-3 pt-2 text-success",
+    time: "px-3 pt-2 text-success",
     duration: "px-3 pt-2 text-success",
-    is_private: "px-3 pt-2 text-danger"
+    is_private: "px-3 pt-2 text-success"
   });
   const [serverError, setServerError] = useState("");
   const [retaImage, setRetaImage] = useState('/other_cat.jpg');
   const username: string = sessionStorage.getItem('userName')!;
 
+  const getDateAsYYYY_MM_DD = (date: Date) =>  `${date.getFullYear()}-${date.getMonth() < 10 ? ('0'+(date.getMonth()+1)) : date.getMonth()}-${date.getDate() > 10 ? date.getDate() : "0" + date.getDate()}`
+
+  useEffect(() => {
+    const getRetaById = async (id: string) => {
+      if (retaId === undefined) {
+        return;
+      }
+
+      try {
+        let reta = await getReta(id);
+        reta.date = new Date(reta.date)
+        reta.date.setDate(reta.date.getDate()+1);
+        setRetaImage('/'+getImageByCategory(reta.category));
+        setInputValues({
+          name: reta.name,
+          location: reta.location,
+          category: reta.category,
+          min_participants: reta.min_participants as unknown as string,
+          max_participants: reta.max_participants as unknown as string,
+          date: getDateAsYYYY_MM_DD(reta.date),
+          time: formatTimeForInput(reta.hours, reta.minutes),
+          duration: reta.duration as unknown as string,
+          is_private: reta.is_private ? "true" : "false"
+        });
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    if (retaId) { 
+      getRetaById(retaId)
+    }
+ }, [retaId])
+  
   const checkInput: (inputName: string, inputValue: string) => boolean = (inputName, inputValue) => {
     let isGood = false;
     switch (inputName) {
@@ -194,7 +228,7 @@ export default function NewReta() {
     checkInput(e.target.name, e.target.value);
 
     if (e.target.name === "category") {
-      setRetaImage(getImageByCategory(e.target.value));
+      setRetaImage('/'+getImageByCategory(e.target.value));
     }
 
     setInputValues({
@@ -205,7 +239,7 @@ export default function NewReta() {
 
   const onSubmit: (e: React.FormEvent<HTMLFormElement>) => void = async (e) => {
     e.preventDefault();
-    console.log(inputValues)
+    if (retaId === undefined) return
 
     let isGood = true;
     for (const key in inputValues) {
@@ -216,7 +250,7 @@ export default function NewReta() {
       return;
     }
 
-    const newReta: Reta = {
+    const updatedReta = {
       name: inputValues.name,
       description: "Soy una reta",
       location: inputValues.location,
@@ -228,14 +262,12 @@ export default function NewReta() {
       minutes: Number(inputValues.time.split(":")[1]),
       duration: Number(inputValues.duration),
       is_private: inputValues.is_private === "true",
-      confirmed_users: getToken(),
-      admin: getToken(),
-      is_active: true,
     }
 
     try {
-      const createdReta = await createReta(newReta);
-      navigate("/reta/" + createdReta._id)
+      const newReta = await updateReta(updatedReta, retaId);
+      console.log(newReta);
+      navigate("/reta/" + newReta._id)
     } catch (error) {
       const err = error as typeof error & ErrorResponse;
       console.error(err.msg)
@@ -248,7 +280,7 @@ export default function NewReta() {
       <div className="row h-100">
         <div className="d-none d-md-block col-12 col-lg-3">
           <Sidebar
-            title="Crear Reta"
+            title="Editar Reta"
             name={username}
             role="Administrador" >
             <Flush
@@ -265,7 +297,7 @@ export default function NewReta() {
           <RetaForm
             imgSrc={retaImage}>
             <Form className="row mt-3" onSubmit={onSubmit}>
-              <h3 className="text-dark fw-bold" style={{ textAlign: "left", paddingBottom: 5 }}>Prepara tu reta<span></span></h3>
+              <h3 className="text-dark fw-bold" style={{ textAlign: "left", paddingBottom: 5 }}>Edita tu reta<span></span></h3>
               <p className="fw-light lh-1"> * = campo requerido</p>
               <Input type="text" divClass="form-floating mb-3" inputClass="form-control ps-3 rounded-pill border-dark border-2"
                 inputId="name" placeholder="Nombre de la reta" labelClass="form-label ps-4 mb-5" value={inputValues.name} onChange={onInputChange}
@@ -331,15 +363,23 @@ export default function NewReta() {
                 feedbackClass={inputFeedbackClass.max_participants} feedbackText={inputFeedback.max_participants}
               />
               <div className="w-100"></div>
-              <div className="d-grid col-lg-4 mb-1">
+              <div className="d-grid col-lg-4 mb-3">
+                <Button
+                  className="btn-warning rounded-pill fw-bold"
+                  btnType="button"
+                  btnText="Cancelar"
+                  onClick={() => navigate("/reta/" + retaId)}
+                  padding="py-3" />
+              </div>
+              <div className="d-grid col-lg-4 mb-3">
                 <Button
                   className="btn-primary rounded-pill fw-bold"
                   btnType="submit"
-                  btnText="Crear Reta"
+                  btnText="Editar Reta"
                   padding="py-3" />
               </div>
               {(serverError)
-                ? <div className="d-grid col mb-1">
+                ? <div className="d-grid col mb-2">
                   <div className="alert alert-danger rounded-pill mb-0" role="alert">
                     {serverError}
                   </div>

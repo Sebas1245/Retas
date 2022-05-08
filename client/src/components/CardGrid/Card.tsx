@@ -17,7 +17,7 @@ export default function Card({ retaId, imgSource, cardTitle, gameLocation, gameT
     <div className="card bg-dark text-white mb-4" onClick={() => navigate(`/reta/${retaId}`)} style={{ cursor: 'pointer' }}>
       <img src={imgSource} className="card-img" alt="" style={{ height: "36.2vh", overflow: "auto", objectFit: "cover" }} />
       <div className="card-img-overlay d-flex flex-column align-items-start">
-        <h5 className="card-title bg-dark rounded p-1 border-white border">{cardTitle}</h5>
+        <h5 className="card-title bg-dark rounded-pill py-2 px-4">{cardTitle}</h5>
       </div>
       <div className="card-footer bg-light text-dark">
         <div className="row mb-2">

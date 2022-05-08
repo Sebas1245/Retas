@@ -47,6 +47,7 @@ export default function RetaDetail() {
       try {
         let reta = await getReta(id);
         reta.date = new Date(reta.date)
+        reta.date.setDate(reta.date.getDate()+1);
         setReta(reta)
         setIsCurrentUserAdmin(reta.admin._id === sessionStorage.getItem('userId'));
       } catch (error) {
@@ -159,13 +160,23 @@ export default function RetaDetail() {
                   <div>Cupo: <strong>{reta && reta.confirmed_users.length}/{reta && reta.max_participants}</strong></div>
                 </div>
                 <div>
+                  {
+                    isUserLoggedIn && isCurrentUserAdmin &&
+                      <Button
+                        className="btn-dark rounded-pill fw-bold"
+                        btnType="button"
+                        btnText={"Editar reta"}
+                        onClick={() => navigate('edit')} />
+                  }
+                </div>
+                <div>
                   {/* TODO: Write function to determine if the user viewing the event is admin or not to change text to "Invitar amigos" */}
                   {
                     isUserLoggedIn ? (
                       isCurrentUserAdmin ? 
                         (
                           <Button
-                            className="btn-danger rounded-pill fw-bold"
+                            className="btn-danger text-light rounded-pill fw-bold"
                             btnType="button"
                             btnText={"Eliminar reta"}
                             onClick={() => setShowDeleteModal(true)} />
