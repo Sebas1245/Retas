@@ -13,14 +13,15 @@ type Props = {
   labelClass: string,
   required?: boolean,
   value?: any,
-  onChange?: (params?: any) => any; 
+  onChange?: (e: any) => any; 
 }
 
 export default function Input(
   {type, divClass, inputClass, inputId, placeholder, labelClass, feedbackClass, required, value, feedbackText, maxLength, extras, onChange}: Props) {
     return (
     <div className={divClass}>
-      <input onChange={onChange ? () => onChange() : undefined} type={type} className={inputClass} id={inputId} name={inputId} placeholder={placeholder} maxLength={maxLength} required={required} value={value}/>
+      <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange ? onChange(e) : null} 
+      type={type} className={inputClass} id={inputId} name={inputId} placeholder={placeholder} maxLength={maxLength} required={required} value={value}/>
       <div className="text-hint px-3 small">{extras}</div>
       <label htmlFor={inputId} className={labelClass}>{placeholder} {required ? <span className="req">*</span> : null}</label>
       {feedbackText 

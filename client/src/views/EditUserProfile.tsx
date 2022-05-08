@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Form from '../components/Form';
+import InfoModal from '../components/InfoModal';
 import Input from '../components/Input';
 import { getLoggedInUser, updateUser } from '../services/userCalls';
 
@@ -20,6 +21,8 @@ export default function EditUserProfile() {
     const [phoneNumber, setPhoneNumber] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [confirmPassword, setConfirmPassword] = useState<string>();
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [errMsg, setErrMsg] = useState<string>();
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -42,7 +45,7 @@ export default function EditUserProfile() {
         if (targetId === 'password') {
             setPassword1TextShow(!password1TextShow)
         } else {
-            setPassword2TextShow(!password1TextShow)
+            setPassword2TextShow(!password2TextShow)
         }
         if (x.type === "password") {
             x.type = "text";
@@ -103,40 +106,47 @@ export default function EditUserProfile() {
         } else {
         setPhoneFeedback("")
         }
-    
-        const passwordPattern : RegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-        if (!target.password.value || !passwordPattern.test(target.password.value)) {
-        setPasswordFeedback("Esta contraseña no es válida.")
-        errorFound = true
-        } else {
-        setPasswordFeedback("")
-        }
-    
-        if (!target.passwordCheck.value) {
-        setConfirmPasswordFeedback("Escribe la contraseña de nuevo.")
-        errorFound = true
-        } else if (target.password.value !== target.passwordCheck.value) {
-        setConfirmPasswordFeedback("Las contraseñas no coinciden.")
-        errorFound = true;
-        } else {
-        setConfirmPasswordFeedback("")
+        if (password || confirmPassword) {
+            const passwordPattern : RegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            if (!target.password.value || !passwordPattern.test(target.password.value)) {
+            setPasswordFeedback("Esta contraseña no es válida.")
+            errorFound = true
+            } else {
+            setPasswordFeedback("")
+            }
+        
+            if (!target.passwordCheck.value) {
+            setConfirmPasswordFeedback("Escribe la contraseña de nuevo.")
+            errorFound = true
+            } else if (target.password.value !== target.passwordCheck.value) {
+            setConfirmPasswordFeedback("Las contraseñas no coinciden.")
+            errorFound = true;
+            } else {
+            setConfirmPasswordFeedback("")
+            }
         }
     
         if (errorFound) {
             return;
         }
         let updateUserQuery : UpdateUserQuery = {}
+        console.log(name,email,username, phoneNumber, password, confirmPassword);
         if (name && name !== '') {
             updateUserQuery.name = name;
-        } else if (email && email !== '') {
+        }  
+        if (email && email !== '') {
             updateUserQuery.email = email;
-        } else if (username && username !== '') {
+        }
+        if (username && username !== '') {
             updateUserQuery.username = username;
-        } else if (phoneNumber && phoneNumber !== '') {
+        }
+        if (phoneNumber && phoneNumber !== '') {
             updateUserQuery.phoneNumber = phoneNumber;
-        } else if (password && password !== '') {
+        }
+        if (password && password !== '') {
             updateUserQuery.password = password;
-        } else if (confirmPassword && confirmPassword !== '') {
+        }
+        if (confirmPassword && confirmPassword !== '') {
             updateUserQuery.confirmPassword = confirmPassword;
         }
 
@@ -146,6 +156,9 @@ export default function EditUserProfile() {
           } catch (error) {
             const err = error as typeof error & ErrorResponse;
             console.error(err)
+            if (err.msg) {
+                setErrMsg(err.msg);
+            }
         }
     }
     return (
@@ -192,11 +205,7 @@ export default function EditUserProfile() {
                             feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback} extras="Al menos 8 caracteres con: 1 mayúscula, 1 minúscula y 1 número."
                         />
                         <Input
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                console.log(e);
-                                // console.log(e.target.value)
-                                // setConfirmPassword(e.target.value)
-                            }}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
                             required={false} type="password" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
                             inputId="passwordCheck" value={confirmPassword} placeholder="Contraseña de nuevo" labelClass="form-label ps-4" maxLength={40}
                             feedbackClass="px-3 pt-2 text-danger" feedbackText={confirmPasswordFeedback}
@@ -234,6 +243,9 @@ export default function EditUserProfile() {
                         </div>
                     </div>
             </Form>
+            <InfoModal show={showModal} modalTitle={'Lo sentimos'} 
+            modalBody={errMsg ? errMsg : 'Ocurrió un error inesperado al actualizar tu perfil. Por favor, inténtalo más tarde'} 
+            dismissButtonAction={() => setShowModal(false)} />
         </div>
     )
 }

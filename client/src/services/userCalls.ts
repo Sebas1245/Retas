@@ -43,7 +43,7 @@ export async function signup (
 
 export async function updateUser (updatedUserReq: any) {
     try {
-        const { updatedUser } : { updatedUser : User } = await axios.put(BASE_URL, updatedUserReq, {
+        const { updatedUser } : { updatedUser : User } = await axios.put(BASE_URL, {updatedUser: updatedUserReq}, {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }
@@ -61,7 +61,6 @@ export async function toggleAttendance (retaId : string) {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        console.log(updatedReta, pushed);
         return Promise.resolve({success: true, reta: formattedDateReta(updatedReta), pushed});
     } catch (error : any) {
         if (error.response.data.code === 401) {
@@ -79,7 +78,6 @@ export async function getAllRetasForUserAsAdmin() {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        console.log(data)
         return Promise.resolve({retasAsAdmin: formattedDateRetas(data)});
     } catch (error : any) {
         return Promise.reject(generateError(error));
@@ -93,7 +91,6 @@ export async function getAllRetasForUserAsParticipant() {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        console.log(data);
         return Promise.resolve({retasAsParticipant: formattedDateRetas(data)});
     } catch (error : any) {
         return Promise.reject(generateError(error));
@@ -107,7 +104,6 @@ export async function isUserInReta(retaId:string) {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        console.log(inReta);
         return Promise.resolve(inReta);
     } catch (error) {
         return Promise.reject(generateError(error));
@@ -123,7 +119,6 @@ export async function getLoggedInUser() {
                 Authorization: `Bearer ${getToken()}`
             }
         });
-        console.log(data);
         return Promise.resolve(data);
     } catch (error) {
         return Promise.reject(generateError(error));
