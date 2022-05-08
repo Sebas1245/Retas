@@ -11,14 +11,14 @@ type ItemProps = {
   action: string
 }
 
-function NavListItem({ faIcon, faSize, spanClass, spanText, action}: ItemProps) {
+function NavListItem({ faIcon, faSize, spanClass, spanText, action }: ItemProps) {
   const navigate = useNavigate()
-    return (
-      <button className="btn" type="button" onClick={() => navigate(action)}>
-        <FontAwesomeIcon icon={faIcon} size={faSize}/>
-        <span className={spanClass}>{spanText}</span>
-      </button>
-    );
+  return (
+    <button className="btn d-flex align-items-center" type="button" onClick={() => navigate(action)}>
+      <FontAwesomeIcon icon={faIcon} size={faSize} />
+      <span className={spanClass}>{spanText}</span>
+    </button>
+  );
 }
 
 export { NavListItem };

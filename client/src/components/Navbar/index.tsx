@@ -11,33 +11,33 @@ export default function Navbar() {
   const navigate = useNavigate()
   const token = getToken()
 
-    return (
-        <nav className="navbar fixed-top navbar-expand-md navbar-light bg-light border-bottom border-3">
-          <div className="container-fluid">
-            <BtnBrand className="navbar-brand fw-bold fs-1 lh-base"/>
-            <NavCollapse id="navbarContent">
-              <SearchBar 
-                  formClass="ms-auto me-md-2 my-2 my-lg-0"
-                  borderClass="border-primary" 
-                  searchPlaceholder="Busca una reta"/>
-              <div className="d-flex flex-column flex-lg-row me-lg-4">
-                <Button 
-                    onClick={() =>  navigate('/create_reta')}
-                    className="btn-primary rounded-pill mb-2 mb-lg-0 me-lg-2 fw-bold"
-                    padding="px-lg-5 px-3"
-                    btnType="button"
-                    btnText="Crea una reta"/>
-                {!token && <Button 
-                  onClick={() =>  navigate('/register')}
-                  className="btn-dark rounded-pill fw-bold"
-                  padding="px-lg-5 px-3"
-                  btnType="button"
-                  btnText="Registrarse"/>}
-              </div>
-              {/* TODO: Show until we have a view for the user's profile */}
-              {token && <NavList />}
-            </NavCollapse>
+  return (
+    <nav className="navbar fixed-top navbar-expand-md navbar-light bg-light border-bottom border-3">
+      <div className="container-fluid">
+        <BtnBrand className="navbar-brand fw-bold fs-1 lh-base" />
+        <NavCollapse id="navbarContent">
+          <SearchBar
+            formClass="ms-auto me-md-2 my-2 my-lg-0"
+            borderClass="border-primary"
+            searchPlaceholder="Busca una reta" />
+          <div className="navbar-nav">
+            <Button
+              onClick={() => navigate('/create_reta')}
+              className="btn-primary rounded-pill mb-2 mb-md-0 me-md-2 fw-bold"
+              padding="px-lg-5 px-3"
+              btnType="button"
+              btnText="Crea una reta" />
+            {!token && <Button
+              onClick={() => navigate('/login')}
+              className="btn-dark rounded-pill fw-bold"
+              padding="px-lg-5 px-3"
+              btnType="button"
+              btnText="Iniciar sesión" />}
           </div>
-        </nav>
-    )
+          {/* TODO: Show until we have a view for the user's profile */}
+          {token && <NavList />}
+        </NavCollapse>
+      </div>
+    </nav>
+  )
 }
