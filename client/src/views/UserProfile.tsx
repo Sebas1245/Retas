@@ -53,8 +53,8 @@ export default function UserProfile() {
   }, []);
 
   return (
-    <div className="full-page-with-nav">
-      <div className="row" style={{ height: '100%' }}>
+    <div className="full-page-with-nav container-fluid">
+      <div className="row h-100">
         <div className="d-none d-md-block col-12 col-lg-3">
           <Sidebar
             title="Mi Perfil"
@@ -65,7 +65,6 @@ export default function UserProfile() {
               title="Mi información"
               text="Correo electrónico" />
             <div className="row my-5 px-3">
-
               <Button
                 onClick={() => {
                   deleteToken();
@@ -78,11 +77,11 @@ export default function UserProfile() {
             </div>
           </Sidebar>
         </div>
-        <div className="col-12 col-lg-9 py-5">
+        <div className="col-12 col-lg-9 py-3 py-lg-5">
           <div className="row me-md-2">
             <ButtonNav navItems={navItems} activeNavItem={activeNavItem} />
           </div>
-          <div className="row">
+          <div className="row me-md-2 pt-3">
             {retas && retas?.length > 0 ?
               (
                 <CardGrid retas={retas} />
