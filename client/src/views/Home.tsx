@@ -1,35 +1,34 @@
 import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import CardGrid from '../components/CardGrid/CardGrid';
-import LinkNav from '../components/CardGrid/LinkNav';
 import CarouselSimple from '../components/Carousel';
 import { getAllRetasByCategory, getAllRetas } from '../services/retaCalls';
 
 export default function HomeSearch() {
-    const [category, setCategory] = useState('');
-    const [retas, setRetas] = useState<Array<Reta>>();
+  const [category, setCategory] = useState('');
+  const [retas, setRetas] = useState<Array<Reta>>();
 
-    useEffect(() => {
-        const fetchRetas = async () => {
-        try {
-            const allRetas = category ? await getAllRetasByCategory(category) : await getAllRetas();
-            setRetas(allRetas);
-        } catch (error) {
-            console.log(error);
-        }
-        }
-        fetchRetas();
-    }, [category]);
-    return (
-        <div className='full-page-with-nav mt-5'>
-            <Container fluid>
-                <CarouselSimple deviceType='desktop' setCategory={setCategory} />
-            </Container>
-            <Container className="row h-100 p-5 pt-0" fluid>
-                {/* <LinkNav/> */}
-                <hr />
-                <CardGrid retas={retas}/>
-            </Container>
-        </div>
-    );
+  useEffect(() => {
+    const fetchRetas = async () => {
+      try {
+        const allRetas = category ? await getAllRetasByCategory(category) : await getAllRetas();
+        setRetas(allRetas);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchRetas();
+  }, [category]);
+
+  return (
+    <Container fluid className='full-page-with-nav'>
+      <div className='row mt-3 mt-md-5'>
+        <CarouselSimple deviceType='desktop' setCategory={setCategory} />
+      </div>
+      <hr />
+      <div className='row px-3 px-lg-5 pt-2'>
+        <CardGrid retas={retas} />
+      </div>
+    </Container>
+  );
 }
