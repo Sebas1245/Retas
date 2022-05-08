@@ -80,7 +80,7 @@ export default function CarouselSimple({ deviceType, setCategory }: Props) {
             <Card.ImgOverlay>
               <div style={{ height: '100%' }} className="d-flex flex-column align-items-center justify-content-center">
                 <Button
-                  className="btn-dark rounded-pill fw-bold py-auto"
+                  className="btn-dark rounded-pill border-white fw-bold py-auto"
                   btnType="button"
                   btnText={category.name}
                   padding="px-4 py-2"

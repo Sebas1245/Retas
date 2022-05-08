@@ -26,7 +26,7 @@ export default function HomeSearch() {
         <CarouselSimple deviceType='desktop' setCategory={setCategory} />
       </div>
       <hr />
-      <div className='row p-5 pt-0'>
+      <div className='row px-3 px-lg-5 pt-2'>
         <CardGrid retas={retas} />
       </div>
     </Container>
