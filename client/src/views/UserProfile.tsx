@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Flush from "../components/Flush";
 import CardGrid from "../components/CardGrid/CardGrid";
-import { getAllRetasForUserAsAdmin, getAllRetasForUserAsParticipant } from "../services/userCalls";
+import { getAllRetasForUserAsAdmin, getAllRetasForUserAsParticipant, getLoggedInUser } from "../services/userCalls";
 import Button from "../components/Button";
 import { deleteToken } from "../services/tokenUtilities";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ export default function UserProfile() {
   const [retas, setRetas] = useState<Array<Reta>>();
   const [isSearchingForAdminRetas, setIsSearchingForAdminRetas] = useState<boolean>(true);
   const [activeNavItem, setActiveNavItem] = useState<number>(0)
+  const [user, setUser] = useState<User>();
   const username : string = sessionStorage.getItem('userName')!;
   const navigate = useNavigate();
   let navItems : Array<NavItem> = [
@@ -49,6 +50,15 @@ export default function UserProfile() {
         console.log(error);
       }
     }
+    const fetchUserData = async () => {
+      try {
+        const loggedInUser : User = await getLoggedInUser();
+        setUser(loggedInUser);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchUserData();
     fetchInitialRetas();
   }, []);
 
@@ -63,7 +73,7 @@ export default function UserProfile() {
               <Flush
                 id="One"
                 title="Mi información"
-                text="Correo electrónico" />
+                userData={user ?? user} />
               <div className="row my-5 px-3">
 
                 <Button 

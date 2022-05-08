@@ -16,6 +16,7 @@ import GuestRoute from './utils/GuestRoute';
 import ProtectedRoute from './utils/ProtectedRoute';
 import RetaDetail from './views/RetaDetail';
 import UserProfile from './views/UserProfile';
+import EditUserProfile from './views/EditUserProfile';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -25,6 +26,7 @@ ReactDOM.render(
       <Route element={<ProtectedRoute />}>
         <Route path='/create_reta' element={<NewReta />} />
         <Route path='/user_profile' element={<UserProfile />} />
+        <Route path='edit_user_profile' element={<EditUserProfile />} />
       </Route>
       <Route element={<GuestRoute />}>
         <Route path='/login' element={<HomeLogin />} />

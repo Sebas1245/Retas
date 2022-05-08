@@ -116,6 +116,20 @@ export async function isUserInReta(retaId:string) {
 
 }
 
+export async function getLoggedInUser() {
+    try {
+        const {data} = await axios.get(BASE_URL + '/get_logged_in_user/', {
+            headers: {
+                Authorization: `Bearer ${getToken()}`
+            }
+        });
+        console.log(data);
+        return Promise.resolve(data);
+    } catch (error) {
+        return Promise.reject(generateError(error));
+    }
+}
+
 const formattedDateReta = (reta : Reta) => {
     reta.date = new Date(reta.date)
     return reta;
