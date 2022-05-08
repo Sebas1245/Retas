@@ -6,7 +6,7 @@ import { getAllRetasForUserAsAdmin, getAllRetasForUserAsParticipant, getLoggedIn
 import Button from "../components/Button";
 import { deleteToken } from "../services/tokenUtilities";
 import { useNavigate } from "react-router-dom";
-import ButtonNav, {NavItem} from "../components/ButtonNav";
+import ButtonNav, { NavItem } from "../components/ButtonNav";
 
 export default function UserProfile() {
   const [retas, setRetas] = useState<Array<Reta>>();
@@ -63,8 +63,8 @@ export default function UserProfile() {
   }, []);
 
   return (
-    <div className="full-page-with-nav">
-      <div className="row" style={{ height: '100%' }}>
+    <div className="full-page-with-nav container-fluid">
+      <div className="row h-100">
         <div className="d-none d-md-block col-12 col-lg-3">
           <Sidebar
             title="Mi Perfil"
@@ -88,22 +88,22 @@ export default function UserProfile() {
               </div>
           </Sidebar>
         </div>
-        <div className="col-12 col-lg-9 py-5">
+        <div className="col-12 col-lg-9 py-3 py-lg-5">
           <div className="row me-md-2">
             <ButtonNav navItems={navItems} activeNavItem={activeNavItem} />
           </div>
-          <div className="row ">
-              {retas && retas?.length > 0 ? 
-                (
-                  <CardGrid retas={retas} />
-                ) :
-                isSearchingForAdminRetas ? 
+          <div className="row me-md-2 pt-3">
+            {retas && retas?.length > 0 ?
+              (
+                <CardGrid retas={retas} />
+              ) :
+              isSearchingForAdminRetas ?
                 (
                   <p className="mt-3">¡No has creado retas aún!</p>
                 ) : (
                   <p className="mt-3">¡No has confirmado asistencia ninguna reta!</p>
                 )
-              }
+            }
           </div>
         </div>
       </div>

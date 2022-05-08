@@ -74,6 +74,15 @@ export async function getAllRetasByCategory(category: string) {
     }
 }
 
+export async function getRetasBySearchBarQuery(textQuery:string) {
+    try {
+        const { data } = await axios.get(BASE_URL + `/get_by_query?textQuery=${textQuery}`);
+        return Promise.resolve(formattedDateRetas(data));
+    } catch (error : any) {
+        return Promise.reject(generateError(error));
+    }
+}
+
 export const formattedDateRetas = (retas: Reta[]) => retas.map(reta => {
     reta.date = new Date(reta.date)
     return reta;
