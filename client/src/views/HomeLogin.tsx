@@ -71,11 +71,11 @@ export default function HomeLogin() {
       <Form className="row mt-5 pt-4" onSubmit={onSubmit} noValidate={true}>
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="usuario" placeholder="Usuario" labelClass="form-label ps-4" maxLength={40}
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={usernameFeedback}
+            feedbackClass="px-3 pt-2 text-light" feedbackText={usernameFeedback}
         />
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="password" placeholder="Contraseña" labelClass="form-label ps-4" maxLength={40}
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback}
+            feedbackClass="px-3 pt-2 text-light" feedbackText={passwordFeedback}
         />
         <div className="d-grid col-lg-7 mb-4">
           <Button 

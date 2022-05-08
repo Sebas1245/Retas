@@ -132,26 +132,26 @@ export default function HomeRegister() {
         navigateState={location.state}
         >
       <Form className={"row mt-5 pt-2"} onSubmit={onSubmit} noValidate={true}>
-        <div className="text-hint mb-1 small"><p><span className="text-danger">*</span> = requerido</p></div>
+        <div className="text-hint mb-1 small"><p><span className="text-light">*</span> = requerido</p></div>
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="nombre" placeholder="Nombre" labelClass="form-label ps-4" maxLength={40}
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={nameFeedback}
+            feedbackClass="px-3 pt-2 text-light" feedbackText={nameFeedback}
         />
         <Input type="text" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="usuario" placeholder="Usuario" labelClass="form-label ps-4" maxLength={40}
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={usernameFeedback}
+            feedbackClass="px-3 pt-2 text-light" feedbackText={usernameFeedback}
         />
         <Input type="email" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="email" placeholder="Correo electrónico" labelClass="form-label ps-4"
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={emailFeedback}
+            feedbackClass="px-3 pt-2 text-light" feedbackText={emailFeedback}
         />
         <Input type="tel" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="phoneNumber" placeholder="Número de teléfono a 10 dígitos" labelClass="form-label ps-4" maxLength={10}
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={phoneFeedback}
+            feedbackClass="px-3 pt-2 text-light" feedbackText={phoneFeedback}
         />
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="password" placeholder="Contraseña" labelClass="form-label ps-4" maxLength={40}
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback} extras="Al menos 8 caracteres con: 1 mayúscula, 1 minúscula y 1 número."
+            feedbackClass="px-3 pt-2 text-light" feedbackText={passwordFeedback} extras="Al menos 8 caracteres con: 1 mayúscula, 1 minúscula y 1 número."
         />
         <div className="col-lg-7 mb-4">
           <input onClick={() =>toggleShowPassword('password')} type="checkbox" className="btn-check me-2" id="customCheck1" />
@@ -161,7 +161,7 @@ export default function HomeRegister() {
         </div>
         <Input type="password" divClass="form-floating col-lg-7 mb-4" inputClass="form-control rounded-pill"
             inputId="passwordCheck" placeholder="Contraseña de nuevo" labelClass="form-label ps-4" maxLength={40}
-            feedbackClass="px-3 pt-2 text-danger" feedbackText={confirmPasswordFeedback}
+            feedbackClass="px-3 pt-2 text-light" feedbackText={confirmPasswordFeedback}
         />
         <div className="col-md-6 mb-4">
             <input onClick={() => toggleShowPassword('passwordCheck')} type="checkbox" className="btn-check me-2" id="customCheck2" />

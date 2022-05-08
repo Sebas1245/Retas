@@ -251,14 +251,14 @@ export default function NewReta() {
             title="Crear Reta"
             name={username}
             role="Administrador" >
-            <Flush
+            {/* <Flush
               id="One"
               title="Retas Previas"
               text="Basquet con los panas" />
             <Flush
               id="Two"
               title="Retas Recurrentes"
-              text="Fucho" />
+              text="Fucho" /> */}
           </Sidebar>
         </div>
         <div className="col-12 col-lg-9">
