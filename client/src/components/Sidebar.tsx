@@ -26,7 +26,7 @@ export default function Sidebar({imgSrc, title, name, role, edit, children}: Pro
                     
                 </div>
                 <div className="col-8">
-                    <h6 style={{textAlign:"left", fontWeight:"700",}}>{name}</h6>
+                    <h6 style={{textAlign:"left", fontWeight:"700", overflowWrap:"break-word"}}>{name}</h6>
                     <p style={{textAlign:"left", fontWeight:"200", marginTop:"-7.5px"}}>{role}</p>
                     <button style={{textAlign:"left", fontStyle: "italic", fontWeight:"200", backgroundColor:"transparent", border:0}}>{edit}</button>
                 </div>

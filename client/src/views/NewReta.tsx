@@ -268,12 +268,12 @@ export default function NewReta() {
               <h3 className="text-dark fw-bold" style={{ textAlign: "left", paddingBottom: 5 }}>Prepara tu reta<span></span></h3>
               <p className="fw-light lh-1"> * = campo requerido</p>
               <Input type="text" divClass="form-floating mb-3" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                inputId="name" placeholder="Nombre de la reta" labelClass="form-label ps-4 mb-5" value={inputValues.name} onChange={onInputChange}
+                inputId="name" placeholder="Nombre de la reta*" labelClass="form-label ps-4 mb-5" value={inputValues.name} onChange={onInputChange}
                 feedbackClass={inputFeedbackClass.name} feedbackText={inputFeedback.name}
               />
               <h6 className="text-dark fw-bold" style={{ textAlign: "left", paddingBottom: 5 }}>Datos generales</h6>
               <Input type="text" divClass="form-floating col-12 mb-3" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                inputId="location" placeholder="Ubicación" labelClass="form-label ps-4" value={inputValues.location} onChange={onInputChange}
+                inputId="location" placeholder="Ubicación*" labelClass="form-label ps-4" value={inputValues.location} onChange={onInputChange}
                 feedbackClass={inputFeedbackClass.location} feedbackText={inputFeedback.location}
               />
               <div className="form-floating col-md-6 col-lg-4 mb-3">
@@ -310,24 +310,24 @@ export default function NewReta() {
               </div>
               <h6 className="text-dark fw-bold" style={{ textAlign: "left", paddingBottom: 5 }}>Fecha y hora</h6>
               <Input type="date" divClass="form-floating col-md-4 mb-3" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                inputId="date" placeholder="Fecha" labelClass="form-label ps-4" value={inputValues.date} onChange={onInputChange}
+                inputId="date" placeholder="Fecha*" labelClass="form-label ps-4" value={inputValues.date} onChange={onInputChange}
                 feedbackClass={inputFeedbackClass.date} feedbackText={inputFeedback.date}
               />
               <Input type="time" divClass="form-floating col-md-4 mb-3" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                inputId="time" placeholder="Hora de inicio" labelClass="form-label ps-4" value={inputValues.time} onChange={onInputChange}
+                inputId="time" placeholder="Hora de inicio*" labelClass="form-label ps-4" value={inputValues.time} onChange={onInputChange}
                 feedbackClass={inputFeedbackClass.time} feedbackText={inputFeedback.time}
               />
               <Input type="number" step="0.5" divClass="form-floating col-md-4 mb-3" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                inputId="duration" placeholder="Duración (en horas)" labelClass="form-label ps-4" value={inputValues.duration} onChange={onInputChange}
+                inputId="duration" placeholder="Duración* (en horas)" labelClass="form-label ps-4" value={inputValues.duration} onChange={onInputChange}
                 feedbackClass={inputFeedbackClass.duration} feedbackText={inputFeedback.duration}
               />
               <h6 className="text-dark fw-bold" style={{ textAlign: "left", paddingBottom: 5 }}>Jugadores</h6>
               <Input type="number" divClass="form-floating col-md-6 col-lg-4 mb-3" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                inputId="min_participants" placeholder="Mínimo de jugadores" labelClass="form-label ps-4" value={inputValues.min_participants} onChange={onInputChange}
+                inputId="min_participants" placeholder="Mínimo de jugadores*" labelClass="form-label ps-4" value={inputValues.min_participants} onChange={onInputChange}
                 feedbackClass={inputFeedbackClass.min_participants} feedbackText={inputFeedback.min_participants}
               />
               <Input type="number" divClass="form-floating col-md-6 col-lg-4 mb-3" inputClass="form-control ps-3 rounded-pill border-dark border-2"
-                inputId="max_participants" placeholder="Máximo de jugadores" labelClass="form-label ps-4" value={inputValues.max_participants} onChange={onInputChange}
+                inputId="max_participants" placeholder="Máximo de jugadores*" labelClass="form-label ps-4" value={inputValues.max_participants} onChange={onInputChange}
                 feedbackClass={inputFeedbackClass.max_participants} feedbackText={inputFeedback.max_participants}
               />
               <div className="w-100"></div>

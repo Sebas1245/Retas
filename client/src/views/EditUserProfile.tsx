@@ -82,6 +82,7 @@ export default function EditUserProfile() {
         setNameFeedback("Escribe tu nombre.")
         errorFound = true
         } else {
+        sessionStorage.setItem('userName', target.nombre.value)!;
         setNameFeedback("")
         }
     
@@ -108,7 +109,6 @@ export default function EditUserProfile() {
         } else {
         setPhoneFeedback("")
         }
-        if (password || confirmPassword) {
             const passwordPattern : RegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
             if (!target.password.value || !passwordPattern.test(target.password.value)) {
             setPasswordFeedback("Esta contraseña no es válida.")
@@ -126,7 +126,6 @@ export default function EditUserProfile() {
             } else {
             setConfirmPasswordFeedback("")
             }
-        }
     
         if (errorFound) {
             return;
@@ -166,11 +165,11 @@ export default function EditUserProfile() {
     return (
         <div className='bg-dark full-page-with-nav'>
             <Form className={"container mt-5 pt-2"} onSubmit={onSubmit} noValidate={true}>
-                    <div className="text-hint mb-1 small"><p><span className="text-danger">*</span> = requerido</p></div>
+                    <div className="text-hint mb-1 small"><p><span className="text-danger">*</span> = campo requerido</p></div>
                     <div className="row">
                         <Input
                             placeholder="Nombre"
-                            required={false} type="text" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
+                            required={true} type="text" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
                             inputId="nombre" value={name} labelClass="form-label ps-4" maxLength={40}
                             feedbackClass="px-3 pt-2 text-danger" feedbackText={nameFeedback}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
@@ -178,7 +177,7 @@ export default function EditUserProfile() {
                         <Input
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
                             placeholder="Usuario"
-                            required={false} type="text" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
+                            required={true} type="text" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
                             inputId="usuario" value={username} labelClass="form-label ps-4" maxLength={40}
                             feedbackClass="px-3 pt-2 text-danger" feedbackText={usernameFeedback}
                         />
@@ -187,14 +186,14 @@ export default function EditUserProfile() {
                         <Input
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                             placeholder="Correo electrónico"
-                            required={false} type="email" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
+                            required={true} type="email" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
                             inputId="email" value={email} labelClass="form-label ps-4"
                             feedbackClass="px-3 pt-2 text-danger" feedbackText={emailFeedback}
                         />
                         <Input
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
                             placeholder="Número de teléfono a 10 dígitos"
-                            required={false} type="tel" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
+                            required={true} type="tel" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
                             inputId="phoneNumber" value={phoneNumber} labelClass="form-label ps-4" maxLength={10}
                             feedbackClass="px-3 pt-2 text-danger" feedbackText={phoneFeedback}
                         />
@@ -202,13 +201,13 @@ export default function EditUserProfile() {
                     <div className="row">
                         <Input
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                            required={false} type="password" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
+                            required={true} type="password" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
                             inputId="password" value={password} placeholder="Contraseña" labelClass="form-label ps-4" maxLength={40}
                             feedbackClass="px-3 pt-2 text-danger" feedbackText={passwordFeedback} extras="Al menos 8 caracteres con: 1 mayúscula, 1 minúscula y 1 número."
                         />
                         <Input
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
-                            required={false} type="password" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
+                            required={true} type="password" divClass="form-floating col-md-6 mb-4" inputClass="form-control rounded-pill"
                             inputId="passwordCheck" value={confirmPassword} placeholder="Contraseña de nuevo" labelClass="form-label ps-4" maxLength={40}
                             feedbackClass="px-3 pt-2 text-danger" feedbackText={confirmPasswordFeedback}
                         />

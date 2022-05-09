@@ -35,7 +35,7 @@ const RetaSchema: Schema<IRetaDocument, RetaModelType> = new Schema<IRetaDocumen
     date: { type: Date, required: [true, "No date was provided!"] },
     hours: { type: Number, required: [true, "No start time was provided!"], min: 0, max: 23},
     minutes: { type: Number, required: [true, "No start minutes were provided!"], min: 0, max: 59 },
-    duration: { type: Number, required: [true, "No duration was provided!"], min: 1},
+    duration: { type: Number, required: [true, "No duration was provided!"], min: 0.5},
     location: { type: String, required: [true, "No location was provided!"] },
     is_private: { type: Boolean, default: false },
     min_participants: { type: Number, min: 2, default: 2 },

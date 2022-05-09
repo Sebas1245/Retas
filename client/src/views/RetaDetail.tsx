@@ -113,7 +113,7 @@ export default function RetaDetail() {
           <div style={{ borderBottom: '0.1rem solid' }} className="d-flex justify-content-between">
             <h2>{reta && reta.name}</h2>
             <button onClick={copyToClipboard} style={{ borderRadius: 200 }} className="btn btn-info mb-1" type="button">
-              <FontAwesomeIcon icon={faShare} size={'lg'} /> {/* ADD ONCLICK EVENT TO COPY EVENT LINK TO CLIPBOARD */}
+            <span style={{fontWeight:600, fontSize:"large"}}>Compartir reta </span> <FontAwesomeIcon icon={faShare} size={'lg'} /> {/* ADD ONCLICK EVENT TO COPY EVENT LINK TO CLIPBOARD */}
             </button>
           </div>
           <ul className="list-group list-group-flush">

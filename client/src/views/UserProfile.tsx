@@ -69,7 +69,7 @@ export default function UserProfile() {
           <Sidebar
             title="Mi Perfil"
             name={username}
-            edit="Editar foto">
+            /* edit="Editar foto" */>
               <Flush
                 id="One"
                 title="Mi información"
