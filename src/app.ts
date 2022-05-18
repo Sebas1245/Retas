@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import express, { Request, Response } from 'express';
-import UserRoutes from './controllers/User';
-import RetasRoutes from './controllers/Retas';
+// import UserRoutes from './controllers/User';
+// import RetasRoutes from './controllers/Retas';
 import sendAsJson from './middleware/sendAsJson';
 import errorHandler from './middleware/errorHandler';
 import path from 'path';
@@ -26,12 +26,12 @@ app.get('/login', (req: Request, res: Response) => {
 });
 
 // User routes 
-app.use('/user', UserRoutes)
+// app.use('/user', UserRoutes)
 // Retas routes
-app.use('/retas', RetasRoutes)
+// app.use('/retas', RetasRoutes)
 
 // error handling middleware
-app.use(errorHandler());
+// app.use(errorHandler());
 app.use(sendAsJson());
 
 app.listen(PORT, () => console.log(`Express is listening at http://localhost:${PORT}`));

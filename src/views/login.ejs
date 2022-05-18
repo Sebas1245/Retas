@@ -1,6 +1,19 @@
 <%- include("partials/header") %>
-<div class="container">
-    <h1>Login page</h1>
+
+<div class="container-fluid full-page-with-nav">
+  <div class="row h-100">
+    <div class="d-none d-md-block col-12 col-md-4 col-lg-6 p-0">
+      <!-- <img src={imgSrc} class="img-fluid h-100" alt="Cover" style={{objectFit: "cover"}}/> -->
+    </div>
+    <div class="col-12 col-md-8 col-lg-6 bg-dark px-5">
+      <h1 class="text-primary fw-bold pt-5 text-start">{title}</h1>
+      {children}
+      <div class="pb-3">
+        <p class="text-start text-light fw-bold">{question} <Link to={navigateTo} state={navigateState} class="text-primary">{linkMsg}</Link> 
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
     
 <%- include("partials/footer") %>
