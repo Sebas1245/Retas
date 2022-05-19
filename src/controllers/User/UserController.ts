@@ -16,6 +16,7 @@ class UserController {
             const user = new User({username, email, password, name, phoneNumber});
             await user.save();
             const token = await user.generateToken();
+            res.setHeader("Authorization", token);
             res.status(201).json({
                 success: true, 
                 message: 'User created successfully',

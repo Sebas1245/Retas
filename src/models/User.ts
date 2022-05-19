@@ -1,89 +1,61 @@
-import { Document, model, Types, Schema, Model } from "mongoose"
+import { Table, Column, Model, BelongsToMany, Unique, BeforeUpdate, BeforeCreate } from 'sequelize-typescript'
+import { Reta } from './Reta';
+import { ConfirmedRetas } from './ConfirmedRetas';
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-export interface IUser {
-    username: string, 
-    email: string, 
-    password?: string,
-    name: string,
-    phoneNumber: string,
-    tokens?: string[],
-}
+@Table
+export class User extends Model<User> {
+    @Column
+    @Unique
+    username!: string;
+    @Column
+    email!: string;
+    @Column
+    password!: string;
+    @Column
+    name!: string;
+    @Column
+    phoneNumber!: string;
+    @Column
+    token?: string;
+    @BelongsToMany(() => Reta, () => ConfirmedRetas)
+    retas?: Reta[];
 
-export interface IUserDocument extends IUser, Document {
-    tokens?: Types.Array<string>;
-    comparePassword: (password: string) => Promise<boolean>;
-    generateToken: () => Promise<string>;
-}
+    async generateToken() {
+        const jwtSecret = process.env.JWT_SECRET;
+        if (jwtSecret) {
+            const token = jwt.sign({ id: this.id.toString() }, jwtSecret, { expiresIn: '1 day' });
+            this.token = token
+            await this.save();
+            return Promise.resolve(token);
+        } else {
+            throw Promise.reject(Error('No JWT Secret has been defined')); 
+        }
+    }
 
-export interface IUserModel extends Model<IUserDocument> {
-    changePassword: (userId: string, password: string) => Promise<IUserDocument>
-}
+    async comparePassword(password: string) {
+        const matches = await bcrypt.compare(password, this.password);
+        console.log(matches ? "Pasword matched" : "Password did not match")
+        return Promise.resolve(matches);
+    }
 
-const UserSchema: Schema<IUserDocument> = new Schema({
-    username: { type: String, required: [true, "Username is missing"] },
-    email: { type: String, required: [true, "Email is missing!"] },
-    name: { type: String, required: [true, "Name is missing!"] },
-    phoneNumber: { type: String, required: [true, "Phone number is missing!"] },
-    password: { type: String, required: [true, "Password is missing!"] },
-    tokens: { type: [String], select: false }
-}, {
-    timestamps: true
-});
+    async changePassword(newPassword: string) {
+        this.password = newPassword
+        return await this.save();
+    }
 
-// Validate if username is unique - unique option only creates an index
-UserSchema.path('username').validate(async function (this: IUserDocument ) {
-    const usernameCount = await UserModel.countDocuments({ username: this.username, _id: { $ne: this._id } });
-    return !usernameCount;  
-}, 'There already is an account with this username!');
-
-// Validate if email is unique - unique option only creates an index
-UserSchema.path('email').validate(async function (this: IUserDocument ) {
-    const emailCount = await UserModel.countDocuments({ email: this.email, _id: { $ne: this._id } });
-    return !emailCount;  
-}, 'There already is an account with this email!');
-
-UserSchema.pre<IUserDocument>('save', async function (next) {
-    if (this.isModified('password') && this.password) {
+    @BeforeUpdate
+    @BeforeCreate
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    static async hashPassword(instance: User, options: any) {
         try {
-            const hashedPassword = await bcrypt.hash(this.password, 10);
-            this.password = hashedPassword;
-            next()
+            const hashedPassword = await bcrypt.hash(instance.password, 10);
+            instance.password = hashedPassword;
+            options.next()
         } catch (error) {
             const err = new Error('Internal server error');
-            next(err);
+            options.next(err);
         }
-    } else {
-        next()
-    }
-
-})
-
-UserSchema.methods.comparePassword = async function (password: string) {
-    const matches = await bcrypt.compare(password, this.password);
-    console.log(matches ? "Pasword matched" : "Password did not match")
-    return Promise.resolve(matches);
-}
-
-UserSchema.methods.generateToken = async function (this: IUserDocument) {
-    const jwtSecret = process.env.JWT_SECRET;
-    if (jwtSecret) {
-        const token = jwt.sign({ _id: this._id.toString() }, jwtSecret, { expiresIn: '2 days' });
-        this.tokens?.push(token);
-        await this.save();
-        return Promise.resolve(token);
-    } else {
-        throw Promise.reject(Error('No JWT Secret has been defined')); 
     }
 }
-
-UserSchema.statics.changePassword = async function (userId: string, password: string) {
-    const user : IUserDocument = await this.findById(userId).exec();
-    user.password = password; 
-    return await user.save();
-}
-
-const UserModel = model<IUserDocument, IUserModel>('User', UserSchema);
-
-export default UserModel;
