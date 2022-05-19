@@ -26,6 +26,10 @@ app.get('/login', (req: Request, res: Response) => {
     res.render("login")
 });
 
+app.get('/register', (req: Request, res: Response) => {
+    res.render("register")
+});
+
 // User routes 
 // app.use('/user', UserRoutes)
 // Retas routes
