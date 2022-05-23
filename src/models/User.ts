@@ -1,6 +1,6 @@
 import { Table, Column, Model, BelongsToMany, Unique, BeforeUpdate, BeforeCreate } from 'sequelize-typescript'
-import { Reta } from './Reta';
-import { ConfirmedRetas } from './ConfirmedRetas';
+import Reta from './Reta';
+import ConfirmedRetas from './ConfirmedRetas';
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
