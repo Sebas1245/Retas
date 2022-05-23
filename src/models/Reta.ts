@@ -1,9 +1,9 @@
 import { Table, Column, Model, ForeignKey, BelongsToMany } from 'sequelize-typescript';
-import { User } from './User';
-import { ConfirmedRetas } from './ConfirmedRetas';
+import User from './User';
+import ConfirmedRetas from './ConfirmedRetas';
 
 @Table
-export class Reta extends Model<Reta> {
+export default class Reta extends Model<Reta> {
     @Column
     name!: string;
     @Column

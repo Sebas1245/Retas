@@ -5,7 +5,7 @@ import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 @Table
-export class User extends Model<User> {
+export default class User extends Model {
     @Column
     @Unique
     username!: string;
