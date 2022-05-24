@@ -1,0 +1,113 @@
+<%- include("partials/header") %>
+
+<div class="container-fluid full-page-with-nav">
+  <div class="row h-100">
+    <div class="d-none d-md-block col-12 col-md-4 col-lg-6 p-0">
+      <img src="/images/basket_retas.jpg" class="img-fluid h-100" alt="" style="object-fit: cover"/>
+    </div>
+    <div class="col-12 col-md-8 col-lg-6 bg-dark px-5">
+      <h1 class="text-primary fw-bold pt-5 text-start">Únete a la comunidad de retas más grande del mundo</h1>
+      
+      
+      <form class="row mt-5 pt-2">
+        <div class="text-light mb-1">
+          <p>
+            <small>
+              <span class="req">*</span> = campo requerido
+            </small>
+          </p>
+        </div>
+        <div class="form-floating col-lg-7 mb-4">
+          <input 
+            type="text" class="form-control rounded-pill" id="nombre" name="nombre"
+            placeholder="Nombre" maxlength="40" required/>
+          <label for="nombre" class="form-label ps-4">
+            Nombre<span class="req">*</span>
+          </label>
+          <!-- TODO: Show based on validation result -->
+          <div class="px-3 pt-2 text-light">
+            Escribe tu nombre.
+          </div>
+        </div>
+        <div class="form-floating col-lg-7 mb-4">
+          <input
+            type="text" class="form-control rounded-pill" id="usuario" name="usuario"
+            placeholder="Usuario" maxlength="40" required/>
+          <label for="usuario" class="form-label ps-4">
+            Nombre de usuario<span class="req">*</span>
+          </label>
+          <!-- TODO: Show based on validation result -->
+          <div class="px-3 pt-2 text-light">
+            Escribe un nombre de usuario.
+          </div>
+        </div>
+        <div class="form-floating col-lg-7 mb-4">
+          <input
+            type="email" class="form-control rounded-pill" id="email" name="email"
+            placeholder="Email" required/>
+          <label for="email" class="form-label ps-4">
+            Correo electrónico<span class="req">*</span>
+          </label>
+          <!-- TODO: Show based on validation result -->
+          <div class="px-3 pt-2 text-light">
+            Escribe un correo electrónico válido.
+          </div>
+        </div>
+        <div class="form-floating col-lg-7 mb-4">
+          <input
+            type="tel" class="form-control rounded-pill" id="phoneNumber" name="phoneNumber"
+            placeholder="Número de teléfono a 10 dígitos" maxlength="10" required/>
+          <label for="phoneNumber" class="form-label ps-4">
+            Número de teléfono a 10 dígitos<span class="req">*</span>
+          </label>
+          <!-- TODO: Show based on validation result -->
+          <div class="px-3 pt-2 text-light">
+            Deben ser 10 dígitos solamente.
+          </div>
+        </div>
+        <div class="form-floating col-lg-7 mb-4">
+          <input
+            type="password" class="form-control rounded-pill" id="password" name="password"
+            placeholder="Contraseña" maxlength="40" required/>
+            <div class="text-light px-3">
+              <small>
+                Al menos 8 caracteres con: 1 mayúscula, 1 minúscula y 1 número.
+              </small>
+            </div>
+          <label for="password" class="form-label ps-4">
+            Contraseña<span class="req">*</span>
+          </label>
+          <!-- TODO: Show based on validation result -->
+          <div class="px-3 pt-2 text-light">
+            Esta contraseña no es válida.
+          </div>
+        </div>
+        <div class="form-floating col-lg-7 mb-4">
+          <input
+            type="password" class="form-control rounded-pill" id="passwordCheck" name="passwordCheck"
+            placeholder="Contraseña de nuevo" maxlength="40" required/>
+          <label for="passwordCheck" class="form-label ps-4">
+            Contraseña de nuevo<span class="req">*</span>
+          </label>
+          <!-- TODO: Show based on validation result -->
+          <div class="px-3 pt-2 text-light">
+            Las contraseñas no coinciden.
+          </div>
+        </div>
+        <div class="d-grid col-lg-7 mb-4">
+          <button 
+            class="btn btn-primary rounded-pill fw-bold py-3" type="submit">
+            Registrarme
+          </button>
+        </div>
+      </form>
+      <div class="pb-3">
+        <p class="text-start text-light fw-bold">
+            ¿Ya tienes cuenta? <a href="/login" class="text-primary">Inicia sesión</a> 
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<%- include("partials/footer") %>
