@@ -12,10 +12,10 @@ class UserController {
     public register() {
         return async (req: Request, res: Response) => {
             const { username, email, password, confirmPassword, name, phoneNumber } = req.body;
-            console.log(req.body);
             if (!username) return Promise.reject( new CustomError(400, "¡Es necesario contar con un usuario!"));
             if (password != confirmPassword) return Promise.reject(new CustomError(400, "Las contraseñas no son iguales"))
-            const user = await User.create({username, email, password, name, phoneNumber}); 
+            const hashedPassword = await User.hashPassword(password)
+            const user = await User.create({username, email, password: hashedPassword, name, phoneNumber}); 
             const token = await user.generateToken();
             res.setHeader("authorization", token);
             res.status(201).json({
@@ -46,13 +46,14 @@ class UserController {
     public update() {
         return async (req: RequestWithAuth, res: Response) => {
             if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
-            const updateUserQuery = req.body.updatedUser;
-            const user = req.user; 
+            const updateUserQuery = req.body;
+            const user = req.user;
             if (updateUserQuery.password) {
                 await user.changePassword(updateUserQuery.password)
                 delete updateUserQuery.password;
             } 
             const updatedUser = await user.update(updateUserQuery);
+            console.log(updatedUser.password);
             res.status(200).json(updatedUser)
         }
     }
@@ -73,7 +74,7 @@ class UserController {
             const retaId : number = req.body.retaId; 
             const user : User = req.user;
             const reta = await Reta.findOne({where: {id: retaId, is_active: true}, include: [User]});
-            const confirmedUsersInRetaCount = (await ConfirmedRetas.findAndCountAll({where: {id: retaId}})).count;
+            const confirmedUsersInRetaCount = (await ConfirmedRetas.findAndCountAll({where: {retaId}})).count;
             if (!reta) return Promise.reject(new CustomError(404, "¡Esta reta no existe!"))
             if (confirmedUsersInRetaCount > reta.max_participants) {
                 // max participants has been reached

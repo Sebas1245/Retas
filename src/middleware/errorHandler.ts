@@ -1,6 +1,7 @@
 import CustomError from "./customError";
 import { NextFunction, Request, Response } from "express";
 import { JsonWebTokenError } from "jsonwebtoken";
+import { UniqueConstraintError, ValidationError } from "sequelize";
 
 const errorHandler = () => (
     err: CustomError | Error | undefined, 
@@ -17,6 +18,10 @@ const errorHandler = () => (
     } else if (err instanceof JsonWebTokenError) {
         console.log('err jwt :>> ', err);
         next(new CustomError(401, 'You need to be logged in to do that.'))
+    } else if (err instanceof UniqueConstraintError || err instanceof ValidationError) {
+        console.log("ERR", err.errors[0].message);
+        console.log(err.message);
+        next(new CustomError(406, err.errors[0].message));
     } else {
         console.log('err :', err);
         console.log('=============================')

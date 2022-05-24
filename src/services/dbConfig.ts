@@ -8,6 +8,7 @@ export const sequelize = new Sequelize({
     database: 'retas',
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    models: [User, Reta, ConfirmedRetas]
+    models: [User, Reta, ConfirmedRetas],
+    logging: false
 })
 

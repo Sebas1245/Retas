@@ -1,4 +1,4 @@
-import { Table, Column, Model, BelongsToMany, Unique, BeforeUpdate, BeforeCreate, BeforeSave } from 'sequelize-typescript'
+import { Table, Column, Model, BelongsToMany, Unique } from 'sequelize-typescript'
 import Reta from './Reta';
 import ConfirmedRetas from './ConfirmedRetas';
 import * as jwt from 'jsonwebtoken';
@@ -6,8 +6,8 @@ import bcrypt from 'bcrypt';
 
 @Table
 export default class User extends Model {
-    @Unique
-    @Column
+    @Unique({name: 'Unique username validation', msg: 'Este usuario ya está en uso.'})
+    @Column 
     username!: string;
     @Column
     email!: string;
@@ -41,15 +41,13 @@ export default class User extends Model {
     }
 
     async changePassword(newPassword: string) {
-        this.password = newPassword
+        this.password = await User.hashPassword(newPassword);
+        console.log("Hashed password is on change", this.password);
         return await this.save();
     }
 
-    @BeforeUpdate
-    @BeforeCreate
-    @BeforeSave
-    static async hashPassword(instance: User) {
-        const hashedPassword = await bcrypt.hash(instance.password, 10);
-        instance.password = hashedPassword;
+    static async hashPassword(password: string) {
+        console.log("hashing password on ", password);
+        return await bcrypt.hash(password, 10);    
     }
 }
