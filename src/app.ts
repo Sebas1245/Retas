@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
-import express, { Request, Response } from 'express';
+import express, { Request, Response, json } from 'express';
 import UserRoutes from './controllers/User';
 import RetasRoutes from './controllers/Retas';
 import sendAsJson from './middleware/sendAsJson';
@@ -12,10 +12,11 @@ const app = express();
 const PORT = 8080 || process.env.PORT;
 
 app.use(express.urlencoded({extended: false}));
+app.use(json());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 // setup DB
-(async () => await sequelize.sync({force: true}))();
+(async () => await sequelize.sync())();
 
 
 app.get('/', (req: Request, res: Response) => {

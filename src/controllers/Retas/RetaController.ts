@@ -4,11 +4,12 @@ import User from "../../models/User";
 import CustomError from "../../middleware/customError";
 import { RequestWithAuth } from "../../middleware/checkAuth";
 import ConfirmedRetas from "../../models/ConfirmedRetas";
-import Op from "sequelize/types/operators";
+import {Op} from "sequelize";
 
 class RetaController {
     public create() {
         return async (req: RequestWithAuth, res: Response) => {
+            if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
             const retaRequest : Reta = req.body.reta;
             const creatorId = req.user.id;
             const creatorUser = await User.findByPk(creatorId);
@@ -43,6 +44,7 @@ class RetaController {
 
     public delete() {
         return async (req: RequestWithAuth, res: Response) => {
+            if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
             const retaId : number = req.body.retaId
             const deletedReta = await Reta.update({is_active: false}, {where: {id: retaId, is_active: true}});
             if (!deletedReta) return Promise.reject(new CustomError(500, "¡Ocurió un error inesperado al eliminar esta reta!"))
@@ -52,6 +54,7 @@ class RetaController {
 
     public update() {
         return async (req: RequestWithAuth, res: Response) => {
+            if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
             const updatedRetaReq : Reta = req.body.updatedRetaReq;
             const retaId : number = req.body.retaId;
             const userId : number = req.user.id;

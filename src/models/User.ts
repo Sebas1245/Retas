@@ -6,8 +6,8 @@ import bcrypt from 'bcrypt';
 
 @Table
 export default class User extends Model {
-    @Column
     @Unique
+    @Column
     username!: string;
     @Column
     email!: string;

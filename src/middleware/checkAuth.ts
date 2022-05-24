@@ -9,7 +9,7 @@ interface VerifiedUserPayload extends JwtPayload {
 }
 
 export interface RequestWithAuth extends Request {
-    user: User
+    user?: User
 }
 // TODO: 
 // check if ALL of this is still valid after changes

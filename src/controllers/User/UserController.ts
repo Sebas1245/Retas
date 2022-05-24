@@ -12,6 +12,7 @@ class UserController {
     public register() {
         return async (req: Request, res: Response) => {
             const { username, email, password, confirmPassword, name, phoneNumber } = req.body;
+            console.log(req.body);
             if (!username) return Promise.reject( new CustomError(400, "¡Es necesario contar con un usuario!"));
             if (password != confirmPassword) return Promise.reject(new CustomError(400, "Las contraseñas no son iguales"))
             const user = await User.create({username, email, password, name, phoneNumber}); 
@@ -44,6 +45,7 @@ class UserController {
 
     public update() {
         return async (req: RequestWithAuth, res: Response) => {
+            if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
             const updateUserQuery = req.body.updatedUser;
             const user = req.user; 
             if (updateUserQuery.password) {
@@ -57,6 +59,7 @@ class UserController {
     
     public getUser() {
         return async (req: RequestWithAuth, res: Response) => {
+            if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
             const userId = req.user.id;
             const loggedInUser = await User.findByPk(userId);
             if (!loggedInUser) return Promise.reject(new CustomError(404, "¡Este usuario no existe!"));
@@ -66,6 +69,7 @@ class UserController {
 
     public toggleAttendance() {
         return async (req: RequestWithAuth, res: Response) => {
+            if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
             const retaId : number = req.body.retaId; 
             const user : User = req.user;
             const reta = await Reta.findOne({where: {id: retaId, is_active: true}, include: [User]});
@@ -94,6 +98,7 @@ class UserController {
 
     public getAllRetasForUserAsAdmin() {
         return async (req: RequestWithAuth, res: Response) => {
+            if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
             const userId : number = req.user.id;
             const retasAsAdmin = await Reta.findAll({
                 where: {
@@ -110,6 +115,7 @@ class UserController {
 
     public getAllRetasForUserAsParticipant() {
         return async (req: RequestWithAuth, res: Response) => {
+            if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
             const userId : number = req.user.id;
             const retaConfirmationsForUser= await ConfirmedRetas.findAll({where: {userId}})
             const retasAsParticipantQueries = retaConfirmationsForUser.map(async (confirmation) => 
@@ -133,6 +139,7 @@ class UserController {
 
     public isUserInReta() {
         return async (req: RequestWithAuth, res: Response) => {
+            if (!req.user) return Promise.reject(new CustomError(403, "Permisos insuficientes"));
             const retaId : string = req.params.retaId; 
             const reqUser = req.user;
             const reta = await Reta.findOne({where: {id: retaId, is_active: true}, include: [User]});

@@ -34,6 +34,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.19.2",
     "sequelize-typescript": "^2.1.3"

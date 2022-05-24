@@ -30,7 +30,7 @@ export default class Reta extends Model<Reta> {
     confirmed_users?: User[];
     @ForeignKey(() => User)
     @Column
-    adminId!: User;
+    adminId!: number;
     @Column
     is_active!: boolean;
 }
