@@ -3,7 +3,7 @@ import Reta from "./Reta";
 import User from './User';
 
 @Table
-export default class ConfirmedRetas extends Model<ConfirmedRetas> {
+export default class ConfirmedRetas extends Model {
     @ForeignKey(() => Reta)
     @Column
     retaId!: number;
@@ -11,4 +11,7 @@ export default class ConfirmedRetas extends Model<ConfirmedRetas> {
     @ForeignKey(() => User)
     @Column
     userId!: number;
+
+    // @Column
+    // isAdminConfirmation!: boolean;
 }

@@ -3,9 +3,8 @@ declare global {
       interface ProcessEnv {
         NODE_ENV: 'dev' | 'test' | 'prod';
         PORT?: string;
-        MONGODB_URI_TEST: string,
-        MONGODB_URI_DEV: string,
-        MONGODB_URI_PROD: string,
+        DB_PASSWORD: string,
+        DB_USERNAME: string,
         JWT_SECRET: string
       }
     }

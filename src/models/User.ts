@@ -1,4 +1,4 @@
-import { Table, Column, Model, BelongsToMany, Unique, BeforeUpdate, BeforeCreate } from 'sequelize-typescript'
+import { Table, Column, Model, BelongsToMany, Unique, BeforeUpdate, BeforeCreate, BeforeSave } from 'sequelize-typescript'
 import Reta from './Reta';
 import ConfirmedRetas from './ConfirmedRetas';
 import * as jwt from 'jsonwebtoken';
@@ -47,15 +47,9 @@ export default class User extends Model {
 
     @BeforeUpdate
     @BeforeCreate
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static async hashPassword(instance: User, options: any) {
-        try {
-            const hashedPassword = await bcrypt.hash(instance.password, 10);
-            instance.password = hashedPassword;
-            options.next()
-        } catch (error) {
-            const err = new Error('Internal server error');
-            options.next(err);
-        }
+    @BeforeSave
+    static async hashPassword(instance: User) {
+        const hashedPassword = await bcrypt.hash(instance.password, 10);
+        instance.password = hashedPassword;
     }
 }

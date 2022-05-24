@@ -1,9 +1,10 @@
-import User, { IUser, IUserDocument } from '../../models/User';
+import User from '../../models/User';
 import Reta from '../../models/Reta';
 import { Request, Response } from 'express';
-import { Types } from 'mongoose';
 import CustomError from '../../middleware/customError';
 import { RequestWithAuth } from '../../middleware/checkAuth';
+import ConfirmedRetas from '../../models/ConfirmedRetas';
+import { Op } from 'sequelize';
 
 // Class that holds the methods that create individual handler functions for each route
 // Follows the builder pattern
@@ -13,15 +14,13 @@ class UserController {
             const { username, email, password, confirmPassword, name, phoneNumber } = req.body;
             if (!username) return Promise.reject( new CustomError(400, "¡Es necesario contar con un usuario!"));
             if (password != confirmPassword) return Promise.reject(new CustomError(400, "Las contraseñas no son iguales"))
-            const user = new User({username, email, password, name, phoneNumber});
-            await user.save();
+            const user = await User.create({username, email, password, name, phoneNumber}); 
             const token = await user.generateToken();
-            res.setHeader("Authorization", token);
+            res.setHeader("authorization", token);
             res.status(201).json({
                 success: true, 
                 message: 'User created successfully',
                 user,
-                token,
             });
         }
     }
@@ -29,40 +28,37 @@ class UserController {
     public login() {
         return async (req: Request, res: Response) => {
             const { username, password } = req.body;
-            const user = await User.findOne({username}).select('+password +tokens').exec();
+            const user = await User.findOne({where: {username}});
             if (!user) return Promise.reject(new CustomError(401, "El nombre de usuario y/o contraseña es incorrecto, por favor intente nuevamente.")) // change to Custom Error
             const matches = await user.comparePassword(password);
             if (!matches) return Promise.reject(new CustomError(401, "El nombre de usuario y/o contraseña es incorrecto, por favor intente nuevamente.")) // change to Custom Error
             const token = await user.generateToken();
+            res.setHeader("authorization", token);
             res.status(201).json({
                 success: true,
                 message: 'Login successful',
                 user,
-                token,
             });
         }
     }
 
     public update() {
         return async (req: RequestWithAuth, res: Response) => {
-            const updateUserQuery : IUser = req.body.updatedUser;
-            const userId = req.user?._id;
+            const updateUserQuery = req.body.updatedUser;
+            const user = req.user; 
             if (updateUserQuery.password) {
-                await User.changePassword(userId, updateUserQuery.password)
+                await user.changePassword(updateUserQuery.password)
                 delete updateUserQuery.password;
-                const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
-                res.status(200).json(updatedUser)
-            } else {
-                const updatedUser = await User.findOneAndUpdate({_id: userId}, updateUserQuery, { new: true }).exec();
-                res.status(200).json(updatedUser)
-            }
+            } 
+            const updatedUser = await user.update(updateUserQuery);
+            res.status(200).json(updatedUser)
         }
     }
     
     public getUser() {
         return async (req: RequestWithAuth, res: Response) => {
-            const userId = req.user?._id;
-            const loggedInUser = await User.findById(userId);
+            const userId = req.user.id;
+            const loggedInUser = await User.findByPk(userId);
             if (!loggedInUser) return Promise.reject(new CustomError(404, "¡Este usuario no existe!"));
             res.status(200).json(loggedInUser);
         }
@@ -70,28 +66,26 @@ class UserController {
 
     public toggleAttendance() {
         return async (req: RequestWithAuth, res: Response) => {
-            const retaId : Types.ObjectId = req.body.retaId; 
-            const userId : Types.ObjectId = req.user?._id;
-            const reta = await Reta.findOne({_id: retaId, active: true}).populate('admin').exec();
-            const reqUser = await User.findOne({_id: userId}).exec()
+            const retaId : number = req.body.retaId; 
+            const user : User = req.user;
+            const reta = await Reta.findOne({where: {id: retaId, is_active: true}, include: [User]});
+            const confirmedUsersInRetaCount = (await ConfirmedRetas.findAndCountAll({where: {id: retaId}})).count;
             if (!reta) return Promise.reject(new CustomError(404, "¡Esta reta no existe!"))
-            if (!reqUser) return Promise.reject(new CustomError(404, "¡Este usuario no existe!"))
-            if (reta.confirmed_users.length > reta.max_participants) {
+            if (confirmedUsersInRetaCount > reta.max_participants) {
                 // max participants has been reached
                 // later on, this would be handled by adding on a waitlist
                 return Promise.reject(new Error("¡El evento ya alcanzó su cupo máximo!"))
-            } else if (userId == reta.admin._id) {
+            } else if (user.id == reta.adminId) {
                 return Promise.reject("Event admin may not opt out!")
             } else {
-                const confirmedUser = await User.findOne({ $and: [{_id: reqUser._id }, { _id: { $in: reta.confirmed_users }}]}).exec()
+                const confirmedUser = await ConfirmedRetas.findOne({where: {userId: user.id}});
                 if (confirmedUser) {
-                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$pull: { confirmed_users: reqUser._id } }, {new: true}).populate('admin').exec()
-                    if (!updatedReta) return Promise.reject(new CustomError(406, "Ocurrió un error inesperado al actualizar esta reta."))
-                    res.status(201).json({updatedReta, pushed: false});
+                    await ConfirmedRetas.destroy({where: {userId: user.id, retaId}});
+                    res.status(201).json({msg: 'Confirmación eliminada exitosamente', createdConfirmation: false});
                 } else {
-                    const updatedReta = await Reta.findOneAndUpdate({_id: retaId, active: true}, {$push: {confirmed_users: reqUser}}, {new: true}).populate('admin').exec()
-                    if (!updatedReta) return Promise.reject(new CustomError(406, "Ocurrió un error inesperado al actualizar esta reta."));
-                    res.status(201).json({updatedReta, pushed: true});
+                    const newConfirmation = await ConfirmedRetas.create({userId: user.id, retaId});
+                    if (!newConfirmation) return Promise.reject(new CustomError(406, "Ocurrió un error inesperado al generar la confirmación de asistencia a esta reta."));
+                    res.status(201).json({newConfirmation, createdConfirmation: true});
                 }
             }
 
@@ -100,8 +94,15 @@ class UserController {
 
     public getAllRetasForUserAsAdmin() {
         return async (req: RequestWithAuth, res: Response) => {
-            const userId : Types.ObjectId = req.user?._id;
-            const retasAsAdmin = await Reta.find({is_active: true, admin: userId}).populate('admin').sort({date: 1}).exec();
+            const userId : number = req.user.id;
+            const retasAsAdmin = await Reta.findAll({
+                where: {
+                    is_active: true, 
+                    adminId: userId
+                }, 
+                order: [['date', 'ASC']], 
+                include: [User]
+            });
             if (!retasAsAdmin) return Promise.reject(new CustomError(404, "No hay retas para este usuario"))
             res.status(201).json(retasAsAdmin);
         }
@@ -109,8 +110,22 @@ class UserController {
 
     public getAllRetasForUserAsParticipant() {
         return async (req: RequestWithAuth, res: Response) => {
-            const userId : Types.ObjectId = req.user?._id;
-            const retasAsParticipant = await Reta.find({is_active: true, confirmed_users: userId, admin: { $ne: userId}}).sort({date: 1}).populate('admin').exec();
+            const userId : number = req.user.id;
+            const retaConfirmationsForUser= await ConfirmedRetas.findAll({where: {userId}})
+            const retasAsParticipantQueries = retaConfirmationsForUser.map(async (confirmation) => 
+                await Reta.findOne({
+                    where: {
+                        id: confirmation.retaId,
+                        adminId: {
+                            [Op.ne]: confirmation.userId
+                        },
+                        is_active: true
+                    },
+                    order: [['date', 'ASC']],
+                    include: [User]
+                }));
+            // check if removing null results is necessary
+            const retasAsParticipant = await Promise.all(retasAsParticipantQueries)
             if (!retasAsParticipant) return Promise.reject(new CustomError(404, "No hay retas para este usuario"))
             res.status(201).json(retasAsParticipant);
         }
@@ -119,13 +134,11 @@ class UserController {
     public isUserInReta() {
         return async (req: RequestWithAuth, res: Response) => {
             const retaId : string = req.params.retaId; 
-            const userId : Types.ObjectId = req.user?._id;
-            const reta = await Reta.findOne({_id: retaId, active: true}).populate('admin').exec();
-            const reqUser = await User.findOne({_id: userId}).exec()
+            const reqUser = req.user;
+            const reta = await Reta.findOne({where: {id: retaId, is_active: true}, include: [User]});
             if (!reta) return Promise.reject(new CustomError(404, "Reta not found!"))
-            if (!reqUser) return Promise.reject(new CustomError(404, "User not found!"))
-            const confirmedUser = await User.findOne({ $and: [{_id: reqUser._id }, { _id: { $in: reta.confirmed_users }}]}).exec();
-            if (userId == reta.admin._id || confirmedUser) {
+            const confirmedUser = await ConfirmedRetas.findOne({where: {userId: reqUser.id, retaId}});
+            if (reqUser.id == reta.adminId || confirmedUser) {
                 res.status(200).json({inReta: true});
             } else {
                 res.status(200).json({inReta: false});
