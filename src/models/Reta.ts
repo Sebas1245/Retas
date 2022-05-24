@@ -1,51 +1,36 @@
-import { Document, Model, model, Types, Schema } from "mongoose"
-import { IUserDocument } from "./User"
+import { Table, Column, Model, ForeignKey, BelongsToMany } from 'sequelize-typescript';
+import User from './User';
+import ConfirmedRetas from './ConfirmedRetas';
 
-export interface IReta {
-    name: string;
-    description: string;
-    date: Date;
-    hours: number;
-    minutes: number;
-    duration: number;
-    location: string;
-    is_private: boolean;
-    min_participants: number;
-    max_participants: number;
-    category: string;
-    confirmed_users: IUserDocument[];
-    admin: Types.ObjectId;
-    is_active: boolean;
+@Table
+export default class Reta extends Model<Reta> {
+    @Column
+    name!: string;
+    @Column
+    description!: string;
+    @Column
+    date!: Date;
+    @Column
+    hours!: number;
+    @Column
+    minutes!: number;
+    @Column
+    duration!: number;
+    @Column
+    location!: string;
+    @Column
+    is_private!: boolean;
+    @Column
+    min_participants!: number;
+    @Column
+    max_participants!: number;
+    @Column
+    category!: string;
+    @BelongsToMany(() => User, () => ConfirmedRetas)
+    confirmed_users?: User[];
+    @ForeignKey(() => User)
+    @Column
+    adminId!: number;
+    @Column
+    is_active!: boolean;
 }
-
-interface IRetaDocument extends IReta, Document {
-    confirmed_users: Types.Array<IUserDocument>;
-    admin: Types.ObjectId;
-}
-// TMethodsAndOverrides
-type RetaDocumentProps = {
-    confirmed_users: Types.DocumentArray<IUserDocument>;
-};
-
-type RetaModelType = Model<IUserDocument, RetaDocumentProps>;
-
-const RetaSchema: Schema<IRetaDocument, RetaModelType> = new Schema<IRetaDocument, RetaModelType>({
-    name: { type: String, required: [true, "Name is missing!"] },
-    description: { type: String, required: [true, "No description was provided!"] },
-    date: { type: Date, required: [true, "No date was provided!"] },
-    hours: { type: Number, required: [true, "No start time was provided!"], min: 0, max: 23},
-    minutes: { type: Number, required: [true, "No start minutes were provided!"], min: 0, max: 59 },
-    duration: { type: Number, required: [true, "No duration was provided!"], min: 0.5},
-    location: { type: String, required: [true, "No location was provided!"] },
-    is_private: { type: Boolean, default: false },
-    min_participants: { type: Number, min: 2, default: 2 },
-    max_participants: { type: Number, min: 2, default: 2 },
-    category: { type: String },
-    confirmed_users: { type: [{ type: Types.ObjectId , ref: "User" }]},
-    admin: { type: Schema.Types.ObjectId, ref: "User", required: [true, "Need an admin for the event"] },
-    is_active: { type: Boolean, default: true }
-});
-
-const RetaModel = model<IRetaDocument>('Reta', RetaSchema);
-
-export default RetaModel;
