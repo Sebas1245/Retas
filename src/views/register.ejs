@@ -7,9 +7,7 @@
     </div>
     <div class="col-12 col-md-8 col-lg-6 bg-dark px-5">
       <h1 class="text-primary fw-bold pt-5 text-start">Únete a la comunidad de retas más grande del mundo</h1>
-      
-      
-      <form class="row mt-5 pt-2">
+      <form id="registerForm" class="row mt-5 pt-2">
         <div class="text-light mb-1">
           <p>
             <small>
@@ -24,9 +22,7 @@
           <label for="nombre" class="form-label ps-4">
             Nombre<span class="req">*</span>
           </label>
-          <!-- TODO: Show based on validation result -->
-          <div class="px-3 pt-2 text-light">
-            Escribe tu nombre.
+          <div id="nombreFeedback" class="px-3 pt-2 text-light">
           </div>
         </div>
         <div class="form-floating col-lg-7 mb-4">
@@ -36,9 +32,7 @@
           <label for="usuario" class="form-label ps-4">
             Nombre de usuario<span class="req">*</span>
           </label>
-          <!-- TODO: Show based on validation result -->
-          <div class="px-3 pt-2 text-light">
-            Escribe un nombre de usuario.
+          <div id="usuarioFeedback" class="px-3 pt-2 text-light">
           </div>
         </div>
         <div class="form-floating col-lg-7 mb-4">
@@ -48,9 +42,7 @@
           <label for="email" class="form-label ps-4">
             Correo electrónico<span class="req">*</span>
           </label>
-          <!-- TODO: Show based on validation result -->
-          <div class="px-3 pt-2 text-light">
-            Escribe un correo electrónico válido.
+          <div id="correoFeedback" class="px-3 pt-2 text-light">
           </div>
         </div>
         <div class="form-floating col-lg-7 mb-4">
@@ -60,9 +52,7 @@
           <label for="phoneNumber" class="form-label ps-4">
             Número de teléfono a 10 dígitos<span class="req">*</span>
           </label>
-          <!-- TODO: Show based on validation result -->
-          <div class="px-3 pt-2 text-light">
-            Deben ser 10 dígitos solamente.
+          <div id="phoneFeedback" class="px-3 pt-2 text-light">
           </div>
         </div>
         <div class="form-floating col-lg-7 mb-4">
@@ -77,9 +67,7 @@
           <label for="password" class="form-label ps-4">
             Contraseña<span class="req">*</span>
           </label>
-          <!-- TODO: Show based on validation result -->
-          <div class="px-3 pt-2 text-light">
-            Esta contraseña no es válida.
+          <div id="passwordFeedback" class="px-3 pt-2 text-light">
           </div>
         </div>
         <div class="form-floating col-lg-7 mb-4">
@@ -89,9 +77,7 @@
           <label for="passwordCheck" class="form-label ps-4">
             Contraseña de nuevo<span class="req">*</span>
           </label>
-          <!-- TODO: Show based on validation result -->
-          <div class="px-3 pt-2 text-light">
-            Las contraseñas no coinciden.
+          <div id="passwordCheckFeedback" class="px-3 pt-2 text-light">
           </div>
         </div>
         <div class="d-grid col-lg-7 mb-4">
@@ -109,5 +95,7 @@
     </div>
   </div>
 </div>
+
+<script src="/js/registerForm.js"></script>
     
 <%- include("partials/footer") %>
