@@ -7,7 +7,7 @@
     </div>
     <div class="col-12 col-md-8 col-lg-6 bg-dark px-5">
       <h1 class="text-primary fw-bold pt-5 text-start">La comunidad de retas más fregona de México</h1>
-      <form class="row mt-5 pt-4">
+      <form id="loginForm" class="row mt-5 pt-4">
         <div class="form-floating col-lg-7 mb-4">
           <input 
             type="text" class="form-control rounded-pill" id="usuario" name="usuario"
@@ -15,9 +15,7 @@
           <label for="usuario" class="form-label ps-4">
             Usuario<span class="req">*</span>
           </label>
-          <!-- TODO: Show based on validation result -->
-          <div class="px-3 pt-2 text-light">
-            Escribe tu nombre de usuario.
+          <div id="usuarioFeedback" class="px-3 pt-2 text-light">
           </div>
         </div>
         <div class="form-floating col-lg-7 mb-4">
@@ -27,9 +25,7 @@
           <label for="password" class="form-label ps-4">
             Contraseña<span class="req">*</span>
           </label>
-          <!-- TODO: Show based on validation result -->
-          <div class="px-3 pt-2 text-light">
-            Escribe tu contraseña.
+          <div id="passwordFeedback" class="px-3 pt-2 text-light">
           </div>
         </div>
         <div class="d-grid col-lg-7 mb-4">
@@ -47,5 +43,7 @@
     </div>
   </div>
 </div>
+
+<script src="/js/loginForm.js"></script>
     
 <%- include("partials/footer") %>
