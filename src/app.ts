@@ -34,6 +34,10 @@ app.get('/create_reta', (req: Request, res: Response) => {
     res.render("new_reta")
 });
 
+app.get('/reta_detail', (req: Request, res: Response) => {
+    res.render("reta-detail")
+});
+
 // User routes 
 // app.use('/user', UserRoutes)
 // Retas routes
