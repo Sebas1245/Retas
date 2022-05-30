@@ -22,6 +22,17 @@
   font-size: 14px !important;
 }
 
+.img-new-reta {
+  height: 280px !important;
+  object-fit: cover !important;
+  object-position: center 66% !important;
+}
+
+.style-h6 {
+  text-align: left !important;
+  padding-bottom: 5px !important;
+}
+
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors

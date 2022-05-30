@@ -1,0 +1,167 @@
+<%- include("partials/header") %>
+
+<div class="container-fluid full-page-with-nav">
+    <div class="row h-100">
+      <div class="d-none d-md-block col-12 col-lg-3">
+        
+        <div class="container-fluid h-100 bg-secondary">
+          <div class="row pt-5">
+              <h3 class="text-dark fw-bold start-50">Crear Reta</h3>
+          </div>
+          <div class="row pt-4">
+              <div class="col-4">
+                <!-- <img class="img-fluid align-content-right rounded-circle " alt="User profile" src={imgSrc} style={{objectFit: "cover"}}/> -->
+                <!-- <FontAwesomeIcon color="gray" icon="faUserCircle" size="4x"/> -->
+                <i class="fa fa-user-circle fa-4x" style="color: gray;"></i>
+              </div>
+              <div class="col-8">
+                  <h6 style="text-align:left; font-weight: 700; overflow-wrap: break-word;">Juan Jose Beltran</h6>
+                  <p style="text-align: left; font-weight: 200; margin-top: -7.5px;">Administrador</p>
+                  <button style="text-align: left; font-style: italic; font-weight: 200; background-color: transparent; border:0;"></button>
+              </div>
+          </div>
+          <div class="row pt-4">
+              <div class="accordion accordion-flush" id="#accordionFlush">
+                  <!-- {children} -->
+              </div>
+          </div>
+      </div>
+
+      </div>
+      <div class="col-12 col-lg-9">
+          <div class="row" style="position: relative;">
+            <img class="img-new-reta img-fluid rounded mt-4" src="/images/basket_retas.jpg" alt="reta img">
+          </div>
+          <form class="row mt-3 mb-5">
+            <h3 class="text-dark fw-bold style-h6">Prepara tu reta</h3>
+            <p class="fw-light lh-1"><span class="req">*</span> = campo requerido</p>
+            <div class="form-floating mb-3">
+                <input 
+                  type="text" class="form-control ps-3 rounded-pill border-dark border-2" id="name" name="name"
+                  placeholder="Nombre de la reta*" required/>
+                <label for="name" class="form-label ps-4 mb-5">
+                    Nombre de la reta<span class="req">*</span>
+                </label>
+                <!-- checar value previo -->
+                <!-- TODO: Show based on validation result -->
+                <div class="px-3 pt-2 text-danger">
+                  Vacío. Escribe un nombre
+                </div>
+            </div>
+            <h6 class="text-dark fw-bold style-h6">Datos generales</h6>
+            <div class="form-floating col-12 mb-3">
+              <input 
+                type="text" class="form-control ps-3 rounded-pill border-dark border-2" id="location" name="location"
+                placeholder="Ubicación*" required/>
+              <label for="location" class="form-label ps-4">
+                Ubicación<span class="req">*</span>
+              </label>
+              <!-- checar value previo -->
+              <!-- TODO: Show based on validation result -->
+              <div class="px-3 pt-2 text-danger">
+                Vacío. Escribe la ubicación
+              </div>
+            </div>
+            <div class="form-floating col-md-6 col-lg-4 mb-3">
+              <select value={inputValues.category} class="form-control rounded-pill ps-3 pt-2 border-dark border-2" name="category" id="category" onChange={onInputChange}>
+                <option value="">Categoria*</option>
+                <option value="Futbol">Futbol</option>
+                <option value="Golf">Golf</option>
+                <option value="Voleibol">Voleibol</option>
+                <option value="Baloncesto">Baloncesto</option>
+                <option value="Ajedrez">Ajedrez</option>
+                <option value="Raquetbol">Raquetbol</option>
+                <option value="eSports">eSports</option>
+                <option value="Otro">Otro</option>
+              </select>
+              <div class="px-3 pt-2 text-danger">
+                Elige una categoría
+              </div>
+            </div>
+            <div class="form-floating col-md-6 col-lg-4 mb-3">
+              <select value={inputValues.is_private} class="form-control rounded-pill ps-3 pt-2 border-dark border-2" name="is_private" id="is_private" onChange={onInputChange}>
+                <option value="">Privacidad*</option>
+                <option value="true">Privado</option>
+                <option value="false">Público</option>
+              </select>
+              <div class="px-3 pt-2 text-danger">
+                Elige la privacidad
+              </div>
+            </div>
+            <h6 class="text-dark fw-bold style-h6">Fecha y hora</h6>
+            <div class="form-floating col-md-4 mb-3">
+              <input 
+                type="date" class="form-control ps-3 rounded-pill border-dark border-2" id="date" name="date"
+                placeholder="Fecha*" required/>
+              <label for="date" class="form-label ps-4">
+                Fecha<span class="req">*</span>
+              </label>
+              <!-- checar value previo -->
+              <!-- TODO: Show based on validation result -->
+              <div class="px-3 pt-2 text-danger">
+                Elige una fecha
+              </div>
+            </div>
+            <div class="form-floating col-md-4 mb-3">
+              <input 
+                type="time" class="form-control ps-3 rounded-pill border-dark border-2" id="time" name="time"
+                placeholder="Hora de inicio*" required/>
+              <label for="time" class="form-label ps-4">
+                Hora de inicio<span class="req">*</span>
+              </label>
+              <!-- checar value previo -->
+              <!-- TODO: Show based on validation result -->
+              <div class="px-3 pt-2 text-danger">
+                Elige la hora de inicio
+              </div>
+            </div>
+            <div class="form-floating col-md-4 mb-3">
+              <input 
+                type="number" class="form-control ps-3 rounded-pill border-dark border-2" id="duration" name="duration" step="0.5"
+                placeholder="Duración* (en horas)" value="0.5" required/>
+              <label for="duration" class="form-label ps-4">
+                Duración<span class="req">*</span>
+              </label>
+              <!-- checar value previo -->
+              <!-- TODO: Show based on validation result -->
+              <div class="px-3 pt-2 text-danger">
+                0.5 o más horas
+              </div>
+            </div>
+            <h6 class="text-dark fw-bold style-h6">Jugadores</h6>
+            <div class="form-floating col-md-6 col-lg-4 mb-3">
+              <input 
+                type="number" class="form-control ps-3 rounded-pill border-dark border-2" id="min_participants" name="min_participants"
+                placeholder="Mínimo de jugadores*" value="2" required/>
+              <label for="min_participants" class="form-label ps-4">
+                Mínimo de jugadores<span class="req">*</span>
+              </label>
+              <!-- checar value previo -->
+              <!-- TODO: Show based on validation result -->
+              <div class="px-3 pt-2 text-danger">
+                2 o más jugadores
+              </div>
+            </div>
+            <div class="form-floating col-md-6 col-lg-4 mb-3">
+              <input 
+                type="number" class="form-control ps-3 rounded-pill border-dark border-2" id="max_participants" name="max_participants"
+                placeholder="Máximo de jugadores*" value="2" required/>
+              <label for="max_participants" class="form-label ps-4">
+                Máximo de jugadores<span class="req">*</span>
+              </label>
+              <!-- checar value previo -->
+              <!-- TODO: Show based on validation result -->
+              <div class="px-3 pt-2 text-danger">
+                Mayor o igual al mínimo
+              </div>
+            </div>
+            <div class="w-100"></div>
+            <div class="d-grid col-lg-4 mb-1">                
+                <button class="btn btn-primary rounded-pill fw-bold py-3" type="submit">Crear Reta</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+<%- include("partials/footer") %>

@@ -8,7 +8,7 @@ import errorHandler from './middleware/errorHandler';
 import path from 'path';
 
 const app = express();
-const PORT = 8080 || process.env.PORT;
+const PORT = 8081 || process.env.PORT;
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended: false}));
@@ -28,6 +28,10 @@ app.get('/login', (req: Request, res: Response) => {
 
 app.get('/register', (req: Request, res: Response) => {
     res.render("register")
+});
+
+app.get('/create_reta', (req: Request, res: Response) => {
+    res.render("new_reta")
 });
 
 // User routes 

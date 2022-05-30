@@ -49,5 +49,16 @@ $input-font-size-lg: 22px;
   font-size: 14px !important;
 }
 
+.img-new-reta {
+  height: 280px !important;
+  object-fit: cover !important;
+  object-position: center 66% !important;
+}
+
+.style-h6 {
+  text-align: left !important; 
+  padding-bottom: 5px !important;
+}
+
 // Import Bootstrap and its default variables
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
