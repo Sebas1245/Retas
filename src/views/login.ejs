@@ -1,0 +1,51 @@
+<%- include("partials/header") %>
+
+<div class="container-fluid full-page-with-nav">
+  <div class="row h-100">
+    <div class="d-none d-md-block col-12 col-md-4 col-lg-6 p-0">
+      <img src="/images/portero_retas.jpg" class="img-fluid h-100" alt="" style="object-fit: cover"/>
+    </div>
+    <div class="col-12 col-md-8 col-lg-6 bg-dark px-5">
+      <h1 class="text-primary fw-bold pt-5 text-start">La comunidad de retas más fregona de México</h1>
+      <form class="row mt-5 pt-4">
+        <div class="form-floating col-lg-7 mb-4">
+          <input 
+            type="text" class="form-control rounded-pill" id="usuario" name="usuario"
+            placeholder="Usuario" maxlength="40" required/>
+          <label for="usuario" class="form-label ps-4">
+            Usuario<span class="req">*</span>
+          </label>
+          <!-- TODO: Show based on validation result -->
+          <div class="px-3 pt-2 text-light">
+            Escribe tu nombre de usuario.
+          </div>
+        </div>
+        <div class="form-floating col-lg-7 mb-4">
+          <input
+            type="password" class="form-control rounded-pill" id="password" name="password"
+            placeholder="Contraseña" maxlength="40" required/>
+          <label for="password" class="form-label ps-4">
+            Contraseña<span class="req">*</span>
+          </label>
+          <!-- TODO: Show based on validation result -->
+          <div class="px-3 pt-2 text-light">
+            Escribe tu contraseña.
+          </div>
+        </div>
+        <div class="d-grid col-lg-7 mb-4">
+          <button 
+            class="btn btn-primary rounded-pill fw-bold py-3" type="submit">
+            Iniciar sesión
+          </button>
+        </div>
+      </form>
+      <div class="pb-3">
+        <p class="text-start text-light fw-bold">
+          ¿No tienes cuenta aún? <a href="/register" class="text-primary">Crear cuenta</a> 
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<%- include("partials/footer") %>
