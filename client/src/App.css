@@ -1,0 +1,14 @@
+.full-page-with-nav {
+  height: 100vh;
+  padding-top: 4.5rem;
+}
+
+.search-bar-icon {
+  border-radius: 50rem 0rem 0rem 50rem !important;
+  border-style: solid none solid solid !important;
+}
+
+.search-bar-input {
+  border-radius: 0rem 50rem 50rem 0rem !important;
+  border-style: solid solid solid none !important;
+}
